@@ -6,7 +6,7 @@ export const routing = defineRouting({
   defaultLocale: "eu-en",
   domains: [
     {
-      domain: "test-trive.vercel.com",
+      domain: "test-trive.vercel.app",
       defaultLocale: "tr",
       locales: ["eu-en", "tr"],
     },
