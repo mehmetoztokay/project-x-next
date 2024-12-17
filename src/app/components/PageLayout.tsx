@@ -13,8 +13,8 @@ const PageLayout = () => {
     router.push(pathname, {locale: newLocale});
   };
 
-  console.log(routing.locales.toString());
-  console.log(params);
+  // console.log(routing.locales.toString());
+  // console.log(params);
 
   return (
     <div className="mb-5 border py-4 px-4 text-xl font-bold flex gap-4">
