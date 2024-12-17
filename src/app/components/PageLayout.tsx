@@ -13,9 +13,6 @@ const PageLayout = () => {
     router.push(pathname, {locale: newLocale});
   };
 
-  // console.log(routing.locales.toString());
-  // console.log(params);
-
   return (
     <div className="mb-5 border py-4 px-4 text-xl font-bold flex gap-4">
       {/* Navigation Links */}
@@ -24,10 +21,12 @@ const PageLayout = () => {
 
       {/* Locale Switcher */}
       <div className="ml-auto flex gap-4">
-        <p className="font-light border p-3">Current Locale: {routing.locales.toString()}</p>
-        <button onClick={() => changeLocale("eu-en")}>English</button>
-        <button onClick={() => changeLocale("de")}>Deutsch</button>
-        <button onClick={() => changeLocale("tr")}>Türkçe</button>
+        <p className="font-light border p-3">{routing.locales.toString()}</p>
+        {routing.locales.map((l) => (
+          <button key={l} onClick={() => changeLocale(l)}>
+            {l}
+          </button>
+        ))}
       </div>
     </div>
   );

@@ -2,7 +2,9 @@ import {createNavigation} from "next-intl/navigation";
 import {defineRouting} from "next-intl/routing";
 
 export const routing = defineRouting({
-  locales: ["eu-en", "de", "tr"],
+  // ! If you add a language, you must also add a `middleware.ts` file with the following matcher: `matcher: ["/", "/(tr|de|en)/:path*"]`
+
+  locales: ["eu-en", "de", "tr", "int-th", "olmayan-dil"],
   defaultLocale: "eu-en",
   domains: [
     {
@@ -17,6 +19,8 @@ export const routing = defineRouting({
       "eu-en": "/about-en",
       de: "/about-de",
       tr: "/about-tr",
+      "int-th": "/about-int-th",
+      "olmayan-dil": "/about-olmayan-dil",
     },
   },
   localePrefix: {
@@ -25,7 +29,7 @@ export const routing = defineRouting({
       "eu-en": "/en",
       de: "/de",
       tr: "/tr",
-      // (/zh will be used as-is)
+      "int-th": "/int-th",
     },
   },
 });

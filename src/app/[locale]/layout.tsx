@@ -3,35 +3,28 @@ import {getMessages, getTranslations} from "next-intl/server";
 import {notFound} from "next/navigation";
 import {Locale, routing} from "@/i18n/routing";
 
-import {Geist, Geist_Mono} from "next/font/google";
+import {Inter} from "next/font/google";
 import "@/app/globals.css";
-import PageLayout from "../components/PageLayout";
+import PageLayout from "@/app/components/PageLayout";
 import {ReactNode} from "react";
+import {Params} from "@/types/general";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Update Favicon
+export const metadata = {
+  icons: {
+    icon: "/icons/favicon.png",
+    apple: "/icons/favicon.png",
+    android: "/icons/favicon.png",
+  },
+};
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
-}
-
-type Params = Promise<{slug: string[]; locale: string}>;
-
-export async function generateMetadata({params}: {params: Params}) {
-  const {locale} = await params;
-
-  const t = await getTranslations({locale, namespace: "HomePage"});
-
-  return {
-    title: t("title"),
-  };
 }
 
 export default async function LocaleLayout({children, params}: {children: ReactNode; params: Params}) {
@@ -45,7 +38,7 @@ export default async function LocaleLayout({children, params}: {children: ReactN
 
   return (
     <html lang={locale}>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <PageLayout />
           {children}
