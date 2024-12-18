@@ -8,6 +8,7 @@ import "@/app/globals.css";
 import PageLayout from "@/app/components/PageLayout";
 import {ReactNode} from "react";
 import {Params} from "@/types/general";
+import {Viewport} from "next";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -21,6 +22,10 @@ export const metadata = {
     apple: "/icons/favicon.png",
     android: "/icons/favicon.png",
   },
+};
+
+export const viewport: Viewport = {
+  userScalable: false,
 };
 
 export function generateStaticParams() {

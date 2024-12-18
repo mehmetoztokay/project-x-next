@@ -1,7 +1,10 @@
 {
   "HomePage": {
-    "title": "de title",
-    "description": "de aciklama",
-    "aboutTitle": "About title de"
+    "title": "Home page eu de",
+    "description": "Home page Description eu de"
+  },
+  "AboutPage": {
+    "title": "About page title eu de",
+    "description": "About page Description eu de"
   }
 }

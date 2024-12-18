@@ -1,7 +1,10 @@
 {
   "HomePage": {
-    "title": "int th title",
-    "description": "int th aciklama",
-    "aboutTitle": "About title int th"
+    "title": "Home page int th",
+    "description": "Home page Description int th"
+  },
+  "AboutPage": {
+    "title": "About page title int th",
+    "description": "About page Description int th"
   }
 }

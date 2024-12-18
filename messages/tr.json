@@ -1,7 +1,10 @@
 {
   "HomePage": {
-    "title": "ana sayfa title",
-    "description": "aciklama",
-    "aboutTitle": "About title tr"
+    "title": "Home page tr",
+    "description": "Home page Description tr"
+  },
+  "AboutPage": {
+    "title": "About page title tr",
+    "description": "About page Description tr"
   }
 }
