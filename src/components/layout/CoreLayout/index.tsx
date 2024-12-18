@@ -3,7 +3,6 @@ import {NextIntlClientProvider} from "next-intl";
 import {getMessages} from "next-intl/server";
 import {ReactNode} from "react";
 import {ControlLayout} from "../ControlLayout";
-import {Viewport} from "next";
 import "@/app/globals.css";
 
 const inter = Inter({subsets: ["latin"]});
