@@ -1,4 +1,25 @@
 {
+  "Layout": {
+    "locales": {
+      "eu-en": {
+        "title": "English",
+        "isoCode": "gb"
+      },
+      "eu-de": {
+        "title": "Deutsch",
+        "isoCode": "de"
+      },
+      "eu-es": {
+        "title": "Español",
+        "isoCode": "es"
+      },
+      "eu-it": {
+        "title": "Italiano",
+        "isoCode": "it"
+      }
+    }
+  },
+
   "HomePage": {
     "title": "Home page eu de",
     "description": "Home page Description eu de"

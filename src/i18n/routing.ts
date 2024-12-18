@@ -4,7 +4,7 @@ import { defineRouting } from 'next-intl/routing';
 export const routing = defineRouting({
   // ! If you add a language, you must also add a `middleware.ts` file with the following matcher: `matcher: ["/", "/(tr|de|en)/:path*"]`
 
-  locales: ['eu-en', 'de', 'tr', 'int-th', 'olmayan-dil'],
+  locales: ['eu-en', 'eu-de', 'eu-es', 'eu-it', 'tr', 'int-th', 'olmayan-dil'],
   defaultLocale: 'eu-en',
   domains: [
     {
@@ -17,7 +17,9 @@ export const routing = defineRouting({
     '/': '/',
     '/about': {
       'eu-en': '/about-en',
-      de: '/about-de',
+      'eu-de': '/about-de',
+      'eu-es': '/about-es',
+      'eu-it': '/about-it',
       tr: '/about-tr',
       'int-th': '/about-int-th',
       'olmayan-dil': '/about-olmayan-dil'
@@ -27,7 +29,9 @@ export const routing = defineRouting({
     mode: 'always',
     prefixes: {
       'eu-en': '/en',
-      de: '/de',
+      'eu-de': '/de',
+      'eu-es': '/es',
+      'eu-it': '/it',
       tr: '/tr',
       'int-th': '/int-th'
     }
