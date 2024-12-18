@@ -1,6 +1,6 @@
 import { Link, Locale } from "@/i18n/routing";
 import React, { ReactNode } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 
 type Props = {
@@ -11,10 +11,10 @@ type Props = {
 
 export const MainLayout = ({ children }: Props) => {
   const t = useTranslations("Layout");
-  const localeItems = t.raw("locales")
-
+  const locale = useLocale()
   return (
     <>
+      <div>Current Locale: <b>{locale}</b></div>
       <div className="mb-5 border py-4 px-4 text-xl font-bold flex gap-4">
         <Link href="/">Home</Link>
         <Link href="/about">About Page</Link>

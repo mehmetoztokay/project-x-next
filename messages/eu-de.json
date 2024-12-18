@@ -3,23 +3,23 @@
     "locales": {
       "eu-en": {
         "title": "English",
-        "isoCode": "gb"
+        "flag": "gb"
       },
       "eu-de": {
         "title": "Deutsch",
-        "isoCode": "de"
+        "flag": "de"
       },
       "eu-es": {
         "title": "Español",
-        "isoCode": "es"
+        "flag": "es"
       },
       "eu-it": {
         "title": "Italiano",
-        "isoCode": "it"
+        "flag": "it"
       },
       "olmayan-dil": {
-        "title": "Italiano",
-        "isoCode": "it"
+        "title": "Olmayan Dil",
+        "flag": "olmayan-dil"
       }
     }
   },

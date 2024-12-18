@@ -66,8 +66,8 @@ export const LocaleSwitcher = () => {
                         <div className="p-2 py-1" role="none">
                             {Object.keys(localeItems).map((localeItem: any) => (
 
-                                <button disabled={isPending} onClick={() => changeLocale(localeItem)} key={localeItem} className={locale == localeItem ? "flex items-center w-full gap-2 px-4 py-2 text-sm text-gray-700 disabled:opacity-30 rounded-md bg-gray-200 my-1" : 'flex items-center gap-2 px-4 py-2 text-sm text-gray-700 disabled:opacity-30 rounded-md hover:bg-gray-100 my-1'} role="menuitem" tabIndex={-1}>
-                                    <CountryFlag isoCode={localeItems[localeItem].isoCode} className="rounded-sm w-5" />
+                                <button disabled={isPending} onClick={() => changeLocale(localeItem)} key={localeItem} className={locale == localeItem ? "flex items-center w-full gap-2 px-4 py-2 text-sm text-gray-700 disabled:opacity-30 rounded-md bg-gray-200 my-1 text-nowrap" : 'flex items-center gap-2 px-4 py-2 text-sm text-gray-700 disabled:opacity-30 rounded-md hover:bg-gray-100 my-1 text-nowrap'} role="menuitem" tabIndex={-1}>
+                                    <CountryFlag isoCode={localeItems[localeItem].flag} className="rounded-sm w-5" />
                                     <span>{localeItems[localeItem].title}</span>
                                 </button>
                             ))}
