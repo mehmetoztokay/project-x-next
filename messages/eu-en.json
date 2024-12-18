@@ -16,6 +16,10 @@
       "eu-it": {
         "title": "Italiano",
         "isoCode": "it"
+      },
+      "olmayan-dil": {
+        "title": "Italiano",
+        "isoCode": "it"
       }
     }
   },

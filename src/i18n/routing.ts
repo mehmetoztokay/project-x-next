@@ -7,11 +7,11 @@ export const routing = defineRouting({
   locales: ['eu-en', 'eu-de', 'eu-es', 'eu-it', 'tr', 'int-th', 'olmayan-dil'],
   defaultLocale: 'eu-en',
   domains: [
-    {
-      domain: 'test-trive.vercel.app',
-      defaultLocale: 'tr'
-      // locales: ["tr"],
-    }
+    // {
+    //   domain: 'test-trive.vercel.app',
+    //   defaultLocale: 'tr'
+    //   // locales: ["tr"],
+    // }
   ],
   pathnames: {
     '/': '/',
