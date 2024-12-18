@@ -5,10 +5,10 @@ import {Locale, routing} from "@/i18n/routing";
 
 import {Inter} from "next/font/google";
 import "@/app/globals.css";
-import PageLayout from "@/app/components/PageLayout";
 import {ReactNode} from "react";
 import {Params} from "@/types/general";
 import {Viewport} from "next";
+import {BaseLayout} from "@/components/layout/BaseLayout";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -18,14 +18,15 @@ const inter = Inter({
 // Update Favicon
 export const metadata = {
   icons: {
-    icon: "/icons/favicon.png",
-    apple: "/icons/favicon.png",
-    android: "/icons/favicon.png",
+    icon: "/assets/icons/favicon.png",
+    apple: "/assets/icons/favicon.png",
+    android: "/assets/icons/favicon.png",
   },
 };
 
 export const viewport: Viewport = {
   userScalable: false,
+  colorScheme: "light",
 };
 
 export function generateStaticParams() {
@@ -45,8 +46,7 @@ export default async function LocaleLayout({children, params}: {children: ReactN
     <html lang={locale}>
       <body className={`${inter.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          <PageLayout />
-          {children}
+          <BaseLayout>{children}</BaseLayout>
         </NextIntlClientProvider>
       </body>
     </html>
