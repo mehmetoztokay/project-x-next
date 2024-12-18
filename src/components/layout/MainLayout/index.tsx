@@ -1,7 +1,4 @@
-"use client";
-
 import {Link, Locale, routing, usePathname, useRouter} from "@/i18n/routing";
-import {useParams} from "next/navigation";
 import React, {ReactNode} from "react";
 import {LocaleSwitcher} from "@/components/layout/MainLayout/LocaleSwitcher";
 

@@ -1,3 +1,4 @@
+"use client";
 import {getCurrentQueries} from "@/helpers/getCurrentQueries";
 import {Locale, routing, usePathname, useRouter} from "@/i18n/routing";
 import {useLocale} from "next-intl";
