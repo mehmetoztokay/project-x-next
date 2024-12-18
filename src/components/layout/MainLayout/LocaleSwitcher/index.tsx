@@ -6,7 +6,7 @@ import { Locale, usePathname, useRouter } from '@/i18n/routing';
 import { getCurrentQueries } from '@/helpers/getCurrentQueries';
 import { Spinner } from '@/components/Spinner';
 
-export const LocaleSwitcherNew = () => {
+export const LocaleSwitcher = () => {
 
     const t = useTranslations("Layout");
     const localeItems = t.raw("locales")
