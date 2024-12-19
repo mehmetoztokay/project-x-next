@@ -2,6 +2,7 @@ import { Link, Locale } from "@/i18n/routing";
 import React, { ReactNode } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { LocaleSwitcher } from "./LocaleSwitcher";
+import { Button } from "@/components/Atoms/Button";
 
 type Props = {
   children: ReactNode;
@@ -15,7 +16,8 @@ export const MainLayout = ({ children }: Props) => {
   return (
     <>
       <div>Current Locale: <b>{locale}</b></div>
-      <div className="mb-5 border py-4 px-4 text-xl font-bold flex gap-4">
+      <div className="mb-5 border py-4 px-4 font-bold flex gap-4 items-center">
+        <Button text="semam" />
         <Link href="/">Home</Link>
         <Link href="/about">About Page</Link>
 
