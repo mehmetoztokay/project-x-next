@@ -21,7 +21,112 @@
         "title": "Olmayan Dil",
         "flag": "olmayan-dil"
       }
-    }
+    },
+    "navs": [
+      {
+        "title": "Trading",
+        "hasChildren": true,
+        "link": "",
+        "children": [
+          {
+            "title": "INSTRUMENTS",
+            "description": "Trade the world's largest stocks conveniently via app and browser.",
+            "links": [
+              {
+                "title": "Stocks",
+                "href": "/trading/instruments/stocks"
+              },
+              {
+                "title": "ETFs",
+                "href": "/trading/instruments/etfs"
+              },
+              {
+                "title": "Forex CFD",
+                "href": "/trading/instruments/forex-cfd"
+              },
+              {
+                "title": "Cryptocurrencies",
+                "href": "/trading/instruments/cryptocurrencies"
+              }
+            ]
+          },
+          {
+            "title": "INSTRUMENTS",
+            "description": "Trade the world's largest stocks conveniently via app and browser.",
+            "links": [
+              {
+                "title": "Stocks",
+                "href": "/trading/instruments/stocks"
+              },
+              {
+                "title": "ETFs",
+                "href": "/trading/instruments/etfs"
+              },
+              {
+                "title": "Forex CFD",
+                "href": "/trading/instruments/forex-cfd"
+              },
+              {
+                "title": "Cryptocurrencies",
+                "href": "/trading/instruments/cryptocurrencies"
+              }
+            ]
+          },
+          {
+            "title": "INSTRUMENTS",
+            "description": "Trade the world's largest stocks conveniently via app and browser.",
+            "links": [
+              {
+                "title": "Stocks",
+                "href": "/trading/instruments/stocks"
+              },
+              {
+                "title": "ETFs",
+                "href": "/trading/instruments/etfs"
+              },
+              {
+                "title": "Forex CFD",
+                "href": "/trading/instruments/forex-cfd"
+              },
+              {
+                "title": "Cryptocurrencies",
+                "href": "/trading/instruments/cryptocurrencies"
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "title": "Platforms",
+        "hasChildren": true,
+        "link": "",
+        "children": [
+          {
+            "title": "INSTRUMENTS",
+            "description": "Trade the world's largest stocks conveniently via app and browser.",
+            "links": [
+              {
+                "title": "Stocks",
+                "href": "/trading/instruments/stocks"
+              },
+              {
+                "title": "ETFs",
+                "href": "/trading/instruments/etfs"
+              },
+              {
+                "title": "Forex CFD",
+                "href": "/trading/instruments/forex-cfd"
+              },
+              {
+                "title": "Cryptocurrencies",
+                "href": "/trading/instruments/cryptocurrencies"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
 
   "HomePage": {

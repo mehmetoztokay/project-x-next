@@ -4,7 +4,6 @@ import React, { ChangeEvent, useEffect, useRef, useTransition } from 'react'
 import { CountryFlag } from '../CountryFlag';
 import { Locale, usePathname, useRouter } from '@/i18n/routing';
 import { getCurrentQueries } from '@/helpers/getCurrentQueries';
-import { Spinner } from '@/components/Spinner';
 
 export const LocaleSwitcher = () => {
 

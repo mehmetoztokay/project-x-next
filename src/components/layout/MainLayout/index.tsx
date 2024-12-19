@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { Button } from "@/components/Atoms/Button";
+import { NavbarMenu } from "@/components/NavbarMenu";
 
 type Props = {
   children: ReactNode;
@@ -15,16 +16,16 @@ export const MainLayout = ({ children }: Props) => {
   const locale = useLocale()
   return (
     <>
-      <div>Current Locale: <b>{locale}</b></div>
+      <NavbarMenu />
+      <div className="mt-14">Current Locale: <b>{locale}</b></div>
       <div className="mb-5 border py-4 px-4 font-bold flex gap-4 items-center">
-        <Button text="semam" />
+        <Button text="selam" />
         <Link href="/">Home</Link>
         <Link href="/about">About Page</Link>
-
         <div className="ml-auto"><LocaleSwitcher /></div>
       </div>
       {children}
-      <footer className="mt-10 bg-slate-600 py-5 text-white px-5">Footer</footer>
+      <footer className="mt-[1000] bg-slate-600 py-5 text-white px-5">Footer</footer>
     </>
   );
 };
