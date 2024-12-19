@@ -25,7 +25,7 @@ export const MainLayout = ({ children }: Props) => {
         <div className="ml-auto"><LocaleSwitcher /></div>
       </div>
       {children}
-      <footer className="mt-[1000] bg-slate-600 py-5 text-white px-5">Footer</footer>
+      <footer className="mt-[1000px] bg-slate-600 py-5 text-white px-5">Footer</footer>
     </>
   );
 };
