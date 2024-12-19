@@ -47,8 +47,8 @@ export const NavItem = ({ navItem }: any) => {
                         </button>
                         {navItem.children?.map((childNav: any, indexChildNav: number) => (
                             <div className={combineClass(
-                                "",
-                                navItem.children.length > 1 && indexChildNav !== 0 && "pl-3 border-l-2 border-l-gray-100"
+                                "pl-3",
+                                navItem.children.length > 1 && "border-l-2 border-l-gray-200"
                             )}
                                 key={indexChildNav}>
                                 <NavbarChild key={indexChildNav} childNav={childNav} isOpenNavItem={isOpenNavItem} setIsOpenNavItem={setIsOpenNavItem} />
