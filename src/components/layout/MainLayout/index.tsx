@@ -15,7 +15,6 @@ export const MainLayout = ({children}: Props) => {
   const locale = useLocale();
   return (
     <>
-      <NavbarMenu />
       <NavbarMenuNew />
       <div className="mt-14">
         Current Locale: <b>{locale}</b>

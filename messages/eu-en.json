@@ -53,23 +53,23 @@
               ]
             },
             {
-              "title": "INSTRUMENTS",
-              "description": "Trade the world's largest stocks conveniently via app and browser.",
+              "title": "Test Title",
+              "description": "test description test description test description test description",
               "links": [
                 {
-                  "title": "Stocks",
+                  "title": "Mehmet",
                   "href": "/trading/instruments/stocks"
                 },
                 {
-                  "title": "ETFs",
+                  "title": "Ahmet",
                   "href": "/trading/instruments/etfs"
                 },
                 {
-                  "title": "Forex CFD",
+                  "title": "Ali",
                   "href": "/trading/instruments/forex-cfd"
                 },
                 {
-                  "title": "Cryptocurrencies",
+                  "title": "Flaan",
                   "href": "/trading/instruments/cryptocurrencies"
                 }
               ]
@@ -127,6 +127,12 @@
               ]
             }
           ]
+        },
+        {
+          "title": "Trading",
+          "hasChildren": false,
+          "link": "#",
+          "children": []
         }
       ]
     }
