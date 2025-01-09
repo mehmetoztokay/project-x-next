@@ -3,7 +3,7 @@ import {Link} from "@/i18n/routing";
 import React, {useState} from "react";
 import {NavChild} from "./NavChild";
 
-export const NavItem = ({navItem}: any) => {
+export const NavItem = ({navItem, setChildMenuActiveState, childMenuActiveState, setIsActiveMenu}: any) => {
   const [childMenuActive, setChildMenuActive] = useState<boolean>(false);
   const navItemRef = React.useRef<HTMLDivElement>(null);
 
@@ -12,6 +12,8 @@ export const NavItem = ({navItem}: any) => {
     const handleClickOutside = (event: any) => {
       if (navItemRef.current && !navItemRef.current.contains(event.target)) {
         setChildMenuActive(false);
+        setChildMenuActiveState(false);
+        // setIsActiveMenu(false);
       }
     };
 
@@ -23,11 +25,14 @@ export const NavItem = ({navItem}: any) => {
 
   return (
     <div ref={navItemRef}>
-      <div>
+      <div className={combineClass("sea", {"hidden lg:block": childMenuActiveState})}>
         {navItem.hasChildren ? (
           <button
-            onClick={() => setChildMenuActive(!childMenuActive)}
-            className={combineClass("hover:bg-gray-200 lg:px-3 lg:py-1 my-4 lg:mt-0 py-4 rounded-md transition-all ease-in duration-400 flex gap-1 items-center", {
+            onClick={() => {
+              setChildMenuActive(!childMenuActive);
+              setChildMenuActiveState(!childMenuActiveState);
+            }}
+            className={combineClass("lg:hover:bg-[#1d1d1d] lg:px-3 lg:py-1 my-4 lg:my-0 lg:mt-0 py-4 rounded-md transition-all ease-in duration-400 flex gap-1 items-center", {
               "text-blue-500": childMenuActive,
             })}
           >
@@ -44,26 +49,30 @@ export const NavItem = ({navItem}: any) => {
             </svg>
           </button>
         ) : (
-          <Link className="hover:bg-gray-200 lg:px-3 lg:py-1 my-4 lg:mt-0 py-4 rounded-md transition-all ease-in duration-400 flex gap-1 items-center" href={navItem.link}>
+          <Link
+            className="lg:hover:bg-[#1d1d1d] lg:px-3 lg:py-1 my-4 lg:my-0 lg:mt-0 py-4 rounded-md transition-all ease-in duration-400 flex gap-1 items-center"
+            href={navItem.link}
+          >
             {navItem.title}
           </Link>
         )}
         <div className="bg-gradient-to-r from-gray-300 to-transparent h-[1px] opacity-70 lg:hidden"></div>
       </div>
 
-      {navItem.hasChildren && (
-        <div
-          className={combineClass("absolute inset-0 backdrop-blur-md lg:bg-gray-100/70 bg-gray-100 hidden top-0 lg:py-28 py-16 min-h-fit h-full lg:h-auto lg:-z-10", {
-            block: childMenuActive,
-          })}
-        >
+      {navItem.hasChildren && childMenuActive && (
+        <div className={combineClass("absolute backdrop-blur-sm bg-[#111111]/[90%] inset-0 top-0 lg:py-28 lg:pt-20 z-[1] py-12 min-h-fit h-full lg:h-auto lg:-z-10", {})}>
           <div className="container mx-auto">
-            <div className="bg-gradient-to-r from-gray-300 to-transparent h-[1px] mb-7 opacity-70 hidden lg:block"></div>
-            <div className="lg:hidden flex gap-2 text-gray-500 text-xl mb-7" onClick={() => setChildMenuActive(false)}>
+            <div
+              className="lg:hidden flex gap-2 text-gray-500 text-xl mb-7"
+              onClick={() => {
+                setChildMenuActive(false);
+                setChildMenuActiveState(false);
+              }}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="fill-gray-500">
                 <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
               </svg>
-              <p>{navItem.title}</p>
+              {/* <p>{navItem.title}</p> */}
             </div>
 
             <div className={combineClass("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8")}>

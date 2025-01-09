@@ -6,30 +6,38 @@ import {useTranslations} from "next-intl";
 
 export const NavbarMenuNew = () => {
   const [isActiveMenu, setIsActiveMenu] = useState<boolean>(false);
+  const [childMenuActiveState, setChildMenuActiveState] = useState<boolean>(false);
   const t = useTranslations("Layout");
 
   return (
-    <div className="relative z-10">
-      <nav className="container mx-auto py-5">
+    <div className="relative z-10 text-gray-400 bg-[#1a1a1a]">
+      <nav className="container mx-auto py-2">
         <div className="flex justify-between">
           <div className="lg:flex lg:items-center">
             <div className="flex justify-between lg:justify-start w-full lg:w-auto relative z-10">
-              <p className={combineClass("flex text-4xl font-bold")}>LOGO</p>
+              <p className={combineClass("flex text-xl font-bold")}>LOGO</p>
             </div>
 
-            {!t.raw("navs.isNull") && (
+            {!t.raw("navigation.isNull") && (
               <div
                 className={combineClass(
-                  "lg:flex absolute backdrop-blur-md bg-gray-200/30 lg:backdrop-blur-none lg:bg-transparent inset-0 lg:inset-auto min-h-fit h-svh lg:h-auto lg:py-0 py-16 lg:top-36 lg:!static -z-10 lg:z-0",
+                  "lg:flex absolute backdrop-blur-sm bg-[#111111]/[90%] lg:backdrop-blur-none lg:bg-transparent inset-0 lg:inset-auto min-h-fit h-svh lg:h-auto lg:py-0 py-12 lg:top-36 lg:!static -z-10 lg:z-0 mt-[47px] lg:mt-0",
                   {
                     hidden: !isActiveMenu,
+                    "bg-transparent": childMenuActiveState,
                   }
                 )}
               >
                 <div className="container mx-auto">
                   <div className="lg:flex gap-4">
-                    {t.raw("navs.navItems").map((navItem: any, indexNav: number) => (
-                      <NavItem key={indexNav} navItem={navItem} />
+                    {t.raw("navigation.navItems").map((navItem: any, indexNav: number) => (
+                      <NavItem
+                        key={indexNav}
+                        navItem={navItem}
+                        setChildMenuActiveState={setChildMenuActiveState}
+                        childMenuActiveState={childMenuActiveState}
+                        setIsActiveMenu={setIsActiveMenu}
+                      />
                     ))}
                   </div>
                 </div>
@@ -41,7 +49,7 @@ export const NavbarMenuNew = () => {
             <div className="flex gap-2">
               <div>btn</div>
             </div>
-            {!t.raw("navs.isNull") && (
+            {!t.raw("navigation.isNull") && (
               <div className={combineClass("flex lg:hidden")} onClick={() => setIsActiveMenu(!isActiveMenu)}>
                 <div
                   className={combineClass(
@@ -69,6 +77,7 @@ export const NavbarMenuNew = () => {
           </div>
         </div>
       </nav>
+      <div className="bg-gradient-to-r from-gray-700 to-transparent h-[1px] opacity-60"></div>
     </div>
   );
 };

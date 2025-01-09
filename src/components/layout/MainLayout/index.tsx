@@ -3,8 +3,8 @@ import React, {ReactNode} from "react";
 import {useLocale, useTranslations} from "next-intl";
 import {LocaleSwitcher} from "./LocaleSwitcher";
 import {Button} from "@/components/Atoms/Button";
-import {NavbarMenu} from "@/components/NavbarMenu";
 import {NavbarMenuNew} from "@/components/NavbarMenuNew";
+import {Navbar} from "@/components/Navbar";
 
 type Props = {
   children: ReactNode;
@@ -15,7 +15,8 @@ export const MainLayout = ({children}: Props) => {
   const locale = useLocale();
   return (
     <>
-      <NavbarMenuNew />
+      <Navbar />
+      <div className="my-7"></div>
       <div className="mt-14">
         Current Locale: <b>{locale}</b>
       </div>
