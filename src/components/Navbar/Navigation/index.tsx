@@ -5,8 +5,11 @@ import {Logo} from "@/components/Navbar/Navigation/Logo";
 import {NavbarItems} from "@/components/Navbar/Navigation/NavbarItems";
 import {NavbarItemsRight} from "@/components/Navbar/Navigation/NavbarItemsRight";
 import {useTranslations} from "next-intl";
+import {usePathname} from "@/i18n/routing";
 
 export const Navigation = () => {
+  const pathname = usePathname();
+
   const [openMobileMenu, setOpenMobileMenu] = useState<boolean>(false);
   const [openChildMenu, setOpenChildMenu] = useState<boolean>(false);
 
@@ -28,6 +31,11 @@ export const Navigation = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Close after route
+  React.useEffect(() => {
+    setOpenMobileMenu(false);
+  }, [pathname]);
 
   return (
     <nav ref={mobileMenuRef} className={combineClass("py-2 relative", {})}>
