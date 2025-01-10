@@ -8,6 +8,7 @@ import {useTranslations} from "next-intl";
 
 export const Navigation = () => {
   const [openMobileMenu, setOpenMobileMenu] = useState<boolean>(false);
+  const [openChildMenu, setOpenChildMenu] = useState<boolean>(false);
 
   const t = useTranslations("Layout");
   const navigation = t.raw("navigation") || null;
@@ -32,9 +33,15 @@ export const Navigation = () => {
     <nav ref={mobileMenuRef} className={combineClass("py-2 relative", {})}>
       <div className={combineClass("container mx-auto", {})}>
         <div className={combineClass("flex justify-between", {})}>
-          <div className={combineClass("lg:flex lg:items-center", {})}>
+          <div className={combineClass("flex items-center", {})}>
             <Logo />
-            <NavbarItems navigation={navigation} openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu} />
+            <NavbarItems
+              navigation={navigation}
+              openMobileMenu={openMobileMenu}
+              setOpenMobileMenu={setOpenMobileMenu}
+              openChildMenu={openChildMenu}
+              setOpenChildMenu={setOpenChildMenu}
+            />
           </div>
           <NavbarItemsRight navigationIsNull={navigation.isNull} openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu} />
         </div>

@@ -10,18 +10,29 @@ type props = {
 
 export const NavbarItemSubMenu: React.FC<props> = ({navItem, subMenuActive, setSubmenuActive}) => {
   return (
-    <div className={combineClass("absolute backdrop-blur-sm bg-[#111111]/[90%] inset-0 top-0 lg:py-28 lg:pt-20 z-[1] py-6 pt-12 min-h-fit h-full lg:h-auto lg:-z-10", {})}>
-      <div className="container mx-auto">
+    <div
+      className={combineClass(
+        "absolute backdrop-blur-md bg-[#111111]/[90%] inset-0 top-0 mt-0 lg:mt-[53px] lg:py-28 lg:pt-10 z-[1] py-10 min-h-fit h-full lg:h-auto lg:-z-10 hidden",
+        {
+          block: subMenuActive,
+        }
+      )}
+    >
+      <div
+        className={combineClass("container mx-auto transition-all duration-1000 ease-out transform translate-x-8 opacity-0", {
+          "translate-x-0 opacity-100": subMenuActive,
+        })}
+      >
         <div
-          className="lg:hidden flex gap-2 text-gray-500 text-xl mb-7"
+          className="lg:hidden inline-flex gap-2 text-xl mb-7 -ml-1 opacity-70"
           onClick={() => {
             setSubmenuActive(false);
           }}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="fill-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="fill-gray-300">
             <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
           </svg>
-          <p className="opacity-80">{navItem.title}</p>
+          <p>{navItem.title.toUpperCase()}</p>
         </div>
 
         <div className={combineClass("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8")}>

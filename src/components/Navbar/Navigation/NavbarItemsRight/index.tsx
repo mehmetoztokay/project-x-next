@@ -1,5 +1,6 @@
 import React from "react";
 import {combineClass} from "@/helpers/development/combineClass";
+import {LocaleSwitcher} from "@/components/layout/MainLayout/LocaleSwitcher";
 
 type props = {
   navigationIsNull: boolean;
@@ -10,8 +11,17 @@ type props = {
 export const NavbarItemsRight: React.FC<props> = ({navigationIsNull, openMobileMenu, setOpenMobileMenu}) => {
   return (
     <div className="flex gap-4 relative z-10 items-center">
-      <div className="flex gap-2">
-        <div>btn</div>
+      <div className="flex gap-4 items-center">
+        <LocaleSwitcher />
+        <button className="px-3 py-1 bg-transparent text-gray-200 border border-gray-500 rounded-md hover:bg-slate-300 hover:text-gray-800 transition-all duration-300 text-sm">
+          <span className="hidden md:block">Sample Link</span>
+          <span className="block md:hidden">ICON</span>
+        </button>
+
+        <button className="px-3 py-1 bg-slate-300 rounded-md text-gray-800 hover:bg-slate-700 hover:text-gray-200 transition-all duration-300 text-sm">
+          <span className="hidden md:block">Sample Link</span>
+          <span className="block md:hidden">ICON</span>
+        </button>
       </div>
       {!navigationIsNull && (
         <div className={combineClass("flex lg:hidden")} onClick={() => setOpenMobileMenu(!openMobileMenu)}>

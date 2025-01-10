@@ -10,9 +10,9 @@ type props = {
 
 export const NavbarItemLink: React.FC<props> = ({navItem, subMenuActive, setSubmenuActive}) => {
   const classOfLink =
-    "lg:hover:bg-[#1d1d1d] lg:px-3 lg:py-1 my-4 lg:my-0 lg:mt-0 py-2 rounded-md transition-all ease-in duration-400 flex gap-1 items-center text-lg lg:text-[length:inherit] ";
+    "lg:hover:bg-[#2d2d2d] lg:px-3 lg:py-1 my-4 lg:my-0 lg:mt-0 py-2 rounded-md transition-all ease-in duration-400 flex gap-1 items-center text-lg lg:text-[length:inherit]";
   return (
-    <div className={combineClass("test", {})}>
+    <div>
       {navItem?.hasChildren ? (
         <button
           onClick={() => {
@@ -39,7 +39,7 @@ export const NavbarItemLink: React.FC<props> = ({navItem, subMenuActive, setSubm
           {navItem.title}
         </Link>
       )}
-      <div className="bg-gradient-to-r from-gray-300 to-transparent h-[1px] opacity-50 lg:hidden text-"></div>
+      <div className="bg-gradient-to-r from-gray-300 to-transparent h-[1px] opacity-50 lg:hidden"></div>
     </div>
   );
 };
