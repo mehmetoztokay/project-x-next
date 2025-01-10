@@ -11,12 +11,15 @@ type props = {
 export const NavbarItemSubMenu: React.FC<props> = ({navItem, subMenuActive, setSubmenuActive}) => {
   return (
     <div
-      className={combineClass("absolute backdrop-blur-md bg-[#111111]/[90%] inset-0 top-0 mt-0 lg:mt-[53px] lg:py-28 lg:pt-10 z-[1] py-10 h-min lg:-z-10 hidden", {
-        block: subMenuActive,
-      })}
+      className={combineClass(
+        `absolute backdrop-blur-md bg-[#111111]/[90%] inset-0 top-0 mt-0 lg:mt-[53px] lg:py-28 lg:pt-10 z-[1] py-10 h-min lg:-z-10 transition-all duration-500 ease-in-out transform translate-x-32 lg:-translate-y-20 lg:translate-x-0 opacity-0`,
+        {
+          "lg:translate-y-0 opacity-100 translate-x-0": subMenuActive,
+        }
+      )}
     >
       <div
-        className={combineClass("container mx-auto transition-all duration-1000 ease-out transform translate-x-8 opacity-0", {
+        className={combineClass("container mx-auto transition-all duration-1000 ease-out transform translate-x-0 opacity-0", {
           "translate-x-0 opacity-100": subMenuActive,
         })}
       >
