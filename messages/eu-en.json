@@ -129,9 +129,9 @@
           ]
         },
         {
-          "title": "Trading",
+          "title": "About",
           "hasChildren": false,
-          "link": "#",
+          "link": "/about",
           "children": []
         }
       ]

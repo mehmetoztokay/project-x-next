@@ -1,5 +1,5 @@
 import {combineClass} from "@/helpers/development/combineClass";
-import {Link} from "@/i18n/routing";
+import {Link, usePathname} from "@/i18n/routing";
 import React from "react";
 
 type props = {
@@ -9,6 +9,8 @@ type props = {
 };
 
 export const NavbarItemLink: React.FC<props> = ({navItem, subMenuActive, setSubmenuActive}) => {
+  const pathname = usePathname();
+
   const classOfLink =
     "lg:hover:bg-[#2d2d2d] lg:px-3 lg:py-1 my-4 lg:my-0 lg:mt-0 py-2 rounded-md transition-all ease-in duration-400 flex gap-1 items-center text-lg lg:text-[length:inherit]";
   return (
@@ -35,7 +37,12 @@ export const NavbarItemLink: React.FC<props> = ({navItem, subMenuActive, setSubm
           </svg>
         </button>
       ) : (
-        <Link className={classOfLink} href={navItem.link}>
+        <Link
+          className={combineClass(classOfLink, {
+            "text-blue-500": pathname == navItem.link,
+          })}
+          href={navItem.link}
+        >
           {navItem.title}
         </Link>
       )}
