@@ -3,7 +3,6 @@ import React, {ReactNode} from "react";
 import {useLocale, useTranslations} from "next-intl";
 import {LocaleSwitcher} from "./LocaleSwitcher";
 import {Button} from "@/components/Atoms/Button";
-import {NavbarMenuNew} from "@/components/NavbarMenuNew";
 import {Navbar} from "@/components/Navbar";
 
 type Props = {
@@ -24,9 +23,6 @@ export const MainLayout = ({children}: Props) => {
         <Button text="selam" />
         <Link href="/">Home</Link>
         <Link href="/about">About Page</Link>
-        <div className="ml-auto">
-          <LocaleSwitcher />
-        </div>
       </div>
       {children}
       <footer className="mt-[1000px] bg-slate-600 py-5 text-white px-5">Footer</footer>
