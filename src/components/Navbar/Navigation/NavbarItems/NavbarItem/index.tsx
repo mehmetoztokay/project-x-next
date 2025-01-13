@@ -35,9 +35,11 @@ export const NavbarItem: React.FC<props> = ({navItem, openChildMenu, setOpenChil
   }, [subMenuActive]);
 
   return (
-    <div ref={navbarItemRef}>
-      <NavbarItemLink navItem={navItem} subMenuActive={subMenuActive} setSubmenuActive={setSubmenuActive} />
-      {navItem.hasChildren && <NavbarItemSubMenu navItem={navItem} subMenuActive={subMenuActive} setSubmenuActive={setSubmenuActive} />}
+    <div>
+      <div ref={navbarItemRef}>
+        <NavbarItemLink navItem={navItem} subMenuActive={subMenuActive} setSubmenuActive={setSubmenuActive} openChildMenu={openChildMenu} />
+        {navItem.hasChildren && <NavbarItemSubMenu navItem={navItem} subMenuActive={subMenuActive} setSubmenuActive={setSubmenuActive} />}
+      </div>
     </div>
   );
 };

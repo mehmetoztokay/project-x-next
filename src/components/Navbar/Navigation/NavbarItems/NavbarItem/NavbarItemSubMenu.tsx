@@ -12,9 +12,9 @@ export const NavbarItemSubMenu: React.FC<props> = ({navItem, subMenuActive, setS
   return (
     <div
       className={combineClass(
-        `absolute backdrop-blur-md bg-[#111111]/[90%] inset-0 top-0 mt-0 lg:mt-[53px] lg:py-28 lg:pt-10 z-[1] py-10 h-min lg:-z-10 transition-all duration-500 ease-in-out transform translate-x-32 lg:-translate-y-20 lg:translate-x-0 opacity-0 pointer-events-none`,
+        `absolute backdrop-blur-md bg-[#111111]/[90%] inset-0 top-0 mt-0 lg:mt-[53px] lg:py-28 lg:pt-10 z-[1] py-10 h-min lg:-z-10 transition-all duration-500 ease-in-out transform lg:-translate-y-20 -translate-x-full lg:translate-x-0 opacity-0 pointer-events-none`,
         {
-          "lg:translate-y-0 opacity-100 translate-x-0 pointer-events-auto": subMenuActive,
+          "opacity-100 lg:translate-y-0 pointer-events-auto translate-x-0": subMenuActive,
         }
       )}
     >

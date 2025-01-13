@@ -18,7 +18,7 @@ export const NavbarItems: React.FC<props> = ({navigation, openMobileMenu, setOpe
       {navigation && !navigation?.isNull && (
         <div
           className={combineClass(
-            `absolute inset-0 lg:inset-auto lg:!static h-min mt-[47px] lg:mt-0 -z-10 lg:z-0 backdrop-blur-md bg-[#111111]/[90%] lg:backdrop-blur-none lg:bg-transparent lg:grid-rows-[1fr] grid grid-rows-[0fr] transition-all lg:duration-300 ease-in-out`,
+            `absolute inset-0 lg:inset-auto lg:!static h-min mt-[47px] lg:mt-0 -z-10 lg:z-0 backdrop-blur-md bg-[#111111]/[90%] lg:backdrop-blur-none lg:bg-transparent lg:grid-rows-[1fr] grid grid-rows-[0fr] transition-all lg:duration-300 duration-500 delay-100 ease-in-out`,
             {
               "grid-rows-[1fr]": openMobileMenu,
               "bg-transparent backdrop-blur-none": openChildMenu,

@@ -5,14 +5,15 @@ import React from "react";
 type props = {
   navItem: any;
   subMenuActive: boolean;
+  openChildMenu: boolean;
   setSubmenuActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const NavbarItemLink: React.FC<props> = ({navItem, subMenuActive, setSubmenuActive}) => {
+export const NavbarItemLink: React.FC<props> = ({navItem, subMenuActive, setSubmenuActive, openChildMenu}) => {
   const pathname = usePathname();
 
   const classOfLink =
-    "lg:hover:bg-[#2d2d2d] lg:px-3 lg:py-1 my-4 lg:my-0 lg:mt-0 py-2 rounded-md transition-all ease-in duration-400 flex gap-1 items-center text-lg lg:text-[length:inherit]";
+    "lg:hover:bg-[#2d2d2d] lg:px-3 lg:py-1 my-4 lg:my-0 lg:mt-0 py-2 rounded-md transition-all ease-in duration-400 delay-300 flex gap-1 items-center text-lg lg:text-[length:inherit]";
   return (
     <div>
       {navItem?.hasChildren ? (
@@ -22,6 +23,7 @@ export const NavbarItemLink: React.FC<props> = ({navItem, subMenuActive, setSubm
           }}
           className={combineClass(classOfLink, {
             "text-blue-500": subMenuActive,
+            "opacity-0 lg:opacity-100": openChildMenu,
           })}
         >
           {navItem.title}
@@ -40,6 +42,7 @@ export const NavbarItemLink: React.FC<props> = ({navItem, subMenuActive, setSubm
         <Link
           className={combineClass(classOfLink, {
             "text-blue-500": pathname == navItem.link,
+            "opacity-0 lg:opacity-100": openChildMenu,
           })}
           href={navItem.link}
         >
