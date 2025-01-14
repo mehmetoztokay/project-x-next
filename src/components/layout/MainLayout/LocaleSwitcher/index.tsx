@@ -1,9 +1,9 @@
-"use client";
+import React, {useEffect, useRef, useState, useTransition} from "react";
 import {useLocale, useTranslations} from "next-intl";
-import React, {ChangeEvent, useEffect, useRef, useTransition} from "react";
 import {CountryFlag} from "../CountryFlag";
 import {Locale, usePathname, useRouter} from "@/i18n/routing";
 import {getCurrentQueries} from "@/helpers/getCurrentQueries";
+import {combineClass} from "@/helpers/development/combineClass";
 
 export const LocaleSwitcher = () => {
   const t = useTranslations("Layout");
@@ -15,30 +15,26 @@ export const LocaleSwitcher = () => {
   const locale = useLocale();
   const currentQueries = getCurrentQueries();
 
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const changeLocale = (newLocale: Locale) => {
-    if (newLocale == locale || isPending) return;
+    if (newLocale === locale || isPending) return;
 
     startTransition(() => {
       router.replace({pathname, query: currentQueries}, {locale: newLocale});
     });
   };
 
-  // Handler for the dropdown menu
-  const [isOpen, setIsOpen] = React.useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      // If the click is outside both the button and the dropdown, close the menu
+    const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
 
-    // Add the event listener to the document
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Cleanup the event listener when the component unmounts
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -46,48 +42,45 @@ export const LocaleSwitcher = () => {
 
   return (
     <div className="relative inline-block text-left">
-      {Object.keys(localeItems).every((locale: any) => typeof localeItems[locale] === "object") && (
-        <>
-          <div className="flex items-center fill-gray-300">
-            <button type="button" onClick={() => setIsOpen(!isOpen)}>
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="fill-inherit">
+      {Object.keys(localeItems).every((key) => typeof localeItems[key] === "object") && (
+        <div ref={dropdownRef}>
+          <div className="flex items-center">
+            <button type="button" onClick={() => setIsOpen((prev) => !prev)} className="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="fill-gray-300">
                 <path d="m476-80 182-480h84L924-80h-84l-43-122H603L560-80h-84ZM160-200l-56-56 202-202q-35-35-63.5-80T190-640h84q20 39 40 68t48 58q33-33 68.5-92.5T484-720H40v-80h280v-80h80v80h280v80H564q-21 72-63 148t-83 116l96 98-30 82-122-125-202 201Zm468-72h144l-72-204-72 204Z" />
               </svg>
             </button>
           </div>
-          <div
-            ref={dropdownRef}
-            className={isOpen ? "absolute left-0 z-10 mt-2 origin-top-right rounded-md bg-[#1a1a1a] shadow-lg ring-1 ring-black/5 focus:outline-none" : "hidden"}
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="menu-button"
-            tabIndex={-1}
-          >
-            <div className="p-2 py-1" role="none">
-              {Object.keys(localeItems).map((localeItem: any) => (
-                <button
-                  disabled={isPending}
-                  onClick={() => changeLocale(localeItem)}
-                  key={localeItem}
-                  className={
-                    locale == localeItem
-                      ? "flex items-center w-full gap-2 px-4 py-2 text-sm text-gray-700 disabled:opacity-30 rounded-md bg-gray-200 my-1 text-nowrap"
-                      : "flex items-center gap-2 px-4 py-2 text-sm text-gray-300 disabled:opacity-30 rounded-md hover:bg-gray-100 my-1 text-nowrap"
-                  }
-                  role="menuitem"
-                  tabIndex={-1}
-                >
-                  <CountryFlag isoCode={localeItems[localeItem].flag} className="rounded-sm w-5" />
-                  <span>{localeItems[localeItem].title}</span>
-                </button>
-              ))}
+          {isOpen && (
+            <div
+              className="absolute left-0 z-10 mt-2 origin-top-right rounded-md bg-[#1a1a1a] shadow-lg ring-1 ring-black/5 focus:outline-none"
+              role="menu"
+              aria-orientation="vertical"
+              tabIndex={-1}
+            >
+              <div className="p-2 py-1" role="none">
+                {Object.keys(localeItems).map((localeItem: any) => (
+                  <button
+                    key={localeItem}
+                    disabled={isPending}
+                    onClick={() => changeLocale(localeItem)}
+                    className={combineClass(
+                      "flex items-center w-full gap-2 px-4 py-2 text-sm text-gray-200 hover:bg-gray-200 hover:text-gray-700 disabled:opacity-30 rounded-md my-1 text-nowrap",
+                      {
+                        "bg-gray-200 text-gray-700": locale === localeItem && !isPending,
+                      }
+                    )}
+                    role="menuitem"
+                    tabIndex={-1}
+                  >
+                    <CountryFlag isoCode={localeItems[localeItem].flag} className="rounded-sm w-5" />
+                    <span>{localeItems[localeItem].title}</span>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        </>
-
-        // <ul>
-        //
-        // </ul>
+          )}
+        </div>
       )}
     </div>
   );

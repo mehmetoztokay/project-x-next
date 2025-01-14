@@ -4,8 +4,8 @@ import {Link} from "@/i18n/routing";
 
 export const Logo = () => {
   return (
-    <Link href={"/"} className={combineClass("relative z-[1] text-xl font-bold")}>
-      LOGO
-    </Link>
+    <div className={combineClass("relative z-[1] text-xl font-bold")}>
+      <Link href={"/"}>LOGO</Link>
+    </div>
   );
 };
