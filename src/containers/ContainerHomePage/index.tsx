@@ -1,7 +1,6 @@
 import {Button} from "@/components/Atoms/Button";
 import {Link} from "@/i18n/routing";
 import React from "react";
-import {SignupForm} from "./SignupForm";
 
 export const HomePageContainer = ({t, locale}: any) => {
   return (
