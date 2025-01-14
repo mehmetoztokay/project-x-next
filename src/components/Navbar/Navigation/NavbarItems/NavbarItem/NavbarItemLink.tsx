@@ -28,7 +28,7 @@ export const NavbarItemLink: React.FC<props> = ({navItem, subMenuActive, setSubm
         >
           {navItem.title}
           <svg
-            className={combineClass("fill-gray-600 transform -rotate-90 lg:transform-none", {"!transform rotate-180 fill-blue-500": subMenuActive})}
+            className={combineClass("fill-gray-600 transform -rotate-90 lg:transform-none", {"!transform lg:rotate-180 fill-blue-500": subMenuActive})}
             width="10"
             height="10"
             viewBox="0 0 16 16"
@@ -49,7 +49,7 @@ export const NavbarItemLink: React.FC<props> = ({navItem, subMenuActive, setSubm
           {navItem.title}
         </Link>
       )}
-      <div className="bg-gradient-to-r from-gray-300 to-transparent h-[1px] opacity-50 lg:hidden"></div>
+      <div className={combineClass("bg-gradient-to-r from-gray-300 to-transparent h-[1px] opacity-50 lg:hidden", {"opacity-0": openChildMenu})}></div>
     </div>
   );
 };
