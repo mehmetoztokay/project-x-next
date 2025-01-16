@@ -1,6 +1,7 @@
 import {Button} from "@/components/Atoms/Button";
 import {Link} from "@/i18n/routing";
 import React from "react";
+import {RegisterForm} from "./RegisterForm";
 
 export const HomePageContainer = ({t, locale}: any) => {
   return (
@@ -14,6 +15,9 @@ export const HomePageContainer = ({t, locale}: any) => {
         </div>
       </div>
       <div className="container mx-auto mt-20"></div>
+      <div className="container mx-auto">
+        <RegisterForm />
+      </div>
     </>
   );
 };
