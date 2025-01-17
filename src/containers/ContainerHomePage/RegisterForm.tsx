@@ -1,7 +1,10 @@
 "use client";
 import {InputField} from "@/components/Atoms/FormFields/InputField";
+import {SelectField} from "@/components/Atoms/FormFields/SelectField";
 import {combineClass} from "@/helpers/development/combineClass";
 import {Formik, Field, Form, FormikHelpers} from "formik";
+import {useEffect, useState} from "react";
+import Select from "react-select";
 import * as Yup from "yup";
 interface Values {
   firstName: string;
@@ -10,6 +13,8 @@ interface Values {
   countryCode: string;
   phone: string;
   password: string;
+  choice: {};
+  isim: string;
 }
 
 const RegisterFormScheme = Yup.object().shape({
@@ -31,7 +36,27 @@ const RegisterFormScheme = Yup.object().shape({
     .matches(/^[^A-Z]*$/, "sadece kucuk harf"),
 });
 
+const optionsWithFlags = [
+  {
+    value: "turkey",
+    label: "+90 Turkey",
+    icon: "https://flagcdn.com/w320/tr.png",
+  },
+  {
+    value: "us",
+    label: "+1 United States",
+    icon: "https://flagcdn.com/w320/us.png",
+  },
+  {
+    value: "uk",
+    label: "+44 United Kingdom",
+    icon: "https://flagcdn.com/w320/gb.png",
+  },
+];
+
 export const RegisterForm = () => {
+  const [choice, setChoice] = useState();
+
   return (
     <div className="max-w-[320px] mx-auto p-5 py-4 rounded-md bg-[#f5f5f5]">
       <h1 className="text-2xl font-bold">Register</h1>
@@ -45,6 +70,8 @@ export const RegisterForm = () => {
           countryCode: "",
           phone: "",
           password: "",
+          choice: {},
+          isim: "",
         }}
         onSubmit={(values: Values, {setSubmitting}: FormikHelpers<Values>) => {
           setTimeout(() => {
@@ -57,6 +84,7 @@ export const RegisterForm = () => {
           <InputField label="Name" name="firstName" type="text" innerFloatLabel={true} />
           <InputField label="Surname" name="lastName" type="text" innerFloatLabel={true} />
           <InputField label="E mail" name="email" type="text" innerFloatLabel={true} />
+          <InputField label="isim" name="isim" innerFloatLabel={true} type="password" />
           <div className={combineClass("flex gap-2", {})}>
             <div className="w-[30%]">
               <InputField label="Code" name="countryCode" type="text" innerFloatLabel={true} />
@@ -66,6 +94,8 @@ export const RegisterForm = () => {
             </div>
           </div>
           <InputField label="Password" name="password" type="password" innerFloatLabel={true} />
+
+          <SelectField options={optionsWithFlags} choice={choice} setChoice={setChoice} />
 
           <div className="text-left">
             <button
