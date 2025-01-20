@@ -6,7 +6,19 @@ const Select = dynamic(() => import("react-select"), {ssr: false});
 import {combineClass} from "@/helpers/development/combineClass";
 import {components, ControlProps, MenuProps, NoticeProps, OptionProps, PlaceholderProps, Props} from "react-select";
 
-const CustomControl = (props: ControlProps) => {
+const CustomControl = ({
+  showIconOnControl,
+  hiddenIconOnControlForMobile,
+  showShortLabelOnMobile,
+  ...props
+}: {
+  showShortLabelOnMobile?: boolean;
+  showIconOnControl?: boolean;
+  hiddenIconOnControlForMobile?: boolean;
+} & ControlProps) => {
+  const selectedValue = props.getValue();
+  const {icon, label, shortLabel}: any = selectedValue?.[0] || {};
+
   return (
     <components.Control
       {...props}
@@ -14,7 +26,11 @@ const CustomControl = (props: ControlProps) => {
         "flex items-center !outline-0 !shadow-none !stroke-none border !border-gray-200 !focus-within:border-gray-500 rounded-md p-[.375rem] pl-1.5 text-gray-900 w-full max-w-full overflow-auto",
         {"!border-blue-500": props.isFocused}
       )}
-    />
+    >
+      {showIconOnControl && icon && <img src={icon} alt={label} className={combineClass("w-6 h-4 rounded-sm", {"lg:inline-block hidden": hiddenIconOnControlForMobile})} />}
+
+      {props.children}
+    </components.Control>
   );
 };
 
@@ -23,8 +39,6 @@ const CustomMenu = (props: MenuProps) => {
 };
 
 const CustomPlaceholder = (props: PlaceholderProps) => {
-  console.log(props);
-
   return (
     <components.Placeholder {...props} className="!text-gray-900">
       {props.children}
@@ -40,44 +54,68 @@ const CustomNoOptionsMessage = (props: NoticeProps) => {
   );
 };
 
-const CustomOption = (props: OptionProps<any>) => {
-  const {data, innerRef, innerProps, isFocused, isSelected} = props;
-
+const CustomOption = ({
+  data,
+  innerRef,
+  innerProps,
+  isFocused,
+  isSelected,
+  showIconOnOptions,
+  hiddenIconOpOptionsForMobile,
+}: OptionProps<any> & {
+  showIconOnOptions?: boolean;
+  hiddenIconOpOptionsForMobile?: boolean;
+}) => {
   return (
     <div
       ref={innerRef}
       {...innerProps}
       className={combineClass("flex items-center gap-2 px-3 py-2 cursor-pointer rounded text-sm my-1", {"bg-blue-100": isFocused, "bg-blue-500 text-white": isSelected})}
     >
-      {data.icon && <img src={data.icon} alt={data.label} className="w-6 h-4 rounded-sm" />}
+      {showIconOnOptions && data.icon && (
+        <img src={data.icon} alt={data.label} className={combineClass("w-6 h-4 rounded-sm", {"lg:inline-block hidden": hiddenIconOpOptionsForMobile})} />
+      )}
       <span>{data.label}</span>
     </div>
   );
 };
 
 export const SelectField = ({
-  choice,
-  setChoice,
   options,
-  placeholderText = "Select... falan filan",
+  placeholderText = "Select...",
   noOptionsText = "No options available",
+  showShortLabelOnMobile = false,
+  showIconOnControl = false,
+  hiddenIconOnControlForMobile = false,
+  showIconOnOptions = false,
+  hiddenIconOpOptionsForMobile = false,
   ...props
 }: {
-  choice: any;
-  setChoice: (choice: any) => void;
   options: any[];
   placeholderText?: string;
   noOptionsText?: string;
+  showShortLabelOnMobile?: boolean;
+  showIconOnControl?: boolean;
+  hiddenIconOnControlForMobile?: boolean;
+  showIconOnOptions?: boolean;
+  hiddenIconOpOptionsForMobile?: boolean;
 } & Props) => (
   <Select
+    controlShouldRenderValue
     className="text-gray-900"
     closeMenuOnSelect={true}
-    onChange={(choice) => setChoice(choice)}
     isClearable={true}
     components={{
-      Control: CustomControl,
+      Control: (controlProps) => (
+        <CustomControl
+          {...controlProps}
+          showShortLabelOnMobile={showShortLabelOnMobile}
+          showIconOnControl={showIconOnControl}
+          hiddenIconOnControlForMobile={hiddenIconOnControlForMobile}
+        />
+      ),
       Menu: CustomMenu,
-      Option: CustomOption,
+      Option: (optionProps) => <CustomOption {...optionProps} showIconOnOptions={showIconOnOptions} hiddenIconOpOptionsForMobile={hiddenIconOpOptionsForMobile} />,
       Placeholder: CustomPlaceholder,
       NoOptionsMessage: CustomNoOptionsMessage,
     }}

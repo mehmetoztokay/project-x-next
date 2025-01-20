@@ -40,16 +40,19 @@ const optionsWithFlags = [
   {
     value: "turkey",
     label: "+90 Turkey",
+    shortLabel: "+90",
     icon: "https://flagcdn.com/w320/tr.png",
   },
   {
     value: "us",
     label: "+1 United States",
+    shortLabel: "+1",
     icon: "https://flagcdn.com/w320/us.png",
   },
   {
     value: "uk",
     label: "+44 United Kingdom",
+    shortLabel: "+44",
     icon: "https://flagcdn.com/w320/gb.png",
   },
 ];
@@ -95,7 +98,7 @@ export const RegisterForm = () => {
           </div>
           <InputField label="Password" name="password" type="password" innerFloatLabel={true} />
 
-          <SelectField options={optionsWithFlags} choice={choice} setChoice={setChoice} />
+          <SelectField options={optionsWithFlags} showIconOnControl showIconOnOptions hiddenIconOnControlForMobile showShortLabelOnMobile />
 
           <div className="text-left">
             <button
