@@ -1,10 +1,12 @@
 "use client";
 import dynamic from "next/dynamic";
 
+// TODO: Gec geliyor
 const Select = dynamic(() => import("react-select"), {ssr: false});
 
 import {combineClass} from "@/helpers/development/combineClass";
 import {components, ControlProps, MenuProps, NoticeProps, OptionProps, PlaceholderProps, Props} from "react-select";
+import {useField} from "formik";
 
 const CustomControl = ({
   showIconOnControl,
@@ -81,6 +83,8 @@ const CustomOption = ({
 };
 
 export const SelectField = ({
+  name,
+  errorMessage,
   options,
   placeholderText = "Select...",
   noOptionsText = "No options available",
@@ -91,6 +95,8 @@ export const SelectField = ({
   hiddenIconOpOptionsForMobile = false,
   ...props
 }: {
+  name: string;
+  errorMessage?: string;
   options: any[];
   placeholderText?: string;
   noOptionsText?: string;
@@ -99,29 +105,40 @@ export const SelectField = ({
   hiddenIconOnControlForMobile?: boolean;
   showIconOnOptions?: boolean;
   hiddenIconOpOptionsForMobile?: boolean;
-} & Props) => (
-  <Select
-    controlShouldRenderValue
-    className="text-gray-900"
-    closeMenuOnSelect={true}
-    isClearable={true}
-    components={{
-      Control: (controlProps) => (
-        <CustomControl
-          {...controlProps}
-          showShortLabelOnMobile={showShortLabelOnMobile}
-          showIconOnControl={showIconOnControl}
-          hiddenIconOnControlForMobile={hiddenIconOnControlForMobile}
-        />
-      ),
-      Menu: CustomMenu,
-      Option: (optionProps) => <CustomOption {...optionProps} showIconOnOptions={showIconOnOptions} hiddenIconOpOptionsForMobile={hiddenIconOpOptionsForMobile} />,
-      Placeholder: CustomPlaceholder,
-      NoOptionsMessage: CustomNoOptionsMessage,
-    }}
-    options={options}
-    placeholder={placeholderText}
-    noOptionsMessage={() => noOptionsText.toString()}
-    {...props}
-  />
-);
+} & Props) => {
+  const [field, meta] = useField(name);
+  return (
+    <>
+      <Select
+        controlShouldRenderValue
+        className="text-gray-900"
+        closeMenuOnSelect={true}
+        isClearable={true}
+        components={{
+          Control: (controlProps) => (
+            <CustomControl
+              {...controlProps}
+              showShortLabelOnMobile={showShortLabelOnMobile}
+              showIconOnControl={showIconOnControl}
+              hiddenIconOnControlForMobile={hiddenIconOnControlForMobile}
+            />
+          ),
+          Menu: CustomMenu,
+          Option: (optionProps) => <CustomOption {...optionProps} showIconOnOptions={showIconOnOptions} hiddenIconOpOptionsForMobile={hiddenIconOpOptionsForMobile} />,
+          Placeholder: CustomPlaceholder,
+          NoOptionsMessage: CustomNoOptionsMessage,
+        }}
+        options={options}
+        placeholder={placeholderText}
+        noOptionsMessage={() => noOptionsText.toString()}
+        {...props}
+      />
+
+      {meta.touched && meta.error ? (
+        <p className="text-red-500 text-xs -mt-2 ml-1">
+          {meta.error} {errorMessage}
+        </p>
+      ) : null}
+    </>
+  );
+};

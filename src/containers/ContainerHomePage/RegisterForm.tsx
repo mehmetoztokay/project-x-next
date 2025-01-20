@@ -2,9 +2,7 @@
 import {InputField} from "@/components/Atoms/FormFields/InputField";
 import {SelectField} from "@/components/Atoms/FormFields/SelectField";
 import {combineClass} from "@/helpers/development/combineClass";
-import {Formik, Field, Form, FormikHelpers} from "formik";
-import {useEffect, useState} from "react";
-import Select from "react-select";
+import {Formik, Field, Form, FormikHelpers, useFormik} from "formik";
 import * as Yup from "yup";
 interface Values {
   firstName: string;
@@ -13,8 +11,7 @@ interface Values {
   countryCode: string;
   phone: string;
   password: string;
-  choice: {};
-  isim: string;
+  testValue: any;
 }
 
 const RegisterFormScheme = Yup.object().shape({
@@ -34,6 +31,7 @@ const RegisterFormScheme = Yup.object().shape({
     .required("zorunlu alan")
     .email("duzgun gir maili")
     .matches(/^[^A-Z]*$/, "sadece kucuk harf"),
+  testValue: Yup.object().required("bos olmamali"),
 });
 
 const optionsWithFlags = [
@@ -58,8 +56,6 @@ const optionsWithFlags = [
 ];
 
 export const RegisterForm = () => {
-  const [choice, setChoice] = useState();
-
   return (
     <div className="max-w-[320px] mx-auto p-5 py-4 rounded-md bg-[#f5f5f5]">
       <h1 className="text-2xl font-bold">Register</h1>
@@ -73,8 +69,7 @@ export const RegisterForm = () => {
           countryCode: "",
           phone: "",
           password: "",
-          choice: {},
-          isim: "",
+          testValue: null,
         }}
         onSubmit={(values: Values, {setSubmitting}: FormikHelpers<Values>) => {
           setTimeout(() => {
@@ -83,33 +78,44 @@ export const RegisterForm = () => {
           }, 500);
         }}
       >
-        <Form className="grid gap-3">
-          <InputField label="Name" name="firstName" type="text" innerFloatLabel={true} />
-          <InputField label="Surname" name="lastName" type="text" innerFloatLabel={true} />
-          <InputField label="E mail" name="email" type="text" innerFloatLabel={true} />
-          <InputField label="isim" name="isim" innerFloatLabel={true} type="password" />
-          <div className={combineClass("flex gap-2", {})}>
-            <div className="w-[30%]">
-              <InputField label="Code" name="countryCode" type="text" innerFloatLabel={true} />
+        {({values, setFieldValue, errors, touched, handleBlur, setFieldTouched}) => (
+          <Form className="grid gap-3">
+            <InputField label="Name" name="firstName" type="text" innerFloatLabel={true} />
+            <InputField label="Surname" name="lastName" type="text" innerFloatLabel={true} />
+            <InputField label="E mail" name="email" type="text" innerFloatLabel={true} />
+            <div className={combineClass("flex gap-2", {})}>
+              <div className="w-[30%]">
+                <InputField label="Code" name="countryCode" type="text" innerFloatLabel={true} />
+              </div>
+              <div className="w-[70%]">
+                <InputField label="Phone" name="phone" type="text" innerFloatLabel={true} />
+              </div>
             </div>
-            <div className="w-[70%]">
-              <InputField label="Phone" name="phone" type="text" innerFloatLabel={true} />
+            <InputField label="Password" name="password" type="password" innerFloatLabel={true} />
+
+            <SelectField
+              name="testValue"
+              value={values.testValue}
+              onChange={(option) => setFieldValue("testValue", option)}
+              onBlur={() => setFieldTouched("testValue")}
+              options={optionsWithFlags}
+              showIconOnControl
+              showIconOnOptions
+              hiddenIconOnControlForMobile
+              showShortLabelOnMobile
+            />
+
+            <div className="text-left">
+              <button
+                type="submit"
+                className="mt-1 bg-gray-300 transition hover:bg-gray-400 text-gray-900
+    px-4 py-2 rounded-full w-full"
+              >
+                Submit
+              </button>
             </div>
-          </div>
-          <InputField label="Password" name="password" type="password" innerFloatLabel={true} />
-
-          <SelectField options={optionsWithFlags} showIconOnControl showIconOnOptions hiddenIconOnControlForMobile showShortLabelOnMobile />
-
-          <div className="text-left">
-            <button
-              type="submit"
-              className="mt-1 bg-gray-300 transition hover:bg-gray-400 text-gray-900
-             px-4 py-2 rounded-full w-full"
-            >
-              Submit
-            </button>
-          </div>
-        </Form>
+          </Form>
+        )}
       </Formik>
     </div>
   );
