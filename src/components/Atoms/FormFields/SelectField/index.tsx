@@ -29,15 +29,17 @@ const CustomControl = ({
         {"!border-blue-500": props.isFocused}
       )}
     >
-      {showIconOnControl && icon && <img src={icon} alt={label} className={combineClass("w-6 h-4 rounded-sm", {"lg:inline-block hidden": hiddenIconOnControlForMobile})} />}
+      {showIconOnControl && icon && (
+        <img src={icon} alt={label} className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm", {"lg:inline-block hidden": hiddenIconOnControlForMobile})} />
+      )}
 
       {props.children}
     </components.Control>
   );
 };
 
-const CustomMenu = (props: MenuProps) => {
-  return <components.Menu {...props} className="bg-white border outline-0 !shadow-none stroke-none border-gray-200 rounded-lg p-2 !mt-1" />;
+const CustomMenu = ({menuClasses, ...props}: {menuClasses?: string} & MenuProps) => {
+  return <components.Menu {...props} className={combineClass("border outline-0 !shadow-none stroke-none border-gray-200 rounded-lg p-2 !mt-1", menuClasses, {})} />;
 };
 
 const CustomPlaceholder = (props: PlaceholderProps) => {
@@ -63,21 +65,23 @@ const CustomOption = ({
   isFocused,
   isSelected,
   showIconOnOptions,
+  showShortLabelOnOptions,
   hiddenIconOpOptionsForMobile,
 }: OptionProps<any> & {
   showIconOnOptions?: boolean;
+  showShortLabelOnOptions?: boolean;
   hiddenIconOpOptionsForMobile?: boolean;
 }) => {
   return (
     <div
       ref={innerRef}
       {...innerProps}
-      className={combineClass("flex items-center gap-2 px-3 py-2 cursor-pointer rounded text-sm my-1", {"bg-blue-100": isFocused, "bg-blue-500 text-white": isSelected})}
+      className={combineClass("flex items-center gap-2 lg:px-3 px-2 py-2 cursor-pointer rounded text-sm my-1", {"bg-blue-100": isFocused, "bg-blue-500 text-white": isSelected})}
     >
       {showIconOnOptions && data.icon && (
-        <img src={data.icon} alt={data.label} className={combineClass("w-6 h-4 rounded-sm", {"lg:inline-block hidden": hiddenIconOpOptionsForMobile})} />
+        <img src={data.icon} alt={data.label} className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm", {"lg:inline-block hidden": hiddenIconOpOptionsForMobile})} />
       )}
-      <span>{data.label}</span>
+      <span>{showShortLabelOnOptions && data.shortLabel ? data.shortLabel : data.label}</span>
     </div>
   );
 };
@@ -87,7 +91,9 @@ export const SelectField = ({
   options,
   placeholderText = "Select...",
   noOptionsText = "No options available",
+  menuClasses = "",
   showShortLabelOnControl = false,
+  showShortLabelOnOptions = false,
   showIconOnControl = false,
   hiddenIconOnControlForMobile = false,
   showIconOnOptions = false,
@@ -98,7 +104,9 @@ export const SelectField = ({
   options: any[];
   placeholderText?: string;
   noOptionsText?: string;
+  menuClasses?: string;
   showShortLabelOnControl?: boolean;
+  showShortLabelOnOptions?: boolean;
   showIconOnControl?: boolean;
   hiddenIconOnControlForMobile?: boolean;
   showIconOnOptions?: boolean;
@@ -106,7 +114,7 @@ export const SelectField = ({
 } & Props) => {
   const [field, meta] = useField(name);
   return (
-    <>
+    <div>
       <Select
         controlShouldRenderValue
         className="text-gray-900"
@@ -114,9 +122,17 @@ export const SelectField = ({
         isClearable={true}
         getOptionLabel={(option: any) => `${showShortLabelOnControl ? option.shortLabel : option.label}`}
         components={{
+          IndicatorSeparator: () => null,
           Control: (controlProps) => <CustomControl {...controlProps} showIconOnControl={showIconOnControl} hiddenIconOnControlForMobile={hiddenIconOnControlForMobile} />,
-          Menu: CustomMenu,
-          Option: (optionProps) => <CustomOption {...optionProps} showIconOnOptions={showIconOnOptions} hiddenIconOpOptionsForMobile={hiddenIconOpOptionsForMobile} />,
+          Menu: (menuProps) => <CustomMenu {...menuProps} menuClasses={menuClasses} />,
+          Option: (optionProps) => (
+            <CustomOption
+              {...optionProps}
+              showShortLabelOnOptions={showShortLabelOnOptions}
+              showIconOnOptions={showIconOnOptions}
+              hiddenIconOpOptionsForMobile={hiddenIconOpOptionsForMobile}
+            />
+          ),
           Placeholder: CustomPlaceholder,
           NoOptionsMessage: CustomNoOptionsMessage,
         }}
@@ -126,7 +142,7 @@ export const SelectField = ({
         {...props}
       />
 
-      {meta.touched && meta.error ? <p className="text-red-500 text-xs -mt-2 ml-1">{meta.error}</p> : null}
-    </>
+      {meta.touched && meta.error ? <p className="text-red-500 text-xs ml-1">{meta.error}</p> : null}
+    </div>
   );
 };

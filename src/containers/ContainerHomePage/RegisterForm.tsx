@@ -12,7 +12,7 @@ interface Values {
   countryCode: string;
   phone: string;
   password: string;
-  testValue: any;
+  selectCountryCode: any;
   checkbox1: boolean;
   checkbox2: boolean;
 }
@@ -34,7 +34,7 @@ const RegisterFormScheme = Yup.object().shape({
     .required("zorunlu alan")
     .email("duzgun gir maili")
     .matches(/^[^A-Z]*$/, "sadece kucuk harf"),
-  testValue: Yup.object().required("bos olmamali"),
+  selectCountryCode: Yup.object().required("bos olmamali"),
   checkbox1: Yup.boolean().oneOf([true], "This field is required. Please tick the checkbox to continue."),
   checkbox2: Yup.boolean(),
 });
@@ -62,7 +62,7 @@ const optionsWithFlags = [
 
 export const RegisterForm = () => {
   return (
-    <div className="max-w-[320px] mx-auto p-5 py-4 rounded-md bg-[#f5f5f5]">
+    <div className="max-w-[340px] mx-auto p-5 py-4 rounded-md bg-[#f5f5f5]">
       <h1 className="text-2xl font-bold">Register</h1>
       <p className="mb-8 font-light">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
       <Formik
@@ -74,7 +74,7 @@ export const RegisterForm = () => {
           countryCode: "",
           phone: "",
           password: "",
-          testValue: null,
+          selectCountryCode: null,
           checkbox1: false,
           checkbox2: false,
         }}
@@ -90,27 +90,44 @@ export const RegisterForm = () => {
             <InputField label="Name" name="firstName" type="text" innerFloatLabel={true} />
             <InputField label="Surname" name="lastName" type="text" innerFloatLabel={true} />
             <InputField label="E mail" name="email" type="text" innerFloatLabel={true} />
-            <div className={combineClass("flex gap-2", {})}>
-              <div className="w-[30%]">
-                <InputField label="Code" name="countryCode" type="text" innerFloatLabel={true} />
+            <div className={combineClass("flex gap-2 relative", {})}>
+              <div className="w-[35%]">
+                <SelectField
+                  isClearable={false}
+                  name="selectCountryCode"
+                  value={values.selectCountryCode}
+                  onChange={(option) => setFieldValue("selectCountryCode", option)}
+                  onBlur={() => setFieldTouched("selectCountryCode")}
+                  placeholderText="Code"
+                  options={optionsWithFlags}
+                  showIconOnControl
+                  className="text-xs lg:text-base !static"
+                  // menuClasses="!w-full"
+                  showIconOnOptions
+                  // menuIsOpen
+                  hiddenIconOnControlForMobile
+                  showShortLabelOnControl
+                  showShortLabelOnOptions
+                />
+                {/* <InputField label="Code" name="countryCode" type="text" innerFloatLabel={true} /> */}
               </div>
-              <div className="w-[70%]">
+              <div className="w-[65%]">
                 <InputField label="Phone" name="phone" type="text" innerFloatLabel={true} />
               </div>
             </div>
             <InputField label="Password" name="password" type="password" checked={values.checkbox1} innerFloatLabel={false} />
 
-            <SelectField
-              name="testValue"
-              value={values.testValue}
-              onChange={(option) => setFieldValue("testValue", option)}
-              onBlur={() => setFieldTouched("testValue")}
+            {/* <SelectField
+              name="selectCountryCode"
+              value={values.selectCountryCode}
+              onChange={(option) => setFieldValue("selectCountryCode", option)}
+              onBlur={() => setFieldTouched("selectCountryCode")}
               options={optionsWithFlags}
               showIconOnControl
               showIconOnOptions
               hiddenIconOnControlForMobile
               showShortLabelOnControl
-            />
+            /> */}
 
             <CheckboxField name="checkbox1">
               {errors.checkbox1}
