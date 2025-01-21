@@ -88,7 +88,7 @@ export const SelectField = ({
   options,
   placeholderText = "Select...",
   noOptionsText = "No options available",
-  showShortLabelOnMobile = false,
+  showShortLabelOnControl = false,
   showIconOnControl = false,
   hiddenIconOnControlForMobile = false,
   showIconOnOptions = false,
@@ -100,7 +100,7 @@ export const SelectField = ({
   options: any[];
   placeholderText?: string;
   noOptionsText?: string;
-  showShortLabelOnMobile?: boolean;
+  showShortLabelOnControl?: boolean;
   showIconOnControl?: boolean;
   hiddenIconOnControlForMobile?: boolean;
   showIconOnOptions?: boolean;
@@ -114,15 +114,9 @@ export const SelectField = ({
         className="text-gray-900"
         closeMenuOnSelect={true}
         isClearable={true}
+        getOptionLabel={(option: any) => `${showShortLabelOnControl ? option.shortLabel : option.label}`}
         components={{
-          Control: (controlProps) => (
-            <CustomControl
-              {...controlProps}
-              showShortLabelOnMobile={showShortLabelOnMobile}
-              showIconOnControl={showIconOnControl}
-              hiddenIconOnControlForMobile={hiddenIconOnControlForMobile}
-            />
-          ),
+          Control: (controlProps) => <CustomControl {...controlProps} showIconOnControl={showIconOnControl} hiddenIconOnControlForMobile={hiddenIconOnControlForMobile} />,
           Menu: CustomMenu,
           Option: (optionProps) => <CustomOption {...optionProps} showIconOnOptions={showIconOnOptions} hiddenIconOpOptionsForMobile={hiddenIconOpOptionsForMobile} />,
           Placeholder: CustomPlaceholder,

@@ -102,7 +102,7 @@ export const RegisterForm = () => {
               showIconOnControl
               showIconOnOptions
               hiddenIconOnControlForMobile
-              showShortLabelOnMobile
+              showShortLabelOnControl
             />
 
             <div className="text-left">
