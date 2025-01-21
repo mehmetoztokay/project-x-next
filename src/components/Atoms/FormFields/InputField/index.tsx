@@ -5,24 +5,12 @@ import React, {useEffect, useRef, useState} from "react";
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   name: string;
-  errorMessage?: string;
   className?: string;
   innerFloatLabel?: boolean;
   inputBg?: string | undefined;
 };
 
-export const InputField: React.FC<InputProps> = ({
-  placeholder = "",
-  type = "text",
-  innerFloatLabel = false,
-  errorMessage = "",
-  className = "",
-  name,
-  label,
-  id,
-  inputBg = undefined,
-  ...props
-}) => {
+export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text", innerFloatLabel = false, className = "", name, label, id, inputBg = undefined, ...props}) => {
   const [fieldType, setFieldType] = useState(type);
   const [field, meta] = useField(name);
   const [focused, setFocused] = useState(false);
@@ -94,11 +82,7 @@ export const InputField: React.FC<InputProps> = ({
           </button>
         )}
       </div>
-      {meta.touched && meta.error ? (
-        <p className="text-red-500 text-xs mt-1 ml-1">
-          {meta.error} {errorMessage}
-        </p>
-      ) : null}
+      {meta.touched && meta.error ? <p className="text-red-500 text-xs mt-1 ml-1">{meta.error}</p> : null}
     </div>
   );
 };

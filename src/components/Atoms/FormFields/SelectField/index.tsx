@@ -84,7 +84,6 @@ const CustomOption = ({
 
 export const SelectField = ({
   name,
-  errorMessage,
   options,
   placeholderText = "Select...",
   noOptionsText = "No options available",
@@ -96,7 +95,6 @@ export const SelectField = ({
   ...props
 }: {
   name: string;
-  errorMessage?: string;
   options: any[];
   placeholderText?: string;
   noOptionsText?: string;
@@ -128,11 +126,7 @@ export const SelectField = ({
         {...props}
       />
 
-      {meta.touched && meta.error ? (
-        <p className="text-red-500 text-xs -mt-2 ml-1">
-          {meta.error} {errorMessage}
-        </p>
-      ) : null}
+      {meta.touched && meta.error ? <p className="text-red-500 text-xs -mt-2 ml-1">{meta.error}</p> : null}
     </>
   );
 };

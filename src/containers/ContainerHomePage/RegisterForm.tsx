@@ -1,4 +1,5 @@
 "use client";
+import {CheckboxField} from "@/components/Atoms/FormFields/CheckboxField";
 import {InputField} from "@/components/Atoms/FormFields/InputField";
 import {SelectField} from "@/components/Atoms/FormFields/SelectField";
 import {combineClass} from "@/helpers/development/combineClass";
@@ -12,6 +13,8 @@ interface Values {
   phone: string;
   password: string;
   testValue: any;
+  checkbox1: boolean;
+  checkbox2: boolean;
 }
 
 const RegisterFormScheme = Yup.object().shape({
@@ -32,6 +35,8 @@ const RegisterFormScheme = Yup.object().shape({
     .email("duzgun gir maili")
     .matches(/^[^A-Z]*$/, "sadece kucuk harf"),
   testValue: Yup.object().required("bos olmamali"),
+  checkbox1: Yup.boolean().oneOf([true], "This field is required. Please tick the checkbox to continue."),
+  checkbox2: Yup.boolean(),
 });
 
 const optionsWithFlags = [
@@ -70,6 +75,8 @@ export const RegisterForm = () => {
           phone: "",
           password: "",
           testValue: null,
+          checkbox1: false,
+          checkbox2: false,
         }}
         onSubmit={(values: Values, {setSubmitting}: FormikHelpers<Values>) => {
           setTimeout(() => {
@@ -91,7 +98,7 @@ export const RegisterForm = () => {
                 <InputField label="Phone" name="phone" type="text" innerFloatLabel={true} />
               </div>
             </div>
-            <InputField label="Password" name="password" type="password" innerFloatLabel={false} />
+            <InputField label="Password" name="password" type="password" checked={values.checkbox1} innerFloatLabel={false} />
 
             <SelectField
               name="testValue"
@@ -105,12 +112,19 @@ export const RegisterForm = () => {
               showShortLabelOnControl
             />
 
+            <CheckboxField name="checkbox1">
+              {errors.checkbox1}
+              You need to enable JavaScript to run this app. You need to enable JavaScript to run this app.
+              <a target="_blank" href="https://www.trive.com" className="text-blue-500 underline">
+                You need to enable JavaScript{" "}
+              </a>
+              to run this app.
+            </CheckboxField>
+
+            <CheckboxField name="checkbox2">test</CheckboxField>
+
             <div className="text-left">
-              <button
-                type="submit"
-                className="mt-1 bg-gray-300 transition hover:bg-gray-400 text-gray-900
-    px-4 py-2 rounded-full w-full"
-              >
+              <button type="submit" className="mt-1 bg-gray-300 transition hover:bg-gray-400 text-gray-900 px-4 py-2 rounded-full w-full">
                 Submit
               </button>
             </div>
