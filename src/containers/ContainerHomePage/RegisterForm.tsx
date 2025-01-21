@@ -91,7 +91,7 @@ export const RegisterForm = () => {
                 <InputField label="Phone" name="phone" type="text" innerFloatLabel={true} />
               </div>
             </div>
-            <InputField label="Password" name="password" type="password" innerFloatLabel={true} />
+            <InputField label="Password" name="password" type="password" innerFloatLabel={false} />
 
             <SelectField
               name="testValue"

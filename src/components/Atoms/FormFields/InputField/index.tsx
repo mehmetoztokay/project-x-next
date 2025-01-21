@@ -1,6 +1,6 @@
 import {combineClass} from "@/helpers/development/combineClass";
 import {useField} from "formik";
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label: string;
@@ -8,15 +8,48 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   errorMessage?: string;
   className?: string;
   innerFloatLabel?: boolean;
+  inputBg?: string | undefined;
 };
 
-export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text", innerFloatLabel = false, errorMessage = "", className = "", name, label, id, ...props}) => {
+export const InputField: React.FC<InputProps> = ({
+  placeholder = "",
+  type = "text",
+  innerFloatLabel = false,
+  errorMessage = "",
+  className = "",
+  name,
+  label,
+  id,
+  inputBg = undefined,
+  ...props
+}) => {
   const [fieldType, setFieldType] = useState(type);
   const [field, meta] = useField(name);
+  const [focused, setFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleFocus = () => setFocused(true);
+    const handleBlur = () => setFocused(false);
+
+    // Referansı kontrol et
+    if (inputRef.current) {
+      inputRef.current.addEventListener("focus", handleFocus);
+      inputRef.current.addEventListener("blur", handleBlur);
+    }
+
+    return () => {
+      if (inputRef.current) {
+        inputRef.current.removeEventListener("focus", handleFocus);
+        inputRef.current.removeEventListener("blur", handleBlur);
+      }
+    };
+  }, []);
   return (
     <div>
       <div className="relative text-gray-700">
         <input
+          ref={inputRef}
           type={fieldType}
           id={id || name}
           className={combineClass(
@@ -24,6 +57,7 @@ export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text
             className,
             {"!text-gray-900": field.value > 0, "border-red-500": meta.touched && meta.error, "pr-12": type == "password"}
           )}
+          style={{backgroundColor: inputBg && inputBg}}
           {...field}
           {...props}
         />
@@ -40,6 +74,7 @@ export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text
               "peer-focus:-translate-y-[23px] peer-focus:text-[10px]": innerFloatLabel,
             }
           )}
+          style={{backgroundColor: inputBg && (field.value || focused) && !innerFloatLabel && inputBg}}
         >
           {label}
         </label>
