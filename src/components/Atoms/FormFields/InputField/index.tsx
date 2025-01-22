@@ -41,7 +41,7 @@ export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text
           type={fieldType}
           id={id || name}
           className={combineClass(
-            "peer w-full border placeholder-transparent border-gray-200 rounded-md p-3 pl-4 focus:outline-none focus:text-gray-900 focus:border-blue-500 placeholder-shown:bg-slate-700",
+            "peer w-full border placeholder-transparent border-gray-200 rounded-md py-3 px-3 focus:outline-none focus:text-gray-900 focus:border-blue-500 placeholder-shown:bg-slate-700",
             className,
             {"!text-gray-900": field.value > 0, "border-red-500": meta.touched && meta.error, "pr-12": type == "password"}
           )}
@@ -51,17 +51,14 @@ export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text
         />
         <label
           htmlFor={id || name}
-          className={combineClass(
-            "absolute left-0 ml-1 px-2 translate-x-1 transform -translate-y-1/2 top-1/2 duration-200 ease-in-out peer-focus:text-blue-500 pointer-events-none",
-            {
-              "-translate-y-8 text-xs bg-white": field.value && !innerFloatLabel,
-              "peer-focus:bg-white peer-focus:text-xs peer-focus:-translate-y-8": !innerFloatLabel,
+          className={combineClass("absolute left-1 px-2 transform -translate-y-1/2 top-1/2 duration-200 ease-in-out peer-focus:text-blue-500 pointer-events-none", {
+            "-translate-y-8 text-xs bg-white ml-1 px-1": field.value && !innerFloatLabel,
+            "peer-focus:bg-white peer-focus:text-xs peer-focus:-translate-y-8 px-1 ml-1": !innerFloatLabel,
 
-              // If Inner Label
-              "-translate-y-[23px] text-[10px]": field.value && innerFloatLabel,
-              "peer-focus:-translate-y-[23px] peer-focus:text-[10px]": innerFloatLabel,
-            }
-          )}
+            // If Inner Label
+            "-translate-y-[23px] text-[10px]": field.value && innerFloatLabel,
+            "peer-focus:-translate-y-[23px] peer-focus:text-[10px]": innerFloatLabel,
+          })}
           style={{backgroundColor: inputBg && (field.value || focused) && !innerFloatLabel && inputBg}}
         >
           {label}

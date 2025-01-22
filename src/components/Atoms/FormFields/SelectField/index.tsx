@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 const Select = dynamic(() => import("react-select"), {ssr: false});
 
 import {combineClass} from "@/helpers/development/combineClass";
-import {components, ControlProps, MenuProps, NoticeProps, OptionProps, PlaceholderProps, Props} from "react-select";
+import {components, ControlProps, DropdownIndicatorProps, IndicatorsContainerProps, MenuProps, NoticeProps, OptionProps, PlaceholderProps, Props} from "react-select";
 import {useField} from "formik";
 
 const CustomControl = ({
@@ -25,12 +25,16 @@ const CustomControl = ({
     <components.Control
       {...props}
       className={combineClass(
-        "flex items-center !outline-0 !shadow-none !stroke-none border !border-gray-200 !focus-within:border-gray-500 rounded-md p-[.375rem] pl-1.5 text-gray-900 w-full max-w-full overflow-auto",
-        {"!border-blue-500": props.isFocused}
+        "flex items-center !outline-0 !shadow-none !stroke-none border !border-gray-200 !focus-within:border-gray-500 rounded-md p-[.375rem] px-[.07rem] text-gray-900 w-full max-w-full overflow-auto",
+        {"!border-blue-500": props.menuIsOpen}
       )}
     >
       {showIconOnControl && icon && (
-        <img src={icon} alt={label} className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm", {"lg:inline-block hidden": hiddenIconOnControlForMobile})} />
+        <img
+          src={icon}
+          alt={label}
+          className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm relative left-1 -mr-1", {"lg:inline-block hidden": hiddenIconOnControlForMobile, "!hidden": props.menuIsOpen})}
+        />
       )}
 
       {props.children}
@@ -86,6 +90,22 @@ const CustomOption = ({
   );
 };
 
+const CustomIndicatorsContainer = (props: IndicatorsContainerProps) => {
+  return (
+    <div className="absolute right-1.5 flex items-center justify-center">
+      <components.IndicatorsContainer {...props} />
+    </div>
+  );
+};
+
+const CustomDropdownIndicator = ({removeDropdownIndicatorIsFocused, ...props}: {removeDropdownIndicatorIsFocused: boolean} & DropdownIndicatorProps<any>) => {
+  return (
+    <div className={combineClass("", {hidden: props.isFocused && removeDropdownIndicatorIsFocused})}>
+      <components.DropdownIndicator {...props}>{props.children}</components.DropdownIndicator>
+    </div>
+  );
+};
+
 export const SelectField = ({
   name,
   options,
@@ -98,6 +118,7 @@ export const SelectField = ({
   hiddenIconOnControlForMobile = false,
   showIconOnOptions = false,
   hiddenIconOpOptionsForMobile = false,
+  removeDropdownIndicatorIsFocused = false,
   ...props
 }: {
   name: string;
@@ -111,6 +132,7 @@ export const SelectField = ({
   hiddenIconOnControlForMobile?: boolean;
   showIconOnOptions?: boolean;
   hiddenIconOpOptionsForMobile?: boolean;
+  removeDropdownIndicatorIsFocused?: boolean;
 } & Props) => {
   const [field, meta] = useField(name);
   return (
@@ -120,9 +142,26 @@ export const SelectField = ({
         className="text-gray-900"
         closeMenuOnSelect={true}
         isClearable={true}
+        filterOption={(option: any, inputValue: any) => {
+          const {label, shortLabel, value, ...otherProps} = option.data;
+          const searchText = inputValue.toLowerCase();
+
+          console.log(Object.keys(otherProps));
+
+          // Search all values
+          return (
+            label.toLowerCase().includes(searchText) ||
+            shortLabel.toLowerCase().includes(searchText) ||
+            value.toLowerCase().includes(searchText) ||
+            // Excludes the "icon" property and checks if any other property in otherProps matches the search text.
+            (!Object.keys(otherProps).includes("icon") && Object.values(otherProps).some((prop) => prop?.toString().toLowerCase().includes(searchText)))
+          );
+        }}
         getOptionLabel={(option: any) => `${showShortLabelOnControl ? option.shortLabel : option.label}`}
         components={{
           IndicatorSeparator: () => null,
+          IndicatorsContainer: CustomIndicatorsContainer,
+          DropdownIndicator: (dropdownProps) => <CustomDropdownIndicator {...dropdownProps} removeDropdownIndicatorIsFocused={removeDropdownIndicatorIsFocused} />,
           Control: (controlProps) => <CustomControl {...controlProps} showIconOnControl={showIconOnControl} hiddenIconOnControlForMobile={hiddenIconOnControlForMobile} />,
           Menu: (menuProps) => <CustomMenu {...menuProps} menuClasses={menuClasses} />,
           Option: (optionProps) => (
