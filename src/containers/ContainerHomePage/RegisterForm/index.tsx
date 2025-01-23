@@ -1,126 +1,103 @@
-"use client";
-import {CheckboxField} from "@/components/Atoms/FormFields/CheckboxField";
-import {InputField} from "@/components/Atoms/FormFields/InputField";
-import {SelectField} from "@/components/Atoms/FormFields/SelectField";
-import {combineClass} from "@/helpers/development/combineClass";
-import {Formik, Field, Form, FormikHelpers, useFormik} from "formik";
-import {useEffect} from "react";
-import * as Yup from "yup";
-interface Values {
-  firstName: string;
-  lastName: string;
-  email: string;
-  countryCode: string;
-  phone: string;
-  password: string;
-  selectCountryCode: any;
-  checkbox1: boolean;
-  checkbox2: boolean;
-}
+"use client"
+import { CheckboxField } from "@/components/Atoms/FormFields/CheckboxField";
+import { InputField } from "@/components/Atoms/FormFields/InputField";
+import { SelectField } from "@/components/Atoms/FormFields/SelectField";
+import { combineClass } from "@/helpers/development/combineClass";
+import { Formik, Field, Form, FormikHelpers, useFormik } from "formik";
+import { useEffect, useState } from "react";
 
-const RegisterFormScheme = Yup.object().shape({
-  firstName: Yup.string()
-    .matches(/^[A-Za-z]+(?:\s[A-Za-z]+)*$/, "sadece harf")
-    .required("Zorunlu alan")
-    .min(2, "Cok kisa oldu")
-    .max(8, "Cok uzun"),
-  lastName: Yup.string()
-    .min(2, "Cok kisa oldu")
-    .max(8, "Cok uzun")
-    .required("Zorunlu alan")
-    .matches(/^[A-Za-z]+$/, "sadece harf"),
-  email: Yup.string()
-    .min(2, "cok kisa")
-    .max(20, "cok uzun")
-    .required("zorunlu alan")
-    .email("duzgun gir maili")
-    .matches(/^[^A-Z]*$/, "sadece kucuk harf"),
-  selectCountryCode: Yup.object().required("bos olmamali"),
-  checkbox1: Yup.boolean().oneOf([true], "This field is required. Please tick the checkbox to continue."),
-  checkbox2: Yup.boolean(),
-});
+import PhoneInput, { Value } from "react-phone-number-input/input";
+import { FieldTypesOfRegisterForm } from "./FieldTypesOfRegisterForm";
+import { FormSchemeOfRegister } from "./FormSchemeOfRegister";
+import { getAllCountries } from "@/helpers/getAllCountries";
 
-const optionsWithFlags = [
-  {
-    value: "turkey",
-    label: "+90 Turkey",
-    shortLabel: "+90",
-    icon: "https://flagcdn.com/w320/tr.png",
-  },
-  {
-    value: "us",
-    label: "+1 United States",
-    shortLabel: "+1",
-    icon: "https://flagcdn.com/w320/us.png",
-  },
-  {
-    value: "uk",
-    label: "+4433 United Kingdom",
-    shortLabel: "+4433",
-    icon: "https://flagcdn.com/w320/gb.png",
-  },
-];
+
 
 export const RegisterForm = () => {
+
+  const optionsWithFlags = getAllCountries("en")
+  console.log(optionsWithFlags);
+
   return (
     <div className="max-w-[340px] mx-auto p-5 py-4 rounded-md bg-white shadow-2xl">
       <h1 className="text-2xl font-bold">Register</h1>
       <p className="mb-8 font-light">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
       <Formik
-        validationSchema={RegisterFormScheme}
+        validationSchema={FormSchemeOfRegister}
         initialValues={{
           firstName: "",
           lastName: "",
           email: "",
           countryCode: "",
-          phone: "",
+          phoneNumber: "",
+          phoneCode: "",
           password: "",
-          selectCountryCode: null,
+          // FIXME: It's can't be null
+          selectCountryCode: { id: 0, value: "", label: "", shortLabel: "", icon: "" },
           checkbox1: false,
           checkbox2: false,
         }}
-        onSubmit={(values: Values, {setSubmitting}: FormikHelpers<Values>) => {
+        onSubmit={(values: FieldTypesOfRegisterForm, { setSubmitting }: FormikHelpers<FieldTypesOfRegisterForm>) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
           }, 500);
         }}
       >
-        {({values, setFieldValue, errors, touched, handleBlur, setFieldTouched}) => {
-          useEffect(() => {
-            console.log(values);
-          }, []);
+        {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors }) => {
+
+
           return (
             <Form className="grid gap-3">
               <InputField label="Name" name="firstName" type="text" innerFloatLabel={true} />
               <InputField label="Surname" name="lastName" type="text" innerFloatLabel={true} />
               <InputField label="E mail" name="email" type="text" innerFloatLabel={true} />
+
               <div className={combineClass("grid grid-cols-12 gap-1 relative", {})}>
                 <div className="col-span-4">
                   <SelectField
                     isClearable={false}
                     name="selectCountryCode"
                     value={values.selectCountryCode}
-                    onChange={(option) => setFieldValue("selectCountryCode", option)}
+                    onChange={(option: any) => {
+                      setFieldValue("selectCountryCode", option);
+                      setFieldValue("phoneNumber", option.shortLabel);
+                    }}
                     onBlur={() => setFieldTouched("selectCountryCode")}
                     placeholderText="Code"
-                    options={optionsWithFlags}
+                    options={getAllCountries("en")}
                     className="text-xs lg:text-base !static"
-                    // menuClasses="!w-full"
                     showIconOnControl
                     showIconOnOptions
-                    // menuIsOpen
                     hiddenIconOnControlForMobile
                     showShortLabelOnControl
                     removeDropdownIndicatorIsFocused
-                    // showShortLabelOnOptions
                   />
-                  {/* <InputField label="Code" name="countryCode" type="text" innerFloatLabel={true} /> */}
                 </div>
                 <div className="col-span-8">
-                  <InputField label="Phone" name="phone" type="text" innerFloatLabel={true} />
+                  <PhoneInput
+                    className={combineClass(
+                      "peer w-full border placeholder-transparent border-gray-200 rounded-md py-3 px-3 focus:outline-none focus:text-gray-900 focus:border-blue-500 ",
+                      {
+                        "!text-gray-900": values.phoneNumber?.length > 0, // Update class based on phone number presence
+                        "border-red-500": touched.phoneNumber && errors.phoneNumber, // Update class for error
+                      }
+                    )}
+                    country={values?.selectCountryCode?.value as "TR" | undefined}
+                    placeholder="Number"
+                    value={values.phoneNumber}
+                    onChange={(value: Value) => setFieldValue("phoneNumber", value)}
+                    onBlur={() => {
+                      setFieldTouched("phoneNumber");
+                      setErrors({ ...errors, phoneNumber: undefined }); // Clear error message on blur
+                    }}
+                  />
+                  {touched.phoneNumber && errors.phoneNumber && (
+                    <div className="text-red-500 text-xs">{errors.phoneNumber} hataa</div>
+                  )}
                 </div>
               </div>
+
               <InputField label="Password" name="password" type="password" checked={values.checkbox1} innerFloatLabel={false} />
 
               <CheckboxField name="checkbox1">

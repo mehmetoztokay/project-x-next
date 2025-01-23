@@ -1,13 +1,11 @@
 import React from "react";
-import {useField} from "formik";
-import {combineClass} from "@/helpers/development/combineClass";
+import { useField } from "formik";
+import { combineClass } from "@/helpers/development/combineClass";
 
-type CheckboxProps = React.InputHTMLAttributes<HTMLInputElement> & {name: string; label?: string; children?: React.ReactNode; className?: string};
+type CheckboxProps = React.InputHTMLAttributes<HTMLInputElement> & { name: string; label?: string; children?: React.ReactNode; className?: string };
 
-export const CheckboxField = ({name, label, children, className}: CheckboxProps) => {
-  const [field, meta] = useField({name, type: "checkbox"});
-
-  console.log(meta);
+export const CheckboxField = ({ name, label, children, className }: CheckboxProps) => {
+  const [field, meta] = useField({ name, type: "checkbox" });
 
   return (
     <>
