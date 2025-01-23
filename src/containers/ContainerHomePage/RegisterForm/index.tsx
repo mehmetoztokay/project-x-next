@@ -54,7 +54,7 @@ export const RegisterForm = () => {
               <InputField label="E mail" name="email" type="text" innerFloatLabel={true} />
 
               <div className={combineClass("grid grid-cols-12 gap-1 relative", {})}>
-                <div className="col-span-4">
+                <div className="lg:col-span-4 col-span-5">
                   <SelectField
                     isClearable={false}
                     name="selectCountryCode"
@@ -66,7 +66,7 @@ export const RegisterForm = () => {
                     onBlur={() => setFieldTouched("selectCountryCode")}
                     placeholderText="Code"
                     options={getAllCountries("en")}
-                    className="text-xs lg:text-base !static"
+                    className="text-xs lg:text-base !static h-100"
                     showIconOnControl
                     showIconOnOptions
                     hiddenIconOnControlForMobile
@@ -74,7 +74,7 @@ export const RegisterForm = () => {
                     removeDropdownIndicatorIsFocused
                   />
                 </div>
-                <div className="col-span-8">
+                <div className="lg:col-span-8 col-span-7">
                   <PhoneInput
                     className={combineClass(
                       "peer w-full border placeholder-transparent border-gray-200 rounded-md py-3 px-3 focus:outline-none focus:text-gray-900 focus:border-blue-500 ",
@@ -93,7 +93,7 @@ export const RegisterForm = () => {
                     }}
                   />
                   {touched.phoneNumber && errors.phoneNumber && (
-                    <div className="text-red-500 text-xs">{errors.phoneNumber} hataa</div>
+                    <div className="text-red-500 text-xs">{errors.phoneNumber}</div>
                   )}
                 </div>
               </div>

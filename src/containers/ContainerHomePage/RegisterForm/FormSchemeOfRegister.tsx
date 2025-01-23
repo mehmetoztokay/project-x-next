@@ -25,7 +25,7 @@ export const FormSchemeOfRegister = Yup.object().shape({
     phoneNumber: Yup.string()
         .test(
             "is-valid-phone",
-            "It's not a valid phone number",
+            "It's not valid",
             (value) => {
                 if (value) {
                     return isValidPhoneNumber(value);

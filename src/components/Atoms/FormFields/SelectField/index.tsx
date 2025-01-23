@@ -25,7 +25,7 @@ const CustomControl = ({
     <components.Control
       {...props}
       className={combineClass(
-        "flex items-center !outline-0 !shadow-none !stroke-none border !border-gray-200 !focus-within:border-gray-500 rounded-md p-[.375rem] px-[.07rem] text-gray-900 w-full max-w-full overflow-auto",
+        "flex items-center !outline-0 !shadow-none !stroke-none border !border-gray-200 !focus-within:border-gray-500 rounded-md p-[.638rem] lg:p-[.375rem] px-[.07rem] text-gray-900 w-full max-w-full overflow-auto",
         { "!border-blue-500": props.menuIsOpen }
       )}
     >
@@ -92,7 +92,7 @@ const CustomOption = ({
 
 const CustomIndicatorsContainer = (props: IndicatorsContainerProps) => {
   return (
-    <div className="absolute right-1.5 flex items-center justify-center">
+    <div className="absolute lg:right-1.5 right-0 flex items-center justify-center">
       <components.IndicatorsContainer {...props} />
     </div>
   );
@@ -100,7 +100,7 @@ const CustomIndicatorsContainer = (props: IndicatorsContainerProps) => {
 
 const CustomDropdownIndicator = ({ removeDropdownIndicatorIsFocused, ...props }: { removeDropdownIndicatorIsFocused: boolean } & DropdownIndicatorProps<any>) => {
   return (
-    <div className={combineClass("", { hidden: props.isFocused && removeDropdownIndicatorIsFocused })}>
+    <div className={combineClass("", { hidden: (props.isFocused && removeDropdownIndicatorIsFocused) })}>
       <components.DropdownIndicator {...props}>{props.children}</components.DropdownIndicator>
     </div>
   );
