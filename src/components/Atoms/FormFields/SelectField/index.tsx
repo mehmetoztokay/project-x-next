@@ -2,11 +2,12 @@
 import dynamic from "next/dynamic";
 
 // TODO: Gec geliyor
-const Select = dynamic(() => import("react-select"), { ssr: false });
+const Select = dynamic(() => import("react-select"), {ssr: false});
 
-import { combineClass } from "@/helpers/development/combineClass";
-import { components, ControlProps, DropdownIndicatorProps, IndicatorsContainerProps, MenuProps, NoticeProps, OptionProps, PlaceholderProps, Props } from "react-select";
-import { useField } from "formik";
+import {combineClass} from "@/helpers/development/combineClass";
+import {components, ControlProps, DropdownIndicatorProps, IndicatorsContainerProps, MenuProps, NoticeProps, OptionProps, PlaceholderProps, Props} from "react-select";
+import {useField} from "formik";
+import {normalizeText} from "@/helpers/normalizeText";
 
 const CustomControl = ({
   showIconOnControl,
@@ -19,21 +20,21 @@ const CustomControl = ({
   hiddenIconOnControlForMobile?: boolean;
 } & ControlProps) => {
   const selectedValue = props.getValue();
-  const { icon, label, shortLabel }: any = selectedValue?.[0] || {};
+  const {icon, label, shortLabel}: any = selectedValue?.[0] || {};
 
   return (
     <components.Control
       {...props}
       className={combineClass(
         "flex items-center !outline-0 !shadow-none !stroke-none border !border-gray-200 !focus-within:border-gray-500 rounded-md p-[.638rem] lg:p-[.375rem] px-[.07rem] text-gray-900 w-full max-w-full overflow-auto",
-        { "!border-blue-500": props.menuIsOpen }
+        {"!border-blue-500": props.menuIsOpen}
       )}
     >
       {showIconOnControl && icon && (
         <img
           src={icon}
           alt={label}
-          className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm relative left-1 -mr-1", { "lg:inline-block hidden": hiddenIconOnControlForMobile, "!hidden": props.menuIsOpen })}
+          className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm relative left-1 -mr-1", {"lg:inline-block hidden": hiddenIconOnControlForMobile, "!hidden": props.menuIsOpen})}
         />
       )}
 
@@ -42,7 +43,7 @@ const CustomControl = ({
   );
 };
 
-const CustomMenu = ({ menuClasses, ...props }: { menuClasses?: string } & MenuProps) => {
+const CustomMenu = ({menuClasses, ...props}: {menuClasses?: string} & MenuProps) => {
   return <components.Menu {...props} className={combineClass("border outline-0 !shadow-none stroke-none border-gray-200 rounded-lg p-2 !mt-1", menuClasses, {})} />;
 };
 
@@ -80,10 +81,10 @@ const CustomOption = ({
     <div
       ref={innerRef}
       {...innerProps}
-      className={combineClass("flex items-center gap-2 lg:px-3 px-2 py-2 cursor-pointer rounded text-sm my-1", { "bg-blue-100": isFocused, "bg-blue-500 text-white": isSelected })}
+      className={combineClass("flex items-center gap-2 lg:px-3 px-2 py-2 cursor-pointer rounded text-sm my-1", {"bg-blue-100": isFocused, "bg-blue-500 text-white": isSelected})}
     >
       {showIconOnOptions && data.icon && (
-        <img src={data.icon} alt={data.label} className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm", { "lg:inline-block hidden": hiddenIconOpOptionsForMobile })} />
+        <img src={data.icon} alt={data.label} className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm", {"lg:inline-block hidden": hiddenIconOpOptionsForMobile})} />
       )}
       <span>{showShortLabelOnOptions && data.shortLabel ? data.shortLabel : data.label}</span>
     </div>
@@ -98,9 +99,9 @@ const CustomIndicatorsContainer = (props: IndicatorsContainerProps) => {
   );
 };
 
-const CustomDropdownIndicator = ({ removeDropdownIndicatorIsFocused, ...props }: { removeDropdownIndicatorIsFocused: boolean } & DropdownIndicatorProps<any>) => {
+const CustomDropdownIndicator = ({removeDropdownIndicatorIsFocused, ...props}: {removeDropdownIndicatorIsFocused: boolean} & DropdownIndicatorProps<any>) => {
   return (
-    <div className={combineClass("", { hidden: (props.isFocused && removeDropdownIndicatorIsFocused) })}>
+    <div className={combineClass("", {hidden: props.isFocused && removeDropdownIndicatorIsFocused})}>
       <components.DropdownIndicator {...props}>{props.children}</components.DropdownIndicator>
     </div>
   );
@@ -143,15 +144,21 @@ export const SelectField = ({
         closeMenuOnSelect={true}
         isClearable={true}
         filterOption={(option: any, inputValue: any) => {
-          const { label, shortLabel, value, ...otherProps } = option.data;
-          const searchText = inputValue.toLowerCase();
+          const {label, shortLabel, value, ...otherProps} = option.data;
+          const searchText = normalizeText(inputValue);
+
+          // Normalize all values for comparison
+          const normalizedLabel = normalizeText(label);
+          const normalizedShortLabel = normalizeText(shortLabel);
+          const normalizedValue = normalizeText(value);
+
           // Search all values
           return (
-            label.toLowerCase().includes(searchText) ||
-            shortLabel.toLowerCase().includes(searchText) ||
-            value.toLowerCase().includes(searchText) ||
+            normalizedLabel.includes(searchText) ||
+            normalizedShortLabel.includes(searchText) ||
+            normalizedValue.includes(searchText) ||
             // Excludes the "icon" property and checks if any other property in otherProps matches the search text.
-            (!Object.keys(otherProps).includes("icon") && Object.values(otherProps).some((prop) => prop?.toString().toLowerCase().includes(searchText)))
+            (!Object.keys(otherProps).includes("icon") && Object.values(otherProps).some((prop: any) => normalizeText(prop?.toString()).includes(searchText)))
           );
         }}
         getOptionLabel={(option: any) => `${showShortLabelOnControl ? option.shortLabel : option.label}`}
