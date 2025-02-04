@@ -13,7 +13,11 @@ import {getAllCountries} from "@/helpers/getAllCountries";
 import PhoneInput from "react-phone-number-input";
 
 export const RegisterForm = () => {
-  const countriesData = getAllCountries("tr");
+  const [countriesData, setCountriesData] = useState<any>(null);
+
+  useEffect(() => {
+    setCountriesData(getAllCountries("tr"));
+  }, []);
   const phoneNumberRef = useRef<HTMLDivElement | null>(null);
 
   return (
@@ -58,11 +62,12 @@ export const RegisterForm = () => {
                       onChange={(option: any) => {
                         setFieldValue("selectCountryCode", option);
                         setFieldValue("phoneNumber", option.shortLabel);
-                        setErrors({...errors, phoneCode: undefined}); // Clear error message on blur
                         (phoneNumberRef.current?.firstElementChild?.firstElementChild as HTMLInputElement)?.focus();
+                        setErrors({...errors, phoneCode: undefined});
                       }}
                       onBlur={() => {
                         setFieldTouched("selectCountryCode");
+                        setErrors({...errors, phoneCode: undefined});
                       }}
                       placeholderText="Code"
                       options={countriesData}
@@ -70,8 +75,8 @@ export const RegisterForm = () => {
                       // showIconOnControl
                       showOnlyIconOnControl
                       showIconOnOptions
-                      hiddenIconOnControlForMobile
-                      showShortLabelOnControl
+                      // hiddenIconOnControlForMobile
+                      // showShortLabelOnControl
                       // removeDropdownIndicatorIsFocused
                     />
                   </div>
@@ -91,14 +96,14 @@ export const RegisterForm = () => {
                       onCountryChange={(country: any) => {
                         setFieldValue(
                           "selectCountryCode",
-                          countriesData.find((o) => o.value.toLowerCase() == country?.toLowerCase())
+                          countriesData?.find((o: any) => o.value.toLowerCase() == country?.toLowerCase())
                         );
                       }}
+                      // FIXME should be show placeholder message
                       placeholder="sea"
                       value={values.phoneNumber}
                       onChange={(value: Value) => {
                         setFieldValue("phoneNumber", value);
-                        console.log(value);
                       }}
                       onBlur={() => {
                         setFieldTouched("phoneNumber");

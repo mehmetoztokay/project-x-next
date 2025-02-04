@@ -32,12 +32,16 @@ const CustomControl = ({
         {"!border-blue-500": props.menuIsOpen}
       )}
     >
-      {(showIconOnControl || showOnlyIconOnControl) && icon && (
+      {(showIconOnControl || showOnlyIconOnControl) && icon && !props.isFocused && !props.menuIsOpen && (
         <img
           loading="lazy"
           src={icon}
           alt={label}
-          className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm relative left-1 -mr-2", {"lg:inline-block hidden": hiddenIconOnControlForMobile, "!hidden": props.menuIsOpen})}
+          onClick={() => console.log("sela")}
+          className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm relative left-1 -mr-2", {
+            "lg:inline-block hidden": hiddenIconOnControlForMobile,
+            "!hidden": props.menuIsOpen,
+          })}
         />
       )}
       {props.children}
@@ -52,7 +56,7 @@ const CustomMenu = ({menuClasses, ...props}: {menuClasses?: string} & MenuProps)
 const CustomPlaceholder = (props: PlaceholderProps) => {
   return (
     <components.Placeholder {...props} className="!text-gray-900 !-ml-1">
-      {props.children}
+      {!props.isFocused && props.children}
     </components.Placeholder>
   );
 };
