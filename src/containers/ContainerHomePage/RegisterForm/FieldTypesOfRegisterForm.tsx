@@ -4,7 +4,6 @@ export interface FieldTypesOfRegisterForm {
   email: string;
   countryCode: string;
   phoneNumber: string;
-  phoneCode: string;
   password: string;
   selectCountryCode: TypeSelectCountryCode | "";
   checkbox1: boolean;

@@ -16,12 +16,11 @@ export const RegisterForm = () => {
   const [countriesData, setCountriesData] = useState<any>(null);
 
   useEffect(() => {
-    setCountriesData(getAllCountries("tr"));
+    setCountriesData(getAllCountries("en"));
   }, []);
-  const phoneNumberRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <div className="max-w-[340px] mx-auto p-5 py-4 rounded-md bg-white shadow-2xl">
+    <div className="max-w-[350px] mx-auto p-5 py-4 rounded-md bg-white shadow-2xl">
       <h1 className="text-2xl font-bold">Register</h1>
       <p className="mb-8 font-light">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
       <Formik
@@ -32,7 +31,6 @@ export const RegisterForm = () => {
           email: "",
           countryCode: "",
           phoneNumber: "",
-          phoneCode: "",
           password: "",
           selectCountryCode: "",
           checkbox1: false,
@@ -54,7 +52,7 @@ export const RegisterForm = () => {
                 <InputField label="E mail" name="email" type="text" innerFloatLabel={true} />
 
                 <div className={combineClass("grid grid-cols-12 gap-1 relative", {})}>
-                  <div className="lg:col-span-3 col-span-5">
+                  <div className="col-span-3">
                     <SelectField
                       isClearable={false}
                       name="selectCountryCode"
@@ -62,16 +60,14 @@ export const RegisterForm = () => {
                       onChange={(option: any) => {
                         setFieldValue("selectCountryCode", option);
                         setFieldValue("phoneNumber", option.shortLabel);
-                        (phoneNumberRef.current?.firstElementChild?.firstElementChild as HTMLInputElement)?.focus();
-                        setErrors({...errors, phoneCode: undefined});
+                        document.dispatchEvent(new KeyboardEvent("keydown", {key: "Tab"}));
                       }}
                       onBlur={() => {
                         setFieldTouched("selectCountryCode");
-                        setErrors({...errors, phoneCode: undefined});
                       }}
                       placeholderText="Code"
                       options={countriesData}
-                      className="text-xs lg:text-base !static h-100"
+                      className="text-base !static h-100"
                       // showIconOnControl
                       showOnlyIconOnControl
                       showIconOnOptions
@@ -80,8 +76,9 @@ export const RegisterForm = () => {
                       // removeDropdownIndicatorIsFocused
                     />
                   </div>
-                  <div className="lg:col-span-9 col-span-7" ref={phoneNumberRef}>
+                  <div className="col-span-9">
                     <PhoneInput
+                      focusInputOnCountrySelection
                       // withCountryCallingCode
                       // international
                       className={combineClass(

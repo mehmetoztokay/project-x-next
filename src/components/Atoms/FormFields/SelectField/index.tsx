@@ -28,19 +28,19 @@ const CustomControl = ({
     <components.Control
       {...props}
       className={combineClass(
-        "flex items-center !outline-0 !shadow-none !stroke-none border !border-gray-200 !focus-within:border-gray-500 rounded-md p-[.638rem] lg:p-[.375rem] px-[.07rem] text-gray-900 w-full max-w-full overflow-auto",
+        "flex items-center !outline-0 !shadow-none !stroke-none border !border-gray-200 !focus-within:border-gray-500 rounded-md p-[.375rem] px-[.07rem] text-gray-900 w-full max-w-full overflow-auto",
         {"!border-blue-500": props.menuIsOpen}
       )}
     >
-      {(showIconOnControl || showOnlyIconOnControl) && icon && !props.isFocused && !props.menuIsOpen && (
+      {(showIconOnControl || showOnlyIconOnControl) && icon && !props.menuIsOpen && (
         <img
-          loading="lazy"
           src={icon}
           alt={label}
           onClick={() => console.log("sela")}
-          className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm relative left-1 -mr-2", {
+          className={combineClass("w-6 h-4 rounded-sm relative left-1 -mr-2", {
             "lg:inline-block hidden": hiddenIconOnControlForMobile,
             "!hidden": props.menuIsOpen,
+            "left-2": showOnlyIconOnControl,
           })}
         />
       )}
@@ -90,7 +90,7 @@ const CustomOption = ({
       className={combineClass("flex items-center gap-2 lg:px-3 px-2 py-2 cursor-pointer rounded text-sm my-1", {"bg-blue-100": isFocused, "bg-blue-500 text-white": isSelected})}
     >
       {showIconOnOptions && data.icon && (
-        <img src={data.icon} alt={data.label} className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm", {"lg:inline-block hidden": hiddenIconOpOptionsForMobile})} />
+        <img loading="lazy" src={data.icon} alt={data.label} className={combineClass("w-6 h-4 rounded-sm", {"lg:inline-block hidden": hiddenIconOpOptionsForMobile})} />
       )}
       <span>{showShortLabelOnOptions && data.shortLabel ? data.shortLabel : data.label}</span>
     </div>
