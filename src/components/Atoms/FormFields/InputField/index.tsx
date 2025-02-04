@@ -43,7 +43,12 @@ export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text
           className={combineClass(
             "peer w-full border placeholder-transparent border-gray-200 rounded-md py-3 px-3 focus:outline-none focus:text-gray-900 focus:border-blue-500 placeholder-shown:bg-slate-700",
             className,
-            {"!text-gray-900": field.value > 0, "border-red-500": meta.touched && meta.error, "pr-12": type == "password"}
+            {
+              "!text-gray-900": field.value > 0,
+              "border-red-500": meta.touched && meta.error,
+              "pr-12": type == "password",
+              "focus:pt-4 focus:pb-2 pt-4 pb-2": innerFloatLabel || field.value > 0,
+            }
           )}
           style={{backgroundColor: inputBg && inputBg}}
           {...field}
@@ -56,8 +61,8 @@ export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text
             "peer-focus:bg-white peer-focus:text-xs peer-focus:-translate-y-8 px-1 ml-1": !innerFloatLabel,
 
             // If Inner Label
-            "-translate-y-[23px] text-[10px]": field.value && innerFloatLabel,
-            "peer-focus:-translate-y-[23px] peer-focus:text-[10px]": innerFloatLabel,
+            "-translate-y-[20px] text-[10px]": field.value && innerFloatLabel,
+            "peer-focus:-translate-y-[20px] peer-focus:text-[10px]": innerFloatLabel,
           })}
           style={{backgroundColor: inputBg && (field.value || focused) && !innerFloatLabel && inputBg}}
         >

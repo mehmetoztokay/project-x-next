@@ -11,12 +11,14 @@ import {normalizeText} from "@/helpers/normalizeText";
 
 const CustomControl = ({
   showIconOnControl,
+  showOnlyIconOnControl,
   hiddenIconOnControlForMobile,
   showShortLabelOnMobile,
   ...props
 }: {
   showShortLabelOnMobile?: boolean;
   showIconOnControl?: boolean;
+  showOnlyIconOnControl?: boolean;
   hiddenIconOnControlForMobile?: boolean;
 } & ControlProps) => {
   const selectedValue = props.getValue();
@@ -30,14 +32,14 @@ const CustomControl = ({
         {"!border-blue-500": props.menuIsOpen}
       )}
     >
-      {showIconOnControl && icon && (
+      {(showIconOnControl || showOnlyIconOnControl) && icon && (
         <img
+          loading="lazy"
           src={icon}
           alt={label}
-          className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm relative left-1 -mr-1", {"lg:inline-block hidden": hiddenIconOnControlForMobile, "!hidden": props.menuIsOpen})}
+          className={combineClass("lg:w-6 lg:h-4 w-4 h-3 rounded-sm relative left-1 -mr-2", {"lg:inline-block hidden": hiddenIconOnControlForMobile, "!hidden": props.menuIsOpen})}
         />
       )}
-
       {props.children}
     </components.Control>
   );
@@ -49,7 +51,7 @@ const CustomMenu = ({menuClasses, ...props}: {menuClasses?: string} & MenuProps)
 
 const CustomPlaceholder = (props: PlaceholderProps) => {
   return (
-    <components.Placeholder {...props} className="!text-gray-900">
+    <components.Placeholder {...props} className="!text-gray-900 !-ml-1">
       {props.children}
     </components.Placeholder>
   );
@@ -93,7 +95,7 @@ const CustomOption = ({
 
 const CustomIndicatorsContainer = (props: IndicatorsContainerProps) => {
   return (
-    <div className="absolute lg:right-1.5 right-0 flex items-center justify-center">
+    <div className="absolute lg:right-0 right-0 flex items-center justify-center pointer-events-none">
       <components.IndicatorsContainer {...props} />
     </div>
   );
@@ -116,6 +118,7 @@ export const SelectField = ({
   showShortLabelOnControl = false,
   showShortLabelOnOptions = false,
   showIconOnControl = false,
+  showOnlyIconOnControl = false,
   hiddenIconOnControlForMobile = false,
   showIconOnOptions = false,
   hiddenIconOpOptionsForMobile = false,
@@ -130,6 +133,7 @@ export const SelectField = ({
   showShortLabelOnControl?: boolean;
   showShortLabelOnOptions?: boolean;
   showIconOnControl?: boolean;
+  showOnlyIconOnControl?: boolean;
   hiddenIconOnControlForMobile?: boolean;
   showIconOnOptions?: boolean;
   hiddenIconOpOptionsForMobile?: boolean;
@@ -161,12 +165,19 @@ export const SelectField = ({
             (!Object.keys(otherProps).includes("icon") && Object.values(otherProps).some((prop: any) => normalizeText(prop?.toString()).includes(searchText)))
           );
         }}
-        getOptionLabel={(option: any) => `${showShortLabelOnControl ? option.shortLabel : option.label}`}
+        getOptionLabel={(option: any) => (showOnlyIconOnControl ? "" : showShortLabelOnControl ? option.shortLabel : option.label)}
         components={{
           IndicatorSeparator: () => null,
           IndicatorsContainer: CustomIndicatorsContainer,
           DropdownIndicator: (dropdownProps) => <CustomDropdownIndicator {...dropdownProps} removeDropdownIndicatorIsFocused={removeDropdownIndicatorIsFocused} />,
-          Control: (controlProps) => <CustomControl {...controlProps} showIconOnControl={showIconOnControl} hiddenIconOnControlForMobile={hiddenIconOnControlForMobile} />,
+          Control: (controlProps) => (
+            <CustomControl
+              {...controlProps}
+              showIconOnControl={showIconOnControl}
+              hiddenIconOnControlForMobile={hiddenIconOnControlForMobile}
+              showOnlyIconOnControl={showOnlyIconOnControl}
+            />
+          ),
           Menu: (menuProps) => <CustomMenu {...menuProps} menuClasses={menuClasses} />,
           Option: (optionProps) => (
             <CustomOption

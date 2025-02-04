@@ -1,9 +1,9 @@
-import { Button } from "@/components/Atoms/Button";
-import { Link } from "@/i18n/routing";
+import {Button} from "@/components/Atoms/Button";
+import {Link} from "@/i18n/routing";
 import React from "react";
-import { RegisterForm } from "./RegisterForm";
+import {RegisterForm} from "./RegisterForm";
 
-export const HomePageContainer = ({ t, locale }: any) => {
+export const HomePageContainer = ({t, locale}: any) => {
   return (
     <>
       <div className="container mx-auto">
