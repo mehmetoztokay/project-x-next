@@ -60,7 +60,6 @@ export const RegisterForm = () => {
                       onChange={(option: any) => {
                         setFieldValue("selectCountryCode", option);
                         setFieldValue("phoneNumber", option.shortLabel);
-                        document.dispatchEvent(new KeyboardEvent("keydown", {key: "Tab"}));
                       }}
                       onBlur={() => {
                         setFieldTouched("selectCountryCode");
