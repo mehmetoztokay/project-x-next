@@ -1,4 +1,4 @@
-import {isValidPhoneNumber} from "react-phone-number-input";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import * as Yup from "yup";
 
 export const FormSchemeOfRegister = Yup.object().shape({
@@ -18,7 +18,7 @@ export const FormSchemeOfRegister = Yup.object().shape({
     .required("zorunlu alan")
     .email("duzgun gir maili")
     .matches(/^[^A-Z]*$/, "sadece kucuk harf"),
-  selectCountryCode: Yup.object().required("Error"),
+  countryCode: Yup.object().required("Error"),
   checkbox1: Yup.boolean().oneOf([true], "This field is required. Please tick the checkbox to continue."),
   checkbox2: Yup.boolean(),
   phoneNumber: Yup.string().test("is-valid-phone", "It's not valid", (value) => {

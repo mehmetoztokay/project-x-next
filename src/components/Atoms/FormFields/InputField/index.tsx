@@ -1,16 +1,16 @@
-import {combineClass} from "@/helpers/development/combineClass";
-import {useField} from "formik";
-import React, {useEffect, useRef, useState} from "react";
+import { combineClass } from "@/helpers/development/combineClass";
+import { useField } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   name: string;
   className?: string;
-  innerFloatLabel?: boolean;
   inputBg?: string | undefined;
 };
 
-export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text", innerFloatLabel = false, className = "", name, label, id, inputBg = undefined, ...props}) => {
+export const InputField: React.FC<InputProps> = ({ placeholder = "", type = "text", className = "", name, label, id, inputBg = undefined, ...props }) => {
   const [fieldType, setFieldType] = useState(type);
   const [field, meta] = useField(name);
   const [focused, setFocused] = useState(false);
@@ -47,24 +47,19 @@ export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text
               "!text-gray-900": field.value > 0,
               "border-red-500": meta.touched && meta.error,
               "pr-12": type == "password",
-              "focus:pt-4 focus:pb-2 pt-4 pb-2": innerFloatLabel || field.value > 0,
+              "focus:pt-4 focus:pb-2 pt-4 pb-2": field.value.toString().length > 0,
             }
           )}
-          style={{backgroundColor: inputBg && inputBg}}
+          style={{ backgroundColor: inputBg && inputBg }}
           {...field}
           {...props}
         />
         <label
           htmlFor={id || name}
-          className={combineClass("absolute left-1 px-2 transform -translate-y-1/2 top-1/2 duration-200 ease-in-out peer-focus:text-blue-500 pointer-events-none", {
-            "-translate-y-8 text-xs bg-white ml-1 px-1": field.value && !innerFloatLabel,
-            "peer-focus:bg-white peer-focus:text-xs peer-focus:-translate-y-8 px-1 ml-1": !innerFloatLabel,
-
-            // If Inner Label
-            "-translate-y-[20px] text-[10px]": field.value && innerFloatLabel,
-            "peer-focus:-translate-y-[20px] peer-focus:text-[10px]": innerFloatLabel,
+          className={combineClass("absolute left-1 px-2 transform -translate-y-1/2 top-1/2 duration-200 ease-in-out peer-focus:text-blue-500 pointer-events-none peer-focus:-translate-y-[20px] peer-focus:text-[10px]", {
+            "-translate-y-[20px] text-[10px]": field.value,
           })}
-          style={{backgroundColor: inputBg && (field.value || focused) && !innerFloatLabel && inputBg}}
+          style={{ backgroundColor: inputBg && (field.value || focused) && inputBg }}
         >
           {label}
         </label>
@@ -77,7 +72,7 @@ export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text
               <div
                 className={combineClass(
                   "absolute inset-0 after:absolute after:content-[''] after:bg-gray-300 after:h-[2px] after:w-full after:top-1/2 after:transform after:-translate-y-1/2 after:scale-x-0 after:origin-center after:transition-all after:duration-500 after:ease-in-out transform rotate-45 after:right-[1px] after:rounded-md",
-                  {"after:scale-x-100": fieldType != "text"}
+                  { "after:scale-x-100": fieldType != "text" }
                 )}
               ></div>
             </div>

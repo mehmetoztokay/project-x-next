@@ -2,10 +2,9 @@ export interface FieldTypesOfRegisterForm {
   firstName: string;
   lastName: string;
   email: string;
-  countryCode: string;
   phoneNumber: string;
   password: string;
-  selectCountryCode: TypeSelectCountryCode | "";
+  countryCode: TypeSelectCountryCode | "";
   checkbox1: boolean;
   checkbox2: boolean;
 }
