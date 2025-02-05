@@ -1,17 +1,17 @@
 "use client";
-import {CheckboxField} from "@/components/Atoms/FormFields/CheckboxField";
-import {InputField} from "@/components/Atoms/FormFields/InputField";
-import {SelectField} from "@/components/Atoms/FormFields/SelectField";
-import {combineClass} from "@/helpers/development/combineClass";
-import {Formik, Field, Form, FormikHelpers, useFormik} from "formik";
-import {useEffect, useRef, useState} from "react";
+import { CheckboxField } from "@/components/Atoms/FormFields/CheckboxField";
+import { InputField } from "@/components/Atoms/FormFields/InputField";
+import { SelectField } from "@/components/Atoms/FormFields/SelectField";
+import { combineClass } from "@/helpers/development/combineClass";
+import { Formik, Field, Form, FormikHelpers, useFormik } from "formik";
+import { useEffect, useRef, useState } from "react";
 
-import Input, {Value} from "react-phone-number-input/input";
-import {FieldTypesOfRegisterForm} from "./FieldTypesOfRegisterForm";
-import {FormSchemeOfRegister} from "./FormSchemeOfRegister";
-import {getAllCountries} from "@/helpers/getAllCountries";
+import Input, { Value } from "react-phone-number-input/input";
+import { FieldTypesOfRegisterForm, RegisterUserData } from "./FieldTypesOfRegisterForm";
+import { FormSchemeOfRegister } from "./FormSchemeOfRegister";
+import { getAllCountries } from "@/helpers/getAllCountries";
 import PhoneInput from "react-phone-number-input";
-
+import ApiService from "./ApiService";
 export const RegisterForm = () => {
   const [countriesData, setCountriesData] = useState<any>(null);
 
@@ -30,20 +30,31 @@ export const RegisterForm = () => {
           lastName: "",
           email: "",
           countryCode: "",
-          phoneNumber: "",
+          phone: "",
+          phoneCode: "",
           password: "",
           selectCountryCode: "",
+          refcode: "",
+          siteId: "",
           checkbox1: false,
           checkbox2: false,
         }}
-        onSubmit={(values: FieldTypesOfRegisterForm, {setSubmitting}: FormikHelpers<FieldTypesOfRegisterForm>) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
+        onSubmit={async (values: RegisterUserData, { setSubmitting }) => {
+          try {
+            const response = await ApiService.registerUser(values);
+            alert("Registration successful: " + JSON.stringify(response, null, 2));
+          } catch (error) {
+            if (error instanceof Error) {
+              alert("There was a problem with the registration: " + error.message);
+            } else {
+              alert("There was a problem with the registration.");
+            }
+          } finally {
             setSubmitting(false);
-          }, 500);
+          }
         }}
       >
-        {({values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors}) => {
+        {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors }) => {
           return (
             <>
               <Form className="grid gap-3">
@@ -59,7 +70,7 @@ export const RegisterForm = () => {
                       value={values.selectCountryCode}
                       onChange={(option: any) => {
                         setFieldValue("selectCountryCode", option);
-                        setFieldValue("phoneNumber", option.shortLabel);
+                        setFieldValue("phoneCode", option.shortLabel);
                       }}
                       onBlur={() => {
                         setFieldTouched("selectCountryCode");
@@ -71,7 +82,7 @@ export const RegisterForm = () => {
                       showOnlyIconOnControl
                       showIconOnOptions
                       // hiddenIconOnControlForMobile
-                      // showShortLabelOnControl
+                      // showShortLabelOnControl 
                       // removeDropdownIndicatorIsFocused
                     />
                   </div>
@@ -83,8 +94,8 @@ export const RegisterForm = () => {
                       className={combineClass(
                         "peer [&>input]:w-full [&>input]:border [&>input]:placeholder-transparent [&>input]:border-gray-200 [&>input]:rounded-md [&>input]:outline-none focus:text-gray-900 [&>input]:focus:border-red-500 [&>input]:py-3 [&>input]:px-2 p-0",
                         {
-                          "!text-gray-900": values.phoneNumber?.length > 0, // Update class based on phone number presence
-                          "border-red-500": touched.phoneNumber && errors.phoneNumber, // Update class for error
+                          "!text-gray-900": values.phone?.length > 0, // Update class based on phone number presence
+                          "border-red-500": touched.phone && errors.phone, // Update class for error
                         }
                       )}
                       countrySelectComponent={() => null}
@@ -97,21 +108,21 @@ export const RegisterForm = () => {
                       }}
                       // FIXME should be show placeholder message
                       placeholder="sea"
-                      value={values.phoneNumber}
+                      value={values.phone}
                       onChange={(value: Value) => {
-                        setFieldValue("phoneNumber", value);
+                        setFieldValue("phone", value);
                       }}
                       onBlur={() => {
-                        setFieldTouched("phoneNumber");
-                        // setErrors({...errors, phoneNumber: undefined}); // Clear error message on blur
+                        setFieldTouched("phone");
+                        // setErrors({...errors, phone: undefined}); // Clear error message on blur
                       }}
                     />
-                    {touched.phoneNumber && errors.phoneNumber && <div className="text-red-500 text-xs">{errors.phoneNumber}</div>}
+                    {touched.phone && errors.phone && <div className="text-red-500 text-xs">{errors.phone}</div>}
                   </div>
                 </div>
 
                 <InputField label="Password" name="password" type="password" checked={values.checkbox1} innerFloatLabel={false} />
-
+                <InputField label="refcode" name="refcode" type="text" innerFloatLabel={true} />
                 <CheckboxField name="checkbox1">
                   You need to enable JavaScript to run this app. You need to enable JavaScript to run this app.
                   <a target="_blank" href="https://www.trive.com" className="text-blue-500 underline">
