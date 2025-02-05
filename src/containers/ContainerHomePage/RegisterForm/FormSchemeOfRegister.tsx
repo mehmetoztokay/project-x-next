@@ -21,7 +21,7 @@ export const FormSchemeOfRegister = Yup.object().shape({
   countryCode: Yup.object().required("Error"),
   checkbox1: Yup.boolean().oneOf([true], "This field is required. Please tick the checkbox to continue."),
   checkbox2: Yup.boolean(),
-  phoneNumber: Yup.string().test("is-valid-phone", "It's not valid", (value) => {
+  phoneNumber: Yup.string().required("zorunlu alan").test("is-valid-phone", "It's not valid", (value) => {
     if (value) {
       return isValidPhoneNumber(value);
     }
