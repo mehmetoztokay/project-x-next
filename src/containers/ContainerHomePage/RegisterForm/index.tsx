@@ -1,20 +1,37 @@
 "use client";
-import { CheckboxField } from "@/components/Atoms/FormFields/CheckboxField";
-import { InputField } from "@/components/Atoms/FormFields/InputField";
-import { SelectField } from "@/components/Atoms/FormFields/SelectField";
-import { combineClass } from "@/helpers/development/combineClass";
-import { Formik, Field, Form, FormikHelpers, useFormik } from "formik";
-import { useEffect, useRef, useState } from "react";
-import { FieldTypesOfRegisterForm } from "./FieldTypesOfRegisterForm";
-import { FormSchemeOfRegister } from "./FormSchemeOfRegister";
-import { getAllCountries } from "@/helpers/getAllCountries";
-import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
+import {CheckboxField} from "@/components/Atoms/FormFields/CheckboxField";
+import {InputField} from "@/components/Atoms/FormFields/InputField";
+import {SelectField} from "@/components/Atoms/FormFields/SelectField";
+import {combineClass} from "@/helpers/development/combineClass";
+import {Formik, Field, Form, FormikHelpers, useFormik} from "formik";
+import {useEffect, useRef, useState} from "react";
+import {CountryFormattedType, CountryType, FieldTypesOfRegisterForm} from "./FieldTypesOfRegisterForm";
+import {FormSchemeOfRegister} from "./FormSchemeOfRegister";
+import {PhoneNumberField} from "@/components/Atoms/FormFields/PhoneNumberField";
+import {getCountryList} from "@/helpers/getCountryList";
 
 export const RegisterForm = () => {
+  const [countryList, setCountryList] = useState<CountryFormattedType[]>([]);
+
   const [countriesData, setCountriesData] = useState<any>(null);
 
   useEffect(() => {
-    setCountriesData(getAllCountries("en"));
+    const fetchCountryList = async () => {
+      const allCountries = (await getCountryList("tr", true)) as CountryType[];
+
+      const formattedCountries = allCountries.map((country) => ({
+        label: country.phoneCountryLabel,
+        value: country.alphaCode,
+        id: country.alphaCode,
+        shortLabel: `+${country.countryCallingCode}`,
+        icon: country.flagUrl,
+        phoneCode: country.countryCallingCode,
+      }));
+
+      setCountryList(formattedCountries);
+    };
+
+    fetchCountryList();
   }, []);
 
   return (
@@ -33,14 +50,14 @@ export const RegisterForm = () => {
           checkbox1: false,
           checkbox2: false,
         }}
-        onSubmit={(values: FieldTypesOfRegisterForm, { setSubmitting }: FormikHelpers<FieldTypesOfRegisterForm>) => {
+        onSubmit={(values: FieldTypesOfRegisterForm, {setSubmitting}: FormikHelpers<FieldTypesOfRegisterForm>) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
           }, 500);
         }}
       >
-        {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors }) => {
+        {({values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors}) => {
           return (
             <>
               <Form className="grid gap-3">
@@ -57,30 +74,31 @@ export const RegisterForm = () => {
                       onChange={(option: any) => {
                         setFieldValue("countryCode", option);
                         setFieldValue("phoneNumber", option.shortLabel);
-                        values.countryCode && setErrors({ ...errors, countryCode: undefined });
+                        values.countryCode && setErrors({...errors, countryCode: undefined});
                       }}
                       onBlur={() => {
                         setFieldTouched("countryCode");
                       }}
                       placeholderText="Code"
-                      options={countriesData}
+                      options={countryList}
                       className="text-base !static h-100"
                       // showIconOnControl
                       showOnlyIconOnControl
                       showIconOnOptions
-                    // hiddenIconOnControlForMobile
-                    // showShortLabelOnControl
-                    // removeDropdownIndicatorIsFocused
+                      // hiddenIconOnControlForMobile
+                      // showShortLabelOnControl
+                      // removeDropdownIndicatorIsFocused
                     />
                   </div>
                   <div className="col-span-9">
-                    <PhoneNumberField label="Phone Number" name="phoneNumber" onCountryChange={(country: any) => {
-                      const foundCountry = countriesData?.find((o: any) => o.value.toLowerCase() == country?.toLowerCase())
-                      setFieldValue(
-                        "countryCode",
-                        foundCountry
-                      );
-                    }} />
+                    <PhoneNumberField
+                      label="Phone Number"
+                      name="phoneNumber"
+                      onCountryChange={(country: any) => {
+                        const foundCountry = countriesData?.find((o: any) => o.value.toLowerCase() == country?.toLowerCase());
+                        setFieldValue("countryCode", foundCountry);
+                      }}
+                    />
                   </div>
                 </div>
 
