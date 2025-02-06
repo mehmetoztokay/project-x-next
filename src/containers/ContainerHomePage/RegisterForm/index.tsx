@@ -9,14 +9,19 @@ import {CountryFormattedType, CountryType, FieldTypesOfRegisterForm} from "./Fie
 import {FormSchemeOfRegister} from "./FormSchemeOfRegister";
 import {PhoneNumberField} from "@/components/Atoms/FormFields/PhoneNumberField";
 import {getCountryList} from "@/helpers/getCountryList";
+import {useSearchParams} from "next/navigation";
 
 export const RegisterForm = () => {
   const [countryList, setCountryList] = useState<CountryFormattedType[]>([]);
   const [countryNames, setCountryNames] = useState<any[]>([]);
 
+  const searchParams = useSearchParams();
+
+  const lang = searchParams.get("lang");
+
   useEffect(() => {
     const fetchCountryList = async () => {
-      const allCountries = (await getCountryList("tr", true)) as CountryType[];
+      const allCountries = (await getCountryList(lang || "en", true)) as CountryType[];
 
       const formattedCountries = allCountries.map((country) => ({
         label: country.phoneCountryLabel,
