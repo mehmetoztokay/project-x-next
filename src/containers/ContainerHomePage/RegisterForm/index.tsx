@@ -13,8 +13,6 @@ import {getCountryList} from "@/helpers/getCountryList";
 export const RegisterForm = () => {
   const [countryList, setCountryList] = useState<CountryFormattedType[]>([]);
 
-  const [countriesData, setCountriesData] = useState<any>(null);
-
   useEffect(() => {
     const fetchCountryList = async () => {
       const allCountries = (await getCountryList("tr", true)) as CountryType[];
@@ -44,9 +42,10 @@ export const RegisterForm = () => {
           firstName: "",
           lastName: "",
           email: "",
+          phoneCode: "",
           phoneNumber: "",
           password: "",
-          countryCode: "",
+          countrySelect: "",
           checkbox1: false,
           checkbox2: false,
         }}
@@ -57,7 +56,7 @@ export const RegisterForm = () => {
           }, 500);
         }}
       >
-        {({values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors}) => {
+        {({values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors, setValues}) => {
           return (
             <>
               <Form className="grid gap-3">
@@ -69,25 +68,27 @@ export const RegisterForm = () => {
                   <div className="col-span-3">
                     <SelectField
                       isClearable={false}
-                      name="countryCode"
-                      value={values.countryCode}
+                      name="countrySelect"
+                      value={values.countrySelect}
                       onChange={(option: any) => {
-                        setFieldValue("countryCode", option);
-                        setFieldValue("phoneNumber", option.shortLabel);
-                        values.countryCode && setErrors({...errors, countryCode: undefined});
+                        // Clear error message of countrySelect
+                        setErrors({...errors, countrySelect: undefined});
+                        setValues({
+                          ...values, // Mevcut form verilerini koru
+                          countrySelect: option, // countrySelect'ı güncelle
+                          phoneNumber: option.shortLabel, // phoneNumber'ı güncelle
+                          phoneCode: option.shortLabel, // phoneCode'u güncelle
+                        });
                       }}
                       onBlur={() => {
-                        setFieldTouched("countryCode");
+                        !touched.countrySelect && setFieldTouched("countrySelect", true);
+                        values.countrySelect && setErrors({...errors, countrySelect: undefined});
                       }}
                       placeholderText="Code"
                       options={countryList}
                       className="text-base !static h-100"
-                      // showIconOnControl
                       showOnlyIconOnControl
                       showIconOnOptions
-                      // hiddenIconOnControlForMobile
-                      // showShortLabelOnControl
-                      // removeDropdownIndicatorIsFocused
                     />
                   </div>
                   <div className="col-span-9">
@@ -95,8 +96,8 @@ export const RegisterForm = () => {
                       label="Phone Number"
                       name="phoneNumber"
                       onCountryChange={(country: any) => {
-                        const foundCountry = countriesData?.find((o: any) => o.value.toLowerCase() == country?.toLowerCase());
-                        setFieldValue("countryCode", foundCountry);
+                        const foundCountry = countryList?.find((c: CountryFormattedType) => c.value.toLowerCase() == country?.toLowerCase());
+                        setFieldValue("countrySelect", foundCountry);
                       }}
                     />
                   </div>

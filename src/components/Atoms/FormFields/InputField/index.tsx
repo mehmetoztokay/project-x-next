@@ -1,7 +1,6 @@
-import { combineClass } from "@/helpers/development/combineClass";
-import { useField } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-
+import {combineClass} from "@/helpers/development/combineClass";
+import {useField} from "formik";
+import React, {useEffect, useRef, useState} from "react";
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label: string;
@@ -10,7 +9,7 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   inputBg?: string | undefined;
 };
 
-export const InputField: React.FC<InputProps> = ({ placeholder = "", type = "text", className = "", name, label, id, inputBg = undefined, ...props }) => {
+export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text", className = "", name, label, id, inputBg = undefined, ...props}) => {
   const [fieldType, setFieldType] = useState(type);
   const [field, meta] = useField(name);
   const [focused, setFocused] = useState(false);
@@ -40,6 +39,7 @@ export const InputField: React.FC<InputProps> = ({ placeholder = "", type = "tex
           ref={inputRef}
           type={fieldType}
           id={id || name}
+          autoComplete=""
           className={combineClass(
             "peer w-full border placeholder-transparent border-gray-200 rounded-md py-3 px-3 focus:outline-none focus:text-gray-900 focus:border-blue-500 placeholder-shown:bg-slate-700",
             className,
@@ -50,16 +50,19 @@ export const InputField: React.FC<InputProps> = ({ placeholder = "", type = "tex
               "focus:pt-4 focus:pb-2 pt-4 pb-2": field.value.toString().length > 0,
             }
           )}
-          style={{ backgroundColor: inputBg && inputBg }}
+          style={{backgroundColor: inputBg && inputBg}}
           {...field}
           {...props}
         />
         <label
           htmlFor={id || name}
-          className={combineClass("absolute left-1 px-2 transform -translate-y-1/2 top-1/2 duration-200 ease-in-out peer-focus:text-blue-500 pointer-events-none peer-focus:-translate-y-[20px] peer-focus:text-[10px]", {
-            "-translate-y-[20px] text-[10px]": field.value,
-          })}
-          style={{ backgroundColor: inputBg && (field.value || focused) && inputBg }}
+          className={combineClass(
+            "absolute left-1 px-2 transform -translate-y-1/2 top-1/2 duration-200 ease-in-out peer-focus:text-blue-500 pointer-events-none peer-focus:-translate-y-[20px] peer-focus:text-[10px]",
+            {
+              "-translate-y-[20px] text-[10px]": field.value,
+            }
+          )}
+          style={{backgroundColor: inputBg && (field.value || focused) && inputBg}}
         >
           {label}
         </label>
@@ -72,7 +75,7 @@ export const InputField: React.FC<InputProps> = ({ placeholder = "", type = "tex
               <div
                 className={combineClass(
                   "absolute inset-0 after:absolute after:content-[''] after:bg-gray-300 after:h-[2px] after:w-full after:top-1/2 after:transform after:-translate-y-1/2 after:scale-x-0 after:origin-center after:transition-all after:duration-500 after:ease-in-out transform rotate-45 after:right-[1px] after:rounded-md",
-                  { "after:scale-x-100": fieldType != "text" }
+                  {"after:scale-x-100": fieldType != "text"}
                 )}
               ></div>
             </div>

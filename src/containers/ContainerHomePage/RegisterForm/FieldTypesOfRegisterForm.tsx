@@ -3,20 +3,12 @@ export interface FieldTypesOfRegisterForm {
   lastName: string;
   email: string;
   phoneNumber: string;
+  phoneCode: string;
   password: string;
-  countryCode: TypeSelectCountryCode | "";
+  countrySelect: CountryFormattedType | "";
   checkbox1: boolean;
   checkbox2: boolean;
 }
-
-export interface TypeSelectCountryCode {
-  id: number;
-  value: string;
-  label: string;
-  shortLabel: string;
-  icon: string;
-}
-
 export interface CountryType {
   phoneCountryLabel: string;
   countryCallingCode: string;
