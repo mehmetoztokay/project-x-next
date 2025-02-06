@@ -22,11 +22,11 @@ export const getCountryList = async (language: string = "en", forMobilePhone: bo
   const countryList = Object.entries(countryListObject)
     .filter(([alphaCode, countryName]) => !excludeCountries.includes(alphaCode))
     .map(([alphaCode, countryName]) => ({
+      alphaCode,
+      countryName,
       phoneCountryLabel: `+${getCountryCallingCode(alphaCode.toLocaleUpperCase() as "TR")} ${countryName}`,
       countryCallingCode: getCountryCallingCode(alphaCode.toLocaleUpperCase() as "TR"),
-      alphaCode,
       flagUrl: `https://flagcdn.com/w320/${alphaCode.toLowerCase()}.png`,
-      countryData: {[alphaCode]: countryName},
     }));
 
   return countryList;

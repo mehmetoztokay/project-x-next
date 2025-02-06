@@ -10,11 +10,11 @@ export interface FieldTypesOfRegisterForm {
   checkbox2: boolean;
 }
 export interface CountryType {
+  alphaCode: string;
+  countryName: string;
   phoneCountryLabel: string;
   countryCallingCode: string;
-  alphaCode: string;
   flagUrl: string;
-  countryData: {[key: string]: string};
 }
 
 export interface CountryFormattedType {

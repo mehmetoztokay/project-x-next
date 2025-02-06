@@ -12,6 +12,7 @@ import {getCountryList} from "@/helpers/getCountryList";
 
 export const RegisterForm = () => {
   const [countryList, setCountryList] = useState<CountryFormattedType[]>([]);
+  const [countryNames, setCountryNames] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchCountryList = async () => {
@@ -26,7 +27,16 @@ export const RegisterForm = () => {
         phoneCode: country.countryCallingCode,
       }));
 
+      const formattedCountryNames = allCountries.map((country) => ({
+        label: country.countryName,
+        value: country.alphaCode,
+        id: country.alphaCode,
+        shortLabel: country.alphaCode,
+        icon: country.flagUrl,
+      }));
+
       setCountryList(formattedCountries);
+      setCountryNames(formattedCountryNames);
     };
 
     fetchCountryList();
@@ -101,6 +111,10 @@ export const RegisterForm = () => {
                       }}
                     />
                   </div>
+                </div>
+
+                <div>
+                  <SelectField options={countryNames} name="test" showIconOnControl showIconOnOptions isClearable={false} />
                 </div>
 
                 <InputField label="Password" name="password" type="password" checked={values.checkbox1} />
