@@ -18,7 +18,7 @@ export const FormSchemeOfRegister = Yup.object().shape({
     .required("zorunlu alan")
     .email("duzgun gir maili")
     .matches(/^[^A-Z]*$/, "sadece kucuk harf"),
-  countrySelect: Yup.object().required("Error"),
+  countryCodeSelect: Yup.object().required("Error"),
   checkbox1: Yup.boolean().oneOf([true], "This field is required. Please tick the checkbox to continue."),
   checkbox2: Yup.boolean(),
   phoneNumber: Yup.string()

@@ -45,7 +45,7 @@ export const RegisterForm = () => {
           phoneCode: "",
           phoneNumber: "",
           password: "",
-          countrySelect: "",
+          countryCodeSelect: "",
           checkbox1: false,
           checkbox2: false,
         }}
@@ -68,21 +68,21 @@ export const RegisterForm = () => {
                   <div className="col-span-3">
                     <SelectField
                       isClearable={false}
-                      name="countrySelect"
-                      value={values.countrySelect}
+                      name="countryCodeSelect"
+                      value={values.countryCodeSelect}
                       onChange={(option: any) => {
-                        // Clear error message of countrySelect
-                        setErrors({...errors, countrySelect: undefined});
+                        // Clear error message of countryCodeSelect
+                        setErrors({...errors, countryCodeSelect: undefined});
                         setValues({
                           ...values, // Mevcut form verilerini koru
-                          countrySelect: option, // countrySelect'ı güncelle
+                          countryCodeSelect: option, // countryCodeSelect'ı güncelle
                           phoneNumber: option.shortLabel, // phoneNumber'ı güncelle
                           phoneCode: option.shortLabel, // phoneCode'u güncelle
                         });
                       }}
                       onBlur={() => {
-                        !touched.countrySelect && setFieldTouched("countrySelect", true);
-                        values.countrySelect && setErrors({...errors, countrySelect: undefined});
+                        !touched.countryCodeSelect && setFieldTouched("countryCodeSelect", true);
+                        values.countryCodeSelect && setErrors({...errors, countryCodeSelect: undefined});
                       }}
                       placeholderText="Code"
                       options={countryList}
@@ -97,7 +97,7 @@ export const RegisterForm = () => {
                       name="phoneNumber"
                       onCountryChange={(country: any) => {
                         const foundCountry = countryList?.find((c: CountryFormattedType) => c.value.toLowerCase() == country?.toLowerCase());
-                        setFieldValue("countrySelect", foundCountry);
+                        setFieldValue("countryCodeSelect", foundCountry);
                       }}
                     />
                   </div>
