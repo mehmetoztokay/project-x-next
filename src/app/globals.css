@@ -18,6 +18,10 @@ select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
+input[type="tel"] {
+  direction: inherit;
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;

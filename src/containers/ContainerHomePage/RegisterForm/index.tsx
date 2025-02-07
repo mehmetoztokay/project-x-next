@@ -85,7 +85,6 @@ export const RegisterForm = () => {
                   <div className="col-span-3">
                     <SelectField
                       isClearable={false}
-                      menuIsOpen
                       name="countryCodeSelect"
                       value={values.countryCodeSelect}
                       onChange={(option: any) => {
