@@ -8,11 +8,25 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
   inputBg?: string | undefined;
   hideErrorMessage?: boolean;
+  isClearable?: boolean;
+  focusAfterCleared?: boolean;
 };
 
-export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text", className = "", name, label, id, inputBg = undefined, hideErrorMessage = false, ...props}) => {
+export const InputField: React.FC<InputProps> = ({
+  placeholder = "",
+  type = "text",
+  className = "",
+  name,
+  label,
+  id,
+  inputBg = undefined,
+  hideErrorMessage = false,
+  isClearable = false,
+  focusAfterCleared = false,
+  ...props
+}) => {
   const [fieldType, setFieldType] = useState(type);
-  const [field, meta] = useField(name);
+  const [field, meta, setField] = useField(name);
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -47,7 +61,7 @@ export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text
             {
               "!text-gray-900": field.value > 0,
               "border-red-500": meta.touched && meta.error,
-              "pr-12 rtl:pr-3 rtl:pl-12": type == "password",
+              "pr-14 rtl:pr-3 rtl:pl-14": type == "password" || isClearable,
               "focus:pt-4 focus:pb-2 pt-4 pb-2": field.value.toString().length > 0,
             }
           )}
@@ -67,25 +81,40 @@ export const InputField: React.FC<InputProps> = ({placeholder = "", type = "text
         >
           {label}
         </label>
-        {type == "password" && (
-          <button
-            className="absolute right-3 rtl:left-3 rtl:right-auto -translate-y-1/2 top-1/2"
-            type="button"
-            onClick={() => (fieldType == "password" ? setFieldType("text") : setFieldType("password"))}
-          >
-            <div className="relative">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="fill-gray-500">
-                <path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z" />
-              </svg>
-              <div
-                className={combineClass(
-                  "absolute inset-0 after:absolute after:content-[''] after:bg-gray-500 after:h-[2px] after:w-full after:top-1/2 after:transform after:-translate-y-1/2 after:scale-x-0 after:origin-center after:transition-all after:duration-500 after:ease-in-out transform rotate-45 after:right-[1px] rtl:after:left-[1px] after:rounded-md",
-                  {"after:scale-x-100": fieldType != "text"}
-                )}
-              ></div>
-            </div>
-          </button>
-        )}
+
+        <div className="absolute right-2.5 rtl:left-2.5 rtl:right-auto -translate-y-1/2 top-1/2 flex items-center">
+          {type == "password" && (
+            <button className=" " type="button" onClick={() => (fieldType == "password" ? setFieldType("text") : setFieldType("password"))}>
+              <div className="relative">
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" className="fill-gray-400">
+                  <path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z" />
+                </svg>
+                <div
+                  className={combineClass(
+                    "absolute inset-0 after:absolute after:content-[''] after:bg-gray-400 after:h-[2px] after:w-full after:top-1/2 after:transform after:-translate-y-1/2 after:scale-x-0 after:origin-center after:transition-all after:duration-500 after:ease-in-out transform rotate-45 after:right-[1px] rtl:after:left-[1px] after:rounded-md",
+                    {"after:scale-x-100": fieldType != "text"}
+                  )}
+                ></div>
+              </div>
+            </button>
+          )}
+
+          {isClearable && (
+            <button
+              type="button"
+              onClick={() => {
+                setField.setValue("");
+                focusAfterCleared && inputRef.current?.focus();
+              }}
+            >
+              <div className="relative">
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" className="fill-gray-400">
+                  <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                </svg>
+              </div>
+            </button>
+          )}
+        </div>
       </div>
       {!hideErrorMessage && meta.touched && meta.error ? <p className="text-red-500 text-xs mt-1 ml-1">{meta.error}</p> : null}
     </div>

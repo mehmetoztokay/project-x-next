@@ -117,7 +117,7 @@ const CustomOption = ({
 
 const CustomIndicatorsContainer = (props: IndicatorsContainerProps) => {
   return (
-    <div className="absolute right-0 rtl:left-0 rtl:right-auto flex items-center justify-center">
+    <div className="absolute right-0 rtl:left-0 rtl:right-auto flex items-center justify-center [&_*]:fill-gray-400">
       <components.IndicatorsContainer {...props} />
     </div>
   );

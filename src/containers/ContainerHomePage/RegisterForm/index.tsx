@@ -77,7 +77,7 @@ export const RegisterForm = () => {
           return (
             <>
               <Form className="grid gap-3">
-                <InputField label="Name" name="firstName" type="text" />
+                <InputField label="Name" name="firstName" type="text" isClearable />
                 <InputField label="Surname" name="lastName" type="text" />
                 <InputField label="E mail" name="email" type="text" />
 
