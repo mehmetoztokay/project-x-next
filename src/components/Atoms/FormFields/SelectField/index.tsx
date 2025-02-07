@@ -129,6 +129,7 @@ export const SelectField = ({
   showIconOnOptions = false,
   hiddenIconOpOptionsForMobile = false,
   removeDropdownIndicatorIsFocused = false,
+  hideErrorMessage = false,
   ...props
 }: {
   name: string;
@@ -144,6 +145,7 @@ export const SelectField = ({
   showIconOnOptions?: boolean;
   hiddenIconOpOptionsForMobile?: boolean;
   removeDropdownIndicatorIsFocused?: boolean;
+  hideErrorMessage?: boolean;
 } & Props) => {
   const [field, meta] = useField(name);
   return (
@@ -203,7 +205,7 @@ export const SelectField = ({
         {...props}
       />
 
-      {meta.touched && meta.error ? <p className="text-red-500 text-xs ml-1">{meta.error}</p> : null}
+      {!hideErrorMessage && meta.touched && meta.error ? <p className="text-red-500 text-xs ml-1">{meta.error}</p> : null}
     </div>
   );
 };

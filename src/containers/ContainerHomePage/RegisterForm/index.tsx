@@ -3,27 +3,27 @@ import {CheckboxField} from "@/components/Atoms/FormFields/CheckboxField";
 import {InputField} from "@/components/Atoms/FormFields/InputField";
 import {SelectField} from "@/components/Atoms/FormFields/SelectField";
 import {combineClass} from "@/helpers/development/combineClass";
-import {Formik, Field, Form, FormikHelpers, useFormik} from "formik";
-import {useEffect, useRef, useState} from "react";
-import {CountryFormattedType, CountryType, FieldTypesOfRegisterForm} from "./FieldTypesOfRegisterForm";
+import {Formik, Form, FormikHelpers} from "formik";
+import {useEffect, useState} from "react";
+import {ICountryCodeSelect, ICountrySelect, IFieldsOfRegisterForm} from "./FieldTypesOfRegisterForm";
 import {FormSchemeOfRegister} from "./FormSchemeOfRegister";
 import {PhoneNumberField} from "@/components/Atoms/FormFields/PhoneNumberField";
 import {getCountryList} from "@/helpers/getCountryList";
 import {useSearchParams} from "next/navigation";
 
 export const RegisterForm = () => {
-  const [countryList, setCountryList] = useState<CountryFormattedType[]>([]);
-  const [countryNames, setCountryNames] = useState<any[]>([]);
+  const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
+  const [countrySelectValues, setCountryNames] = useState<ICountrySelect[]>([]);
 
   const searchParams = useSearchParams();
 
-  const lang = searchParams.get("lang");
+  const lang = searchParams.get("lang") || "";
 
   useEffect(() => {
     const fetchCountryList = async () => {
-      const allCountries = (await getCountryList(lang || "en", true)) as CountryType[];
+      const allCountries = await getCountryList(lang);
 
-      const formattedCountries = allCountries.map((country) => ({
+      const formattedCountryCodeSelectValues = allCountries.map((country) => ({
         label: country.phoneCountryLabel,
         value: country.alphaCode,
         id: country.alphaCode,
@@ -32,7 +32,7 @@ export const RegisterForm = () => {
         phoneCode: country.countryCallingCode,
       }));
 
-      const formattedCountryNames = allCountries.map((country) => ({
+      const formattedCountrySelectValues = allCountries.map((country) => ({
         label: country.countryName,
         value: country.alphaCode,
         id: country.alphaCode,
@@ -40,8 +40,8 @@ export const RegisterForm = () => {
         icon: country.flagUrl,
       }));
 
-      setCountryList(formattedCountries);
-      setCountryNames(formattedCountryNames);
+      setCountryCodeSelectValues(formattedCountryCodeSelectValues);
+      setCountryNames(formattedCountrySelectValues);
     };
 
     fetchCountryList();
@@ -64,7 +64,7 @@ export const RegisterForm = () => {
           checkbox1: false,
           checkbox2: false,
         }}
-        onSubmit={(values: FieldTypesOfRegisterForm, {setSubmitting}: FormikHelpers<FieldTypesOfRegisterForm>) => {
+        onSubmit={(values: IFieldsOfRegisterForm, {setSubmitting}: FormikHelpers<IFieldsOfRegisterForm>) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
@@ -89,10 +89,10 @@ export const RegisterForm = () => {
                         // Clear error message of countryCodeSelect
                         setErrors({...errors, countryCodeSelect: undefined});
                         setValues({
-                          ...values, // Mevcut form verilerini koru
-                          countryCodeSelect: option, // countryCodeSelect'ı güncelle
-                          phoneNumber: option.shortLabel, // phoneNumber'ı güncelle
-                          phoneCode: option.shortLabel, // phoneCode'u güncelle
+                          ...values,
+                          countryCodeSelect: option,
+                          phoneNumber: option.shortLabel,
+                          phoneCode: option.shortLabel,
                         });
                       }}
                       onBlur={() => {
@@ -100,7 +100,7 @@ export const RegisterForm = () => {
                         values.countryCodeSelect && setErrors({...errors, countryCodeSelect: undefined});
                       }}
                       placeholderText="Code"
-                      options={countryList}
+                      options={countryCodeSelectValues}
                       className="text-base !static h-100"
                       showOnlyIconOnControl
                       showIconOnOptions
@@ -111,15 +111,15 @@ export const RegisterForm = () => {
                       label="Phone Number"
                       name="phoneNumber"
                       onCountryChange={(country: any) => {
-                        const foundCountry = countryList?.find((c: CountryFormattedType) => c.value.toLowerCase() == country?.toLowerCase());
-                        setFieldValue("countryCodeSelect", foundCountry);
+                        const foundCountry = countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
+                        setFieldValue("countryCodeSelect", foundCountry || "");
                       }}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <SelectField options={countryNames} name="test" showIconOnControl showIconOnOptions isClearable={false} />
+                  <SelectField options={countrySelectValues} name="test" showIconOnControl showIconOnOptions isClearable={false} />
                 </div>
 
                 <InputField label="Password" name="password" type="password" checked={values.checkbox1} />
@@ -132,7 +132,7 @@ export const RegisterForm = () => {
                   to run this app.
                 </CheckboxField>
 
-                <CheckboxField name="checkbox2">test</CheckboxField>
+                <CheckboxField name="checkbox2">Test field</CheckboxField>
 
                 <div className="text-left">
                   <button type="submit" className="mt-1 bg-gray-300 transition hover:bg-gray-400 text-gray-900 px-4 py-2 rounded-full w-full">

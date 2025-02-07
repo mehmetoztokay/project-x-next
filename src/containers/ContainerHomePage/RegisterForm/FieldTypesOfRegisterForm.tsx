@@ -1,27 +1,26 @@
-export interface FieldTypesOfRegisterForm {
+export interface IFieldsOfRegisterForm {
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
   phoneCode: string;
   password: string;
-  countryCodeSelect: CountryFormattedType | "";
+  countryCodeSelect: ICountryCodeSelect | "";
   checkbox1: boolean;
   checkbox2: boolean;
 }
-export interface CountryType {
-  alphaCode: string;
-  countryName: string;
-  phoneCountryLabel: string;
-  countryCallingCode: string;
-  flagUrl: string;
-}
 
-export interface CountryFormattedType {
+export interface ICountryCodeSelect {
   label: string;
   value: string;
   id: string;
   shortLabel: string;
   icon: string;
   phoneCode: string;
+}
+
+export interface ICountrySelect {
+  label: string;
+  value: string;
+  id: string;
 }

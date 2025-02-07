@@ -1,9 +1,17 @@
+export interface ICountry {
+  alphaCode: string;
+  countryName: string;
+  phoneCountryLabel: string;
+  countryCallingCode: string;
+  flagUrl: string;
+}
+
 import countries from "i18n-iso-countries";
 import {getCountryCallingCode} from "react-phone-number-input";
 
 const excludeCountries = ["AQ", "BV", "TF", "HM", "PN", "GS", "UM"];
 
-export const getCountryList = async (language: string = "en", forMobilePhone: boolean = false) => {
+export const getCountryList = async (language: string = "en"): Promise<ICountry[]> => {
   // If not supported lang return default en
   if (!countries.getSupportedLanguages().includes(language)) language = "en";
 
@@ -16,10 +24,8 @@ export const getCountryList = async (language: string = "en", forMobilePhone: bo
 
   const countryListObject = countries.getNames(language, {select: "official"});
 
-  if (!forMobilePhone) return countryListObject;
-
-  // Else
   const countryList = Object.entries(countryListObject)
+    // Exclude some coountries
     .filter(([alphaCode, countryName]) => !excludeCountries.includes(alphaCode))
     .map(([alphaCode, countryName]) => ({
       alphaCode,
