@@ -28,8 +28,9 @@ export const RegisterForm = () => {
         value: country.alphaCode,
         id: country.alphaCode,
         shortLabel: `+${country.countryCallingCode}`,
-        icon: country.flagUrl,
+        icon: country.flagComponent,
         phoneCode: country.countryCallingCode,
+        iconIsComponent: true,
       }));
 
       const formattedCountrySelectValues = allCountries.map((country) => ({
@@ -37,7 +38,8 @@ export const RegisterForm = () => {
         value: country.alphaCode,
         id: country.alphaCode,
         shortLabel: country.alphaCode,
-        icon: country.flagUrl,
+        icon: country.flagComponent,
+        iconIsComponent: true,
       }));
 
       setCountryCodeSelectValues(formattedCountryCodeSelectValues);
@@ -83,6 +85,7 @@ export const RegisterForm = () => {
                   <div className="col-span-3">
                     <SelectField
                       isClearable={false}
+                      menuIsOpen
                       name="countryCodeSelect"
                       value={values.countryCodeSelect}
                       onChange={(option: any) => {

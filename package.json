@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "country-flag-icons": "^1.5.16",
     "formik": "^2.4.6",
     "i18n-iso-countries": "^7.13.0",
     "next": "^15.1.0",

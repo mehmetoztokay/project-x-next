@@ -3,11 +3,13 @@ export interface ICountry {
   countryName: string;
   phoneCountryLabel: string;
   countryCallingCode: string;
-  flagUrl: string;
+  flagUrl?: string;
+  flagComponent?: React.FC<any>;
 }
 
 import countries from "i18n-iso-countries";
 import {getCountryCallingCode} from "react-phone-number-input";
+import flags from "react-phone-number-input/flags";
 
 const excludeCountries = ["AQ", "BV", "TF", "HM", "PN", "GS", "UM"];
 
@@ -33,6 +35,7 @@ export const getCountryList = async (language: string = "en"): Promise<ICountry[
       phoneCountryLabel: `+${getCountryCallingCode(alphaCode.toLocaleUpperCase() as "TR")} ${countryName}`,
       countryCallingCode: getCountryCallingCode(alphaCode.toLocaleUpperCase() as "TR"),
       flagUrl: `https://flagcdn.com/w320/${alphaCode.toLowerCase()}.png`,
+      flagComponent: flags[alphaCode.toUpperCase() as "US"],
     }));
 
   return countryList;

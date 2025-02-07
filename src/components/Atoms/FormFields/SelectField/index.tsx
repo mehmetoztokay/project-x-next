@@ -8,6 +8,7 @@ import {combineClass} from "@/helpers/development/combineClass";
 import {components, ControlProps, DropdownIndicatorProps, IndicatorsContainerProps, MenuProps, NoticeProps, OptionProps, PlaceholderProps, Props} from "react-select";
 import {useField} from "formik";
 import {normalizeText} from "@/helpers/normalizeText";
+import React from "react";
 
 const CustomControl = ({
   showIconOnControl,
@@ -24,7 +25,7 @@ const CustomControl = ({
   meta?: any;
 } & ControlProps) => {
   const selectedValue = props.getValue();
-  const {icon, label, shortLabel}: any = selectedValue?.[0] || {};
+  const {icon, iconIsComponent, label, shortLabel}: any = selectedValue?.[0] || {};
 
   return (
     <components.Control
@@ -34,7 +35,7 @@ const CustomControl = ({
         {"!border-blue-500": props.menuIsOpen, "!border-red-500": meta.touched && meta.error}
       )}
     >
-      {(showIconOnControl || showOnlyIconOnControl) && icon && !props.menuIsOpen && (
+      {!iconIsComponent && (showIconOnControl || showOnlyIconOnControl) && icon && !props.menuIsOpen && (
         <img
           src={icon}
           alt={label}
@@ -45,6 +46,17 @@ const CustomControl = ({
             "left-2": showOnlyIconOnControl,
           })}
         />
+      )}
+      {iconIsComponent && (showIconOnControl || showOnlyIconOnControl) && icon && !props.menuIsOpen && (
+        <div
+          className={combineClass("w-6 h-4 rounded-sm relative left-1 overflow-hidden", {
+            "lg:inline-block hidden": hiddenIconOnControlForMobile,
+            "!hidden": props.menuIsOpen,
+            "left-2": showOnlyIconOnControl,
+          })}
+        >
+          {React.createElement(icon)}
+        </div>
       )}
       {props.children}
     </components.Control>
@@ -91,8 +103,12 @@ const CustomOption = ({
       {...innerProps}
       className={combineClass("flex items-center gap-2 lg:px-3 px-2 py-2 cursor-pointer rounded text-sm my-1", {"bg-blue-100": isFocused, "bg-blue-500 text-white": isSelected})}
     >
-      {showIconOnOptions && data.icon && (
+      {!data.iconIsComponent && showIconOnOptions && data.icon && (
         <img loading="lazy" src={data.icon} alt={data.label} className={combineClass("w-6 h-4 rounded-sm", {"lg:inline-block hidden": hiddenIconOpOptionsForMobile})} />
+      )}
+
+      {data.iconIsComponent && showIconOnOptions && data.icon && (
+        <div className={combineClass("w-6 h-4 rounded-sm overflow-hidden", {"lg:inline-block hidden": hiddenIconOpOptionsForMobile})}>{React.createElement(data.icon)}</div>
       )}
       <span>{showShortLabelOnOptions && data.shortLabel ? data.shortLabel : data.label}</span>
     </div>
