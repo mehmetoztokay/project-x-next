@@ -1,30 +1,20 @@
-import React, {useEffect, useRef, useState, useTransition} from "react";
-import {useLocale, useTranslations} from "next-intl";
-import {CountryFlag} from "../CountryFlag";
-import {Locale, usePathname, useRouter} from "@/i18n/routing";
-import {getCurrentQueries} from "@/helpers/getCurrentQueries";
-import {combineClass} from "@/helpers/development/combineClass";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { CountryFlag } from "../CountryFlag";
+import { combineClass } from "@/helpers/development/combineClass";
+import { useChangeLocale } from "@/helpers/changeLocale";
 
 export const LocaleSwitcher = () => {
   const t = useTranslations("Layout");
   const localeItems = t.raw("locales");
 
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
-  const pathname = usePathname();
+  const { changeLocale, isPendingLocale } = useChangeLocale();
+
   const locale = useLocale();
-  const currentQueries = getCurrentQueries();
 
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const changeLocale = (newLocale: Locale) => {
-    if (newLocale === locale || isPending) return;
-
-    startTransition(() => {
-      router.replace({pathname, query: currentQueries}, {locale: newLocale});
-    });
-  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -62,12 +52,12 @@ export const LocaleSwitcher = () => {
                 {Object.keys(localeItems).map((localeItem: any) => (
                   <button
                     key={localeItem}
-                    disabled={isPending}
+                    disabled={isPendingLocale}
                     onClick={() => changeLocale(localeItem)}
                     className={combineClass(
                       "flex items-center w-full gap-2 px-4 py-2 text-sm text-gray-200 hover:bg-gray-200 hover:text-gray-700 disabled:opacity-30 rounded-md my-1 text-nowrap",
                       {
-                        "bg-gray-200 text-gray-700": locale === localeItem && !isPending,
+                        "bg-gray-200 text-gray-700": locale === localeItem && !isPendingLocale,
                       }
                     )}
                     role="menuitem"
