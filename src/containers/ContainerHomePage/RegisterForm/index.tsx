@@ -10,6 +10,7 @@ import {FormSchemeOfRegister} from "./FormSchemeOfRegister";
 import {PhoneNumberField} from "@/components/Atoms/FormFields/PhoneNumberField";
 import {getCountryList} from "@/helpers/getCountryList";
 import {useSearchParams} from "next/navigation";
+import {FileUploadField} from "@/components/Atoms/FormFields/FileUploadField";
 
 export const RegisterForm = () => {
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
@@ -50,7 +51,7 @@ export const RegisterForm = () => {
   }, []);
 
   return (
-    <div className="max-w-[350px] mx-auto p-5 py-4 rounded-md bg-white shadow-2xl">
+    <div className="max-w-[350px] w-full mx-auto p-5 py-4 rounded-md bg-white shadow-2xl">
       <h1 className="text-2xl font-bold">Register</h1>
       <p className="mb-8 font-light">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
       <Formik
@@ -63,6 +64,7 @@ export const RegisterForm = () => {
           phoneNumber: "",
           password: "",
           countryCodeSelect: "",
+          cvFile: null,
           checkbox1: false,
           checkbox2: false,
         }}
@@ -77,6 +79,7 @@ export const RegisterForm = () => {
           return (
             <>
               <Form className="grid gap-3">
+                {JSON.stringify(values.cvFile)}
                 <InputField label="Name" name="firstName" type="text" isClearable />
                 <InputField label="Surname" name="lastName" type="text" />
                 <InputField label="E mail" name="email" type="text" />
@@ -120,11 +123,10 @@ export const RegisterForm = () => {
                   </div>
                 </div>
 
-                <div>
-                  <SelectField options={countrySelectValues} name="test" showIconOnControl showIconOnOptions isClearable={false} />
-                </div>
+                <SelectField options={countrySelectValues} name="test" showIconOnControl showIconOnOptions isClearable={false} />
 
                 <InputField label="Password" name="password" type="password" checked={values.checkbox1} />
+                <FileUploadField uploadMessage={"Upload CV"} dropMessage="Drop CV" name="cvFile" />
 
                 <CheckboxField name="checkbox1">
                   You need to enable JavaScript to run this app. You need to enable JavaScript to run this app.

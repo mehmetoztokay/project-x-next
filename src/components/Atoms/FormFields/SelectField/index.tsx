@@ -40,19 +40,17 @@ const CustomControl = ({
           src={icon}
           alt={label}
           onClick={() => console.log("sela")}
-          className={combineClass("w-6 h-4 rounded-sm relative left-1", {
+          className={combineClass("w-6 h-4 rounded-sm relative ltr:left-2 rtl:right-2 ltr:mr-1 rtl:ml-1", {
             "lg:inline-block hidden": hiddenIconOnControlForMobile,
             "!hidden": props.menuIsOpen,
-            "left-2": showOnlyIconOnControl,
           })}
         />
       )}
       {iconIsComponent && (showIconOnControl || showOnlyIconOnControl) && icon && !props.menuIsOpen && (
         <div
-          className={combineClass("w-6 h-4 rounded-sm relative left-1 overflow-hidden", {
+          className={combineClass("w-6 h-4 rounded-sm relative ltr:left-2 rtl:right-2 overflow-hidden ltr:mr-1 rtl:ml-1", {
             "lg:inline-block hidden": hiddenIconOnControlForMobile,
             "!hidden": props.menuIsOpen,
-            "left-2": showOnlyIconOnControl,
           })}
         >
           {React.createElement(icon)}
@@ -69,7 +67,7 @@ const CustomMenu = ({menuClasses, ...props}: {menuClasses?: string} & MenuProps)
 
 const CustomPlaceholder = (props: PlaceholderProps) => {
   return (
-    <components.Placeholder {...props} className="!text-gray-900 !-ml-1">
+    <components.Placeholder {...props} className="!text-gray-900">
       {!props.isFocused && props.children}
     </components.Placeholder>
   );

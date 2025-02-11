@@ -29,4 +29,14 @@ export const FormSchemeOfRegister = Yup.object().shape({
       }
       return true; // Allow empty phone numbers (optional)
     }),
+  cvFile: Yup.mixed()
+    .required("CV yüklemek zorunludur")
+    .test("fileFormat", "Sadece PDF dosyaları kabul edilir", (value) => {
+      if (!value || !(value instanceof File)) return false; // Eğer değer yoksa veya File değilse
+      return value.type === "application/pdf"; // Sadece PDF kabul et
+    })
+    .test("fileSize", "Dosya boyutu 500 kb'den küçük olmalıdır", (value) => {
+      if (!value || !(value instanceof File)) return false;
+      return value.size <= 0.5 * 1024 * 1024; // 5MB sınırı
+    }),
 });
