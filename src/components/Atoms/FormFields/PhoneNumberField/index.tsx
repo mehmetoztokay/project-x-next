@@ -1,7 +1,7 @@
-import {combineClass} from "@/helpers/development/combineClass";
-import {useField} from "formik";
-import {useState} from "react";
-import PhoneInput, {PhoneNumber, Value} from "react-phone-number-input";
+import { combineClass } from "@/helpers/development/combineClass";
+import { useField } from "formik";
+import { useState } from "react";
+import PhoneInput, { PhoneNumber, Value } from "react-phone-number-input";
 
 type PhoneInputProps = Partial<React.ComponentProps<typeof PhoneInput>> & {
   name: string;
@@ -10,9 +10,10 @@ type PhoneInputProps = Partial<React.ComponentProps<typeof PhoneInput>> & {
   innerFloatLabel?: boolean;
   inputBg?: string | undefined;
   hideErrorMessage?: boolean;
+  runOnChange?: (value: any) => void;
 };
 
-export const PhoneNumberField: React.FC<PhoneInputProps> = ({name, label, className, inputBg, innerFloatLabel = false, hideErrorMessage = false, ...props}) => {
+export const PhoneNumberField: React.FC<PhoneInputProps> = ({ name, label, className, inputBg, innerFloatLabel = false, hideErrorMessage = false, runOnChange, ...props }) => {
   const [field, meta, setField] = useField(name);
   const [focused, setFocused] = useState(false);
   return (
@@ -36,12 +37,13 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({name, label, classN
               "[&>input]:w-full [&>input]:h-full [&>input]:border-none [&>input]:placeholder-transparent [&>input]:outline-none [&>input]:py-0 [&>input]:px-0 p-0",
               {}
             )}
-            style={{backgroundColor: inputBg && inputBg}}
+            style={{ backgroundColor: inputBg && inputBg }}
             countrySelectComponent={() => null}
             placeholder=""
             value={field.value}
             onChange={(value: Value) => {
               setField.setValue(value);
+              runOnChange && runOnChange(value);
             }}
             onBlur={() => {
               setField.setTouched(true);
@@ -57,7 +59,7 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({name, label, classN
             "-translate-y-[20px] text-[10px]": field.value || focused,
             "text-blue-500": focused,
           })}
-          style={{backgroundColor: inputBg && (field.value || focused) && inputBg}}
+          style={{ backgroundColor: inputBg && (field.value || focused) && inputBg }}
         >
           {label}
         </label>

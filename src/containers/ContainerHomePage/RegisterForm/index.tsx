@@ -1,16 +1,17 @@
 "use client";
-import {CheckboxField} from "@/components/Atoms/FormFields/CheckboxField";
-import {InputField} from "@/components/Atoms/FormFields/InputField";
-import {SelectField} from "@/components/Atoms/FormFields/SelectField";
-import {combineClass} from "@/helpers/development/combineClass";
-import {Formik, Form, FormikHelpers} from "formik";
-import {useEffect, useState} from "react";
-import {ICountryCodeSelect, ICountrySelect, IFieldsOfRegisterForm} from "./FieldTypesOfRegisterForm";
-import {FormSchemeOfRegister} from "./FormSchemeOfRegister";
-import {PhoneNumberField} from "@/components/Atoms/FormFields/PhoneNumberField";
-import {getCountryList} from "@/helpers/getCountryList";
-import {useSearchParams} from "next/navigation";
-import {FileUploadField} from "@/components/Atoms/FormFields/FileUploadField";
+import { CheckboxField } from "@/components/Atoms/FormFields/CheckboxField";
+import { InputField } from "@/components/Atoms/FormFields/InputField";
+import { SelectField } from "@/components/Atoms/FormFields/SelectField";
+import { combineClass } from "@/helpers/development/combineClass";
+import { Formik, Form, FormikHelpers } from "formik";
+import { useEffect, useState } from "react";
+import { ICountryCodeSelect, ICountrySelect, IFieldsOfRegisterForm } from "./FieldTypesOfRegisterForm";
+import { FormSchemeOfRegister } from "./FormSchemeOfRegister";
+import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
+import { getCountryList } from "@/helpers/getCountryList";
+import { useSearchParams } from "next/navigation";
+import { FileUploadField } from "@/components/Atoms/FormFields/FileUploadField";
+import { parsePhoneNumber, isValidPhoneNumber } from 'react-phone-number-input';
 
 export const RegisterForm = () => {
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
@@ -68,21 +69,23 @@ export const RegisterForm = () => {
           checkbox1: false,
           checkbox2: false,
         }}
-        onSubmit={(values: IFieldsOfRegisterForm, {setSubmitting}: FormikHelpers<IFieldsOfRegisterForm>) => {
+        onSubmit={(values: IFieldsOfRegisterForm, { setSubmitting }: FormikHelpers<IFieldsOfRegisterForm>) => {
+          console.log(values);
+
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
           }, 500);
         }}
       >
-        {({values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors, setValues}) => {
+        {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors, setValues, handleChange }) => {
           return (
             <>
+              {values.phoneNumber}
               <Form className="grid gap-3">
-                {JSON.stringify(values.cvFile)}
                 <InputField label="Name" name="firstName" type="text" isClearable />
                 <InputField label="Surname" name="lastName" type="text" />
-                <InputField label="E mail" name="email" type="text" />
+                <InputField label="E mail" name="email" type="mail" />
 
                 <div className={combineClass("grid grid-cols-12 gap-1 relative", {})}>
                   <div className="col-span-3">
@@ -92,17 +95,17 @@ export const RegisterForm = () => {
                       value={values.countryCodeSelect}
                       onChange={(option: any) => {
                         // Clear error message of countryCodeSelect
-                        setErrors({...errors, countryCodeSelect: undefined});
+                        setErrors({ ...errors, countryCodeSelect: undefined });
                         setValues({
                           ...values,
                           countryCodeSelect: option,
-                          phoneNumber: option.shortLabel,
+                          phoneNumber: "+" + option.phoneCode,
                           phoneCode: option.shortLabel,
                         });
                       }}
                       onBlur={() => {
                         !touched.countryCodeSelect && setFieldTouched("countryCodeSelect", true);
-                        values.countryCodeSelect && setErrors({...errors, countryCodeSelect: undefined});
+                        values.countryCodeSelect && setErrors({ ...errors, countryCodeSelect: undefined });
                       }}
                       placeholderText="Code"
                       options={countryCodeSelectValues}
@@ -115,9 +118,20 @@ export const RegisterForm = () => {
                     <PhoneNumberField
                       label="Phone Number"
                       name="phoneNumber"
+                      // For autocomplete
+                      runOnChange={(value) => {
+                        if (values.countryCodeSelect == "") {
+                          const checkPhoneNumberIsValid = value ? isValidPhoneNumber(value) : false;
+                          const country = checkPhoneNumberIsValid ? parsePhoneNumber(value)?.country : false;
+
+                          const foundCountry = country && countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
+                          foundCountry && setFieldValue("countryCodeSelect", foundCountry || "");
+                        }
+                      }}
                       onCountryChange={(country: any) => {
                         const foundCountry = countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
-                        setFieldValue("countryCodeSelect", foundCountry || "");
+                        foundCountry && setFieldValue("phoneCode", "+" + foundCountry?.phoneCode || "");
+                        foundCountry && setFieldValue("countryCodeSelect", foundCountry || "");
                       }}
                     />
                   </div>
