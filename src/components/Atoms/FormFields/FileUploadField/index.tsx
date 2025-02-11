@@ -1,6 +1,6 @@
-import {combineClass} from "@/helpers/development/combineClass";
-import {useField} from "formik";
-import React, {useState, useRef} from "react";
+import { combineClass } from "@/helpers/development/combineClass";
+import { useField } from "formik";
+import React, { useState, useRef } from "react";
 
 interface FileUploadFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -9,7 +9,7 @@ interface FileUploadFieldProps extends React.InputHTMLAttributes<HTMLInputElemen
   dropMessage?: string;
 }
 
-export const FileUploadField: React.FC<FileUploadFieldProps> = ({name, hideErrorMessage = false, uploadMessage, dropMessage, ...props}) => {
+export const FileUploadField: React.FC<FileUploadFieldProps> = ({ name, hideErrorMessage = false, uploadMessage, dropMessage, ...props }) => {
   const [field, meta, setField] = useField(name);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -75,13 +75,15 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({name, hideError
     <div className="w-full overflow-hidden">
       <div
         className={combineClass("border rounded-md text-gray-400 text-center relative transition-colors cursor-pointer select-none", {
-          "border-blue-500": isDragging,
+          "!border-blue-500": isDragging,
+          "border-dashed": !file,
+          "border-red-500": meta.touched && meta.error,
         })}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        <div className={combineClass("cursor-pointer flex gap-2 relative p-3", {"justify-centers": !file, "p-2": file, "p-3": file && isDragging})}>
+        <div className={combineClass("cursor-pointer flex gap-2 relative p-3", { "justify-centers": !file, "p-2": file, "p-3": file && isDragging })}>
           {file && !isDragging ? (
             <>
               <div className="flex items-center gap-1 ltr:pr-7 rtl:pl-7 w-full">

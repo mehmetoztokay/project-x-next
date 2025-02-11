@@ -6,7 +6,7 @@ export interface IFieldsOfRegisterForm {
   phoneCode: string;
   password: string;
   countryCodeSelect: ICountryCodeSelect | "";
-  cvFile: null | Object;
+  cvFile: File | null;
   checkbox1: boolean;
   checkbox2: boolean;
 }
