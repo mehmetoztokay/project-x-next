@@ -5,11 +5,13 @@ import React, { useState, useRef } from "react";
 interface FileUploadFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   hideErrorMessage?: boolean;
+  // Kabul edilebilir ozellikler mesaji:
+  acceptTypesMessage?: string;
   uploadMessage?: string;
   dropMessage?: string;
 }
 
-export const FileUploadField: React.FC<FileUploadFieldProps> = ({ name, hideErrorMessage = false, uploadMessage, dropMessage, ...props }) => {
+export const FileUploadField: React.FC<FileUploadFieldProps> = ({ name, hideErrorMessage = false, uploadMessage, dropMessage, acceptTypesMessage, ...props }) => {
   const [field, meta, setField] = useField(name);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -117,6 +119,7 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({ name, hideErro
           <input type="file" ref={fileInputRef} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleFileChange} {...props} />
         </div>
       </div>
+      {acceptTypesMessage && <p className="text-gray-500 text-xs mt-1 px-1">{acceptTypesMessage}</p>}
       {!hideErrorMessage && meta.touched && meta.error ? <p className="text-red-500 text-xs mt-1 ml-1">{meta.error}</p> : null}
     </div>
   );

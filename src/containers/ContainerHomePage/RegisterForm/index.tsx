@@ -139,14 +139,14 @@ export const RegisterForm = () => {
                 <SelectField options={countrySelectValues} name="test" showIconOnControl showIconOnOptions isClearable={false} />
 
                 <InputField label="Password" name="password" type="password" checked={values.checkbox1} />
-                <FileUploadField uploadMessage={"Upload CV"} dropMessage="Drop CV" name="cvFile" />
+                <FileUploadField uploadMessage={"Upload CV"} dropMessage="Drop CV" name="cvFile" acceptTypesMessage="The file must be PDF format and not exceed 500KB" />
 
                 <CheckboxField name="checkbox1">
-                  You need to enable JavaScript to run this app. You need to enable JavaScript to run this app.
+                  You need to enable JavaScript to run this app. You need to enable JavaScript to run this app.{" "}
                   <a target="_blank" href="https://www.trive.com" className="text-blue-500 underline">
-                    You need to enable JavaScript{" "}
+                    You need to enable JavaScript
                   </a>
-                  to run this app.
+                  {" "}to run this app.
                 </CheckboxField>
 
                 <CheckboxField name="checkbox2">Test field</CheckboxField>
