@@ -74,7 +74,7 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({ name, hideErro
   return (
     <div className="w-full overflow-hidden">
       <div
-        className={combineClass("border rounded-md text-gray-400 text-center relative transition-colors cursor-pointer select-none", {
+        className={combineClass("border rounded-md text-gray-400 text-center relative z-0 transition-colors cursor-pointer select-none", {
           "!border-blue-500": isDragging,
           "border-dashed": !file,
           "border-red-500": meta.touched && meta.error,
@@ -100,7 +100,7 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({ name, hideErro
                 )}
                 <p className="text-gray-600 overflow-hidden whitespace-nowrap text-ellipsis">{file.name}</p>
               </div>
-              <button type="button" onClick={handleRemoveFile} className="absolute top-[50%] -translate-y-[50%] right-2 rtl:right-auto rtl:left-2 z-10">
+              <button type="button" onClick={handleRemoveFile} className="absolute top-[50%] -translate-y-[50%] right-2 rtl:right-auto rtl:left-2 z-[1]">
                 <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" className="fill-gray-400">
                   <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"></path>
                 </svg>

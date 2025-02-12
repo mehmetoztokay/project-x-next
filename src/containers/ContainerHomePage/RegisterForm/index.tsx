@@ -81,7 +81,6 @@ export const RegisterForm = () => {
         {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors, setValues, handleChange }) => {
           return (
             <>
-              {values.phoneNumber}
               <Form className="grid gap-3">
                 <InputField label="Name" name="firstName" type="text" isClearable />
                 <InputField label="Surname" name="lastName" type="text" />
