@@ -3,7 +3,7 @@
 // an invalid value as the `[locale]` param and calls `notFound()`.
 
 import CoreLayout from "@/components/layout/CoreLayout";
-import {routing} from "@/i18n/routing";
+import { routing } from "@/i18n/routing";
 
 export default function GlobalNotFound() {
   return (

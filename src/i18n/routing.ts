@@ -8,7 +8,7 @@ export const locales: { locale: string; direction: "ltr" | "rtl" }[] = [
   { locale: "eu-it", direction: "ltr" },
   { locale: "tr", direction: "ltr" },
   { locale: "int-th", direction: "rtl" },
-  { locale: "olmayan-dil", direction: "ltr" }
+  { locale: "olmayan-dil", direction: "ltr" },
 ];
 
 export const routing = defineRouting({
@@ -32,8 +32,8 @@ export const routing = defineRouting({
       "eu-it": "/about-it",
       tr: "/about-tr",
       "int-th": "/about-int-th",
-      "olmayan-dil": "/about-olmayan-dil"
-    }
+      "olmayan-dil": "/about-olmayan-dil",
+    },
   },
   localePrefix: {
     mode: "always",
@@ -43,12 +43,13 @@ export const routing = defineRouting({
       "eu-es": "/es",
       "eu-it": "/it",
       tr: "/tr",
-      "int-th": "/int-th"
-    }
-  }
+      "int-th": "/int-th",
+    },
+  },
 });
 
 export type Pathnames = keyof typeof routing.pathnames;
 export type Locale = (typeof routing.locales)[number];
 
-export const { Link, getPathname, redirect, usePathname, useRouter } = createNavigation(routing);
+export const { Link, getPathname, redirect, usePathname, useRouter } =
+  createNavigation(routing);

@@ -18,7 +18,10 @@ export default async function CoreLayout({ children, locale }: Props) {
   // side is the easiest way to get started
   const messages = await getMessages();
   return (
-    <html lang={locale} dir={locales.find(l => l.locale === locale)?.direction}>
+    <html
+      lang={locale}
+      dir={locales.find((l) => l.locale === locale)?.direction}
+    >
       <body className={`${inter.className} antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <ControlLayout children={children} />

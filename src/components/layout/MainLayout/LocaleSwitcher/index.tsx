@@ -18,7 +18,10 @@ export const LocaleSwitcher = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -32,11 +35,23 @@ export const LocaleSwitcher = () => {
 
   return (
     <div className="relative inline-block text-left">
-      {Object.keys(localeItems).every((key) => typeof localeItems[key] === "object") && (
+      {Object.keys(localeItems).every(
+        (key) => typeof localeItems[key] === "object",
+      ) && (
         <div ref={dropdownRef}>
           <div className="flex items-center">
-            <button type="button" onClick={() => setIsOpen((prev) => !prev)} className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" className="fill-gray-300">
+            <button
+              type="button"
+              onClick={() => setIsOpen((prev) => !prev)}
+              className="flex items-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                className="fill-gray-300"
+              >
                 <path d="m476-80 182-480h84L924-80h-84l-43-122H603L560-80h-84ZM160-200l-56-56 202-202q-35-35-63.5-80T190-640h84q20 39 40 68t48 58q33-33 68.5-92.5T484-720H40v-80h280v-80h80v80h280v80H564q-21 72-63 148t-83 116l96 98-30 82-122-125-202 201Zm468-72h144l-72-204-72 204Z" />
               </svg>
             </button>
@@ -55,15 +70,19 @@ export const LocaleSwitcher = () => {
                     disabled={isPendingLocale}
                     onClick={() => changeLocale(localeItem)}
                     className={combineClass(
-                      "flex items-center w-full gap-2 px-4 py-2 text-sm text-gray-200 hover:bg-gray-200 hover:text-gray-700 disabled:opacity-30 rounded-md my-1 text-nowrap",
+                      "my-1 flex w-full items-center gap-2 text-nowrap rounded-md px-4 py-2 text-sm text-gray-200 hover:bg-gray-200 hover:text-gray-700 disabled:opacity-30",
                       {
-                        "bg-gray-200 text-gray-700": locale === localeItem && !isPendingLocale,
-                      }
+                        "bg-gray-200 text-gray-700":
+                          locale === localeItem && !isPendingLocale,
+                      },
                     )}
                     role="menuitem"
                     tabIndex={-1}
                   >
-                    <CountryFlag isoCode={localeItems[localeItem].flag} className="rounded-sm w-5" />
+                    <CountryFlag
+                      isoCode={localeItems[localeItem].flag}
+                      className="w-5 rounded-sm"
+                    />
                     <span>{localeItems[localeItem].title}</span>
                   </button>
                 ))}

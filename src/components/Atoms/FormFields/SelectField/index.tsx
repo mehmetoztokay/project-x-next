@@ -2,12 +2,22 @@
 import dynamic from "next/dynamic";
 
 // TODO: Gec geliyor
-const Select = dynamic(() => import("react-select"), {ssr: false});
+const Select = dynamic(() => import("react-select"), { ssr: false });
 
-import {combineClass} from "@/helpers/development/combineClass";
-import {components, ControlProps, DropdownIndicatorProps, IndicatorsContainerProps, MenuProps, NoticeProps, OptionProps, PlaceholderProps, Props} from "react-select";
-import {useField} from "formik";
-import {normalizeText} from "@/helpers/normalizeText";
+import { combineClass } from "@/helpers/development/combineClass";
+import {
+  components,
+  ControlProps,
+  DropdownIndicatorProps,
+  IndicatorsContainerProps,
+  MenuProps,
+  NoticeProps,
+  OptionProps,
+  PlaceholderProps,
+  Props,
+} from "react-select";
+import { useField } from "formik";
+import { normalizeText } from "@/helpers/normalizeText";
 import React from "react";
 
 const CustomControl = ({
@@ -25,44 +35,72 @@ const CustomControl = ({
   meta?: any;
 } & ControlProps) => {
   const selectedValue = props.getValue();
-  const {icon, iconIsComponent, label, shortLabel}: any = selectedValue?.[0] || {};
+  const { icon, iconIsComponent, label, shortLabel }: any =
+    selectedValue?.[0] || {};
 
   return (
     <components.Control
       {...props}
       className={combineClass(
-        "flex items-center !outline-0 !shadow-none !stroke-none border !border-gray-200 !focus-within:border-gray-500 rounded-md p-[.375rem] px-[.07rem] text-gray-900 w-full max-w-full overflow-auto",
-        {"!border-blue-500": props.menuIsOpen, "!border-red-500": meta.touched && meta.error}
+        "!focus-within:border-gray-500 flex w-full max-w-full items-center overflow-auto rounded-md border !border-gray-200 !stroke-none p-[.375rem] px-[.07rem] text-gray-900 !shadow-none !outline-0",
+        {
+          "!border-blue-500": props.menuIsOpen,
+          "!border-red-500": meta.touched && meta.error,
+        },
       )}
     >
-      {!iconIsComponent && (showIconOnControl || showOnlyIconOnControl) && icon && !props.menuIsOpen && (
-        <img
-          src={icon}
-          alt={label}
-          onClick={() => console.log("sela")}
-          className={combineClass("w-6 h-4 rounded-sm relative ltr:left-2 rtl:right-2 ltr:mr-1 rtl:ml-1", {
-            "lg:inline-block hidden": hiddenIconOnControlForMobile,
-            "!hidden": props.menuIsOpen,
-          })}
-        />
-      )}
-      {iconIsComponent && (showIconOnControl || showOnlyIconOnControl) && icon && !props.menuIsOpen && (
-        <div
-          className={combineClass("w-6 h-4 rounded-sm relative ltr:left-2 rtl:right-2 overflow-hidden ltr:mr-1 rtl:ml-1", {
-            "lg:inline-block hidden": hiddenIconOnControlForMobile,
-            "!hidden": props.menuIsOpen,
-          })}
-        >
-          {React.createElement(icon)}
-        </div>
-      )}
+      {!iconIsComponent &&
+        (showIconOnControl || showOnlyIconOnControl) &&
+        icon &&
+        !props.menuIsOpen && (
+          <img
+            src={icon}
+            alt={label}
+            onClick={() => console.log("sela")}
+            className={combineClass(
+              "relative h-4 w-6 rounded-sm ltr:left-2 ltr:mr-1 rtl:right-2 rtl:ml-1",
+              {
+                "hidden lg:inline-block": hiddenIconOnControlForMobile,
+                "!hidden": props.menuIsOpen,
+              },
+            )}
+          />
+        )}
+      {iconIsComponent &&
+        (showIconOnControl || showOnlyIconOnControl) &&
+        icon &&
+        !props.menuIsOpen && (
+          <div
+            className={combineClass(
+              "relative h-4 w-6 overflow-hidden rounded-sm ltr:left-2 ltr:mr-1 rtl:right-2 rtl:ml-1",
+              {
+                "hidden lg:inline-block": hiddenIconOnControlForMobile,
+                "!hidden": props.menuIsOpen,
+              },
+            )}
+          >
+            {React.createElement(icon)}
+          </div>
+        )}
       {props.children}
     </components.Control>
   );
 };
 
-const CustomMenu = ({menuClasses, ...props}: {menuClasses?: string} & MenuProps) => {
-  return <components.Menu {...props} className={combineClass("border outline-0 !shadow-none stroke-none border-gray-200 rounded-lg p-2 !mt-1", menuClasses, {})} />;
+const CustomMenu = ({
+  menuClasses,
+  ...props
+}: { menuClasses?: string } & MenuProps) => {
+  return (
+    <components.Menu
+      {...props}
+      className={combineClass(
+        "!mt-1 rounded-lg border border-gray-200 stroke-none p-2 !shadow-none outline-0",
+        menuClasses,
+        {},
+      )}
+    />
+  );
 };
 
 const CustomPlaceholder = (props: PlaceholderProps) => {
@@ -99,32 +137,63 @@ const CustomOption = ({
     <div
       ref={innerRef}
       {...innerProps}
-      className={combineClass("flex items-center gap-2 lg:px-3 px-2 py-2 cursor-pointer rounded text-sm my-1", {"bg-blue-100": isFocused, "bg-blue-500 text-white": isSelected})}
+      className={combineClass(
+        "my-1 flex cursor-pointer items-center gap-2 rounded px-2 py-2 text-sm lg:px-3",
+        { "bg-blue-100": isFocused, "bg-blue-500 text-white": isSelected },
+      )}
     >
       {!data.iconIsComponent && showIconOnOptions && data.icon && (
-        <img loading="lazy" src={data.icon} alt={data.label} className={combineClass("w-6 h-4 rounded-sm", {"lg:inline-block hidden": hiddenIconOpOptionsForMobile})} />
+        <img
+          loading="lazy"
+          src={data.icon}
+          alt={data.label}
+          className={combineClass("h-4 w-6 rounded-sm", {
+            "hidden lg:inline-block": hiddenIconOpOptionsForMobile,
+          })}
+        />
       )}
 
       {data.iconIsComponent && showIconOnOptions && data.icon && (
-        <div className={combineClass("w-6 h-4 rounded-sm overflow-hidden", {"lg:inline-block hidden": hiddenIconOpOptionsForMobile})}>{React.createElement(data.icon)}</div>
+        <div
+          className={combineClass("h-4 w-6 overflow-hidden rounded-sm", {
+            "hidden lg:inline-block": hiddenIconOpOptionsForMobile,
+          })}
+        >
+          {React.createElement(data.icon)}
+        </div>
       )}
-      <span>{showShortLabelOnOptions && data.shortLabel ? data.shortLabel : data.label}</span>
+      <span>
+        {showShortLabelOnOptions && data.shortLabel
+          ? data.shortLabel
+          : data.label}
+      </span>
     </div>
   );
 };
 
 const CustomIndicatorsContainer = (props: IndicatorsContainerProps) => {
   return (
-    <div className="absolute right-0 rtl:left-0 rtl:right-auto flex items-center justify-center [&_*]:fill-gray-400">
+    <div className="absolute right-0 flex items-center justify-center rtl:left-0 rtl:right-auto [&_*]:fill-gray-400">
       <components.IndicatorsContainer {...props} />
     </div>
   );
 };
 
-const CustomDropdownIndicator = ({removeDropdownIndicatorIsFocused, ...props}: {removeDropdownIndicatorIsFocused: boolean} & DropdownIndicatorProps<any>) => {
+const CustomDropdownIndicator = ({
+  removeDropdownIndicatorIsFocused,
+  ...props
+}: {
+  removeDropdownIndicatorIsFocused: boolean;
+} & DropdownIndicatorProps<any>) => {
   return (
-    <div className={combineClass("", {hidden: props.isFocused && removeDropdownIndicatorIsFocused})}>
-      <components.DropdownIndicator {...props}>{props.children}</components.DropdownIndicator>
+    <div
+      className={combineClass("", {
+        hidden: props.isFocused && removeDropdownIndicatorIsFocused,
+      })}
+    >
+      <components.DropdownIndicator {...props}>
+        {props.children}
+      </components.DropdownIndicator>
     </div>
   );
 };
@@ -170,7 +239,7 @@ export const SelectField = ({
         closeMenuOnSelect={true}
         isClearable={true}
         filterOption={(option: any, inputValue: any) => {
-          const {label, shortLabel, value, ...otherProps} = option.data;
+          const { label, shortLabel, value, ...otherProps } = option.data;
           const searchText = normalizeText(inputValue);
 
           // Normalize all values for comparison
@@ -184,14 +253,30 @@ export const SelectField = ({
             normalizedShortLabel.includes(searchText) ||
             normalizedValue.includes(searchText) ||
             // Excludes the "icon" property and checks if any other property in otherProps matches the search text.
-            (!Object.keys(otherProps).includes("icon") && Object.values(otherProps).some((prop: any) => normalizeText(prop?.toString()).includes(searchText)))
+            (!Object.keys(otherProps).includes("icon") &&
+              Object.values(otherProps).some((prop: any) =>
+                normalizeText(prop?.toString()).includes(searchText),
+              ))
           );
         }}
-        getOptionLabel={(option: any) => (showOnlyIconOnControl ? "" : showShortLabelOnControl ? option.shortLabel : option.label)}
+        getOptionLabel={(option: any) =>
+          showOnlyIconOnControl
+            ? ""
+            : showShortLabelOnControl
+              ? option.shortLabel
+              : option.label
+        }
         components={{
           IndicatorSeparator: () => null,
           IndicatorsContainer: CustomIndicatorsContainer,
-          DropdownIndicator: (dropdownProps) => <CustomDropdownIndicator {...dropdownProps} removeDropdownIndicatorIsFocused={removeDropdownIndicatorIsFocused} />,
+          DropdownIndicator: (dropdownProps) => (
+            <CustomDropdownIndicator
+              {...dropdownProps}
+              removeDropdownIndicatorIsFocused={
+                removeDropdownIndicatorIsFocused
+              }
+            />
+          ),
           Control: (controlProps) => (
             <CustomControl
               {...controlProps}
@@ -201,7 +286,9 @@ export const SelectField = ({
               showOnlyIconOnControl={showOnlyIconOnControl}
             />
           ),
-          Menu: (menuProps) => <CustomMenu {...menuProps} menuClasses={menuClasses} />,
+          Menu: (menuProps) => (
+            <CustomMenu {...menuProps} menuClasses={menuClasses} />
+          ),
           Option: (optionProps) => (
             <CustomOption
               {...optionProps}
@@ -219,7 +306,9 @@ export const SelectField = ({
         {...props}
       />
 
-      {!hideErrorMessage && meta.touched && meta.error ? <p className="text-red-500 text-xs ml-1">{meta.error}</p> : null}
+      {!hideErrorMessage && meta.touched && meta.error ? (
+        <p className="ml-1 text-xs text-red-500">{meta.error}</p>
+      ) : null}
     </div>
   );
 };

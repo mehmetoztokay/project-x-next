@@ -13,7 +13,16 @@ type PhoneInputProps = Partial<React.ComponentProps<typeof PhoneInput>> & {
   runOnChange?: (value: any) => void;
 };
 
-export const PhoneNumberField: React.FC<PhoneInputProps> = ({ name, label, className, inputBg, innerFloatLabel = false, hideErrorMessage = false, runOnChange, ...props }) => {
+export const PhoneNumberField: React.FC<PhoneInputProps> = ({
+  name,
+  label,
+  className,
+  inputBg,
+  innerFloatLabel = false,
+  hideErrorMessage = false,
+  runOnChange,
+  ...props
+}) => {
   const [field, meta, setField] = useField(name);
   const [focused, setFocused] = useState(false);
   return (
@@ -25,17 +34,20 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({ name, label, class
         })}
       >
         <div
-          className={combineClass("peer w-full border border-gray-200 rounded-md py-3 px-3", {
-            "text-gray-900 border-blue-500 pt-4 pb-2": focused,
-            "!text-gray-900": field.value > 0,
-            "border-red-500": meta.touched && meta.error,
-            "pt-4 pb-2": field.value,
-          })}
+          className={combineClass(
+            "peer w-full rounded-md border border-gray-200 px-3 py-3",
+            {
+              "border-blue-500 pb-2 pt-4 text-gray-900": focused,
+              "!text-gray-900": field.value > 0,
+              "border-red-500": meta.touched && meta.error,
+              "pb-2 pt-4": field.value,
+            },
+          )}
         >
           <PhoneInput
             className={combineClass(
-              "[&>input]:w-full [&>input]:h-full [&>input]:border-none [&>input]:placeholder-transparent [&>input]:outline-none [&>input]:py-0 [&>input]:px-0 p-0",
-              {}
+              "p-0 [&>input]:h-full [&>input]:w-full [&>input]:border-none [&>input]:px-0 [&>input]:py-0 [&>input]:placeholder-transparent [&>input]:outline-none",
+              {},
             )}
             style={{ backgroundColor: inputBg && inputBg }}
             countrySelectComponent={() => null}
@@ -55,16 +67,23 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({ name, label, class
         </div>
         <label
           htmlFor={name}
-          className={combineClass("absolute w-full left-1 px-2 transform -translate-y-1/2 top-1/2 duration-200 ease-in-out pointer-events-none ", {
-            "-translate-y-[20px] text-[10px]": field.value || focused,
-            "text-blue-500": focused,
-          })}
-          style={{ backgroundColor: inputBg && (field.value || focused) && inputBg }}
+          className={combineClass(
+            "pointer-events-none absolute left-1 top-1/2 w-full -translate-y-1/2 transform px-2 duration-200 ease-in-out",
+            {
+              "-translate-y-[20px] text-[10px]": field.value || focused,
+              "text-blue-500": focused,
+            },
+          )}
+          style={{
+            backgroundColor: inputBg && (field.value || focused) && inputBg,
+          }}
         >
           {label}
         </label>
       </div>
-      {!hideErrorMessage && meta.touched && meta.error && <div className="text-red-500 text-xs">{meta.error}</div>}
+      {!hideErrorMessage && meta.touched && meta.error && (
+        <div className="text-xs text-red-500">{meta.error}</div>
+      )}
     </div>
   );
 };

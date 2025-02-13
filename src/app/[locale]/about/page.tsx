@@ -1,12 +1,12 @@
 import React from "react";
-import {useTranslations} from "next-intl";
-import {Params} from "@/types/general";
-import {getTranslations} from "next-intl/server";
+import { useTranslations } from "next-intl";
+import { Params } from "@/types/general";
+import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata({params}: {params: Params}) {
-  const {locale} = await params;
+export async function generateMetadata({ params }: { params: Params }) {
+  const { locale } = await params;
 
-  const t = await getTranslations({locale, namespace: "AboutPage"});
+  const t = await getTranslations({ locale, namespace: "AboutPage" });
 
   return {
     title: t("title"),

@@ -1,7 +1,7 @@
-import {getRequestConfig} from "next-intl/server";
-import {Locale, routing} from "./routing";
+import { getRequestConfig } from "next-intl/server";
+import { Locale, routing } from "./routing";
 
-export default getRequestConfig(async ({requestLocale}) => {
+export default getRequestConfig(async ({ requestLocale }) => {
   // This typically corresponds to the `[locale]` segment
   let locale = await requestLocale;
 
@@ -15,7 +15,9 @@ export default getRequestConfig(async ({requestLocale}) => {
   try {
     messages = (await import(`../../messages/${locale}.json`)).default;
   } catch (error) {
-    console.warn(`Could not load messages for locale: ${locale}, falling back to default.`);
+    console.warn(
+      `Could not load messages for locale: ${locale}, falling back to default.`,
+    );
     messages = (await import("../../messages/eu-en.json")).default;
   }
 
