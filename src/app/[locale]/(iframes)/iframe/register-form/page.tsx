@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { Params } from "@/types/general";
 import { getTranslations } from "next-intl/server";
-import { RegisterForm } from "@/containers/ContainerHomePage/RegisterForm";
+import { FormArea } from "./FormArea";
 
 export async function generateMetadata({ params }: { params: Params }) {
   const { locale } = await params;
@@ -19,8 +19,7 @@ const RegisterFormPage = () => {
   const t = useTranslations("AboutPage");
   return (
     <div className="h-full w-full">
-      {/* {t("title")} */}
-      <RegisterForm />
+      <FormArea />
     </div>
   );
 };
