@@ -112,13 +112,8 @@ export const RegisterForm = () => {
                 <InputField label="Surname" name="lastName" type="text" />
                 <InputField label="E mail" name="email" type="mail" />
 
-                <div
-                  className={combineClass(
-                    "relative grid grid-cols-12 gap-1",
-                    {},
-                  )}
-                >
-                  <div className="col-span-3">
+                <div className={combineClass("relative flex gap-1.5", {})}>
+                  <div className="w-[27%]">
                     <SelectField
                       isClearable={false}
                       name="countryCodeSelect"
@@ -149,7 +144,7 @@ export const RegisterForm = () => {
                       showIconOnOptions
                     />
                   </div>
-                  <div className="col-span-9">
+                  <div className="w-[73%]">
                     <PhoneNumberField
                       label="Phone Number"
                       name="phoneNumber"

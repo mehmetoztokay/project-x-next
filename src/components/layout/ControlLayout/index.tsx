@@ -1,12 +1,20 @@
 import React, { ReactNode } from "react";
 import { MainLayout } from "../MainLayout";
+import { DefaultLayout } from "../DefaultLayout";
 
 type Props = {
   children: ReactNode;
+  isIframeLayout?: boolean;
 };
 
-export const ControlLayout = ({ children }: Props) => {
+export const ControlLayout = ({ children, isIframeLayout }: Props) => {
   return (
-    <>{0 < 1 ? <MainLayout>{children}</MainLayout> : <p>Another layout</p>}</>
+    <>
+      {!isIframeLayout ? (
+        <MainLayout>{children}</MainLayout>
+      ) : (
+        <DefaultLayout>{children}</DefaultLayout>
+      )}
+    </>
   );
 };

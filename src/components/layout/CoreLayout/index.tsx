@@ -5,26 +5,43 @@ import { ReactNode } from "react";
 import { ControlLayout } from "../ControlLayout";
 import "@/app/globals.css";
 import { locales } from "@/i18n/routing";
+import { combineClass } from "@/helpers/development/combineClass";
 
 const inter = Inter({ subsets: ["latin"] });
 
 type Props = {
   children: ReactNode;
   locale: string;
+  isIframeLayout?: boolean;
 };
 
-export default async function CoreLayout({ children, locale }: Props) {
+export default async function CoreLayout({
+  children,
+  locale,
+  isIframeLayout,
+}: Props) {
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages();
   return (
     <html
+      className={combineClass("h-full w-full", {})}
       lang={locale}
       dir={locales.find((l) => l.locale === locale)?.direction}
     >
-      <body className={`${inter.className} antialiased`}>
+      <body
+        className={combineClass(
+          `${inter.className} h-full w-full antialiased`,
+          {},
+        )}
+      >
         <NextIntlClientProvider messages={messages}>
-          <ControlLayout children={children} />
+          <main>
+            <ControlLayout
+              children={children}
+              isIframeLayout={isIframeLayout}
+            />
+          </main>
         </NextIntlClientProvider>
       </body>
     </html>
