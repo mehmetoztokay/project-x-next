@@ -181,5 +181,11 @@ export const Modal: React.FC<ModalProps> = ({
     </div>
   );
 
-  return createPortal(modalContent, document.body);
+  // For iframe
+  const target =
+    window.parent && window.parent.document
+      ? window.parent.document.body
+      : document.body;
+
+  return createPortal(modalContent, target);
 };
