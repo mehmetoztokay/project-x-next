@@ -12,7 +12,7 @@ export const FormArea = () => {
       {/* {t("title")} */}
       <RegisterForm />
       <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
-        <div className="flex w-[500px] items-center rounded bg-white p-4 pt-14">
+        <div className="flex max-w-[500px] items-center rounded bg-white p-4 pt-14">
           <div className="">
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ex
@@ -34,7 +34,7 @@ export const FormArea = () => {
         setIsOpenModal={setIsOpenModal2}
         hasCancelAbortAlert
       >
-        <div className="flex w-[500px] items-center rounded bg-white p-4 pt-14">
+        <div className="flex max-w-[500px] items-center rounded bg-white p-4 pt-14">
           <div className="">
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta
