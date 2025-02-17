@@ -12,20 +12,22 @@ export const FormArea = () => {
       {/* {t("title")} */}
       <RegisterForm />
       <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
-        <div className="flex max-w-[500px] items-center rounded bg-white p-4 pt-14">
-          <div className="">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ex
-              et dolorem saepe necessitatibus harum minima non magnam qui eius
-              cum, laudantium aliquam! Adipisci libero omnis dolor delectus
-              numquam reiciendis?
-            </p>
-            <button
-              onClick={() => setIsOpenModal2(true)}
-              className="rounded bg-blue-400 px-4 py-4"
-            >
-              Open modal
-            </button>
+        <div className="p-6">
+          <div className="flex max-w-[500px] items-center rounded bg-white p-4 pt-14">
+            <div className="">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis
+                ex et dolorem saepe necessitatibus harum minima non magnam qui
+                eius cum, laudantium aliquam! Adipisci libero omnis dolor
+                delectus numquam reiciendis?
+              </p>
+              <button
+                onClick={() => setIsOpenModal2(true)}
+                className="rounded bg-blue-400 px-4 py-4"
+              >
+                Open modal
+              </button>
+            </div>
           </div>
         </div>
       </Modal>
@@ -34,12 +36,14 @@ export const FormArea = () => {
         setIsOpenModal={setIsOpenModal2}
         hasCancelAbortAlert
       >
-        <div className="flex max-w-[500px] items-center rounded bg-white p-4 pt-14">
-          <div className="mb-4">
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Accusantium, iusto.
-            </p>
+        <div className="p-6">
+          <div className="flex max-w-[500px] items-center rounded bg-white p-4 pt-14">
+            <div className="mb-4">
+              <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Accusantium, iusto.
+              </p>
+            </div>
           </div>
         </div>
       </Modal>
