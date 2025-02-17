@@ -109,7 +109,7 @@ export const Modal: React.FC<ModalProps> = ({
   if (!isOpenModal) return null;
 
   const modalContent = (
-    <div className="fixed inset-0 z-[1050] overflow-hidden overflow-y-auto overflow-x-hidden bg-black bg-opacity-70 backdrop-blur-md">
+    <div className="fixed inset-0 z-[1050] overflow-hidden overflow-y-auto overflow-x-hidden bg-black bg-opacity-30 backdrop-blur-md">
       <div
         className="relative h-full w-auto translate-x-0 translate-y-0 transform pt-28 transition-all duration-300 ease-out"
         style={{ paddingTop: paddingY ? paddingY.toString() : "" }}
