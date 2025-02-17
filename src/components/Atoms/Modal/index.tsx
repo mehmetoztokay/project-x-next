@@ -181,7 +181,5 @@ export const Modal: React.FC<ModalProps> = ({
     </div>
   );
 
-  console.log(window.parent);
-
   return createPortal(modalContent, document.body);
 };

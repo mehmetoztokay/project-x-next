@@ -307,7 +307,7 @@ export const SelectField = ({
       />
 
       {!hideErrorMessage && meta.touched && meta.error ? (
-        <p className="ml-1 text-xs text-red-500">{meta.error}</p>
+        <p className="ml-1 mt-0.5 text-xs text-red-500">{meta.error}</p>
       ) : null}
     </div>
   );

@@ -82,7 +82,7 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({
         </label>
       </div>
       {!hideErrorMessage && meta.touched && meta.error && (
-        <div className="text-xs text-red-500">{meta.error}</div>
+        <div className="ml-1 mt-0.5 text-xs text-red-500">{meta.error}</div>
       )}
     </div>
   );

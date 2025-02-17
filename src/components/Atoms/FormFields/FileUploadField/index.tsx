@@ -174,7 +174,7 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
         <p className="mt-1 px-1 text-xs text-gray-500">{acceptTypesMessage}</p>
       )}
       {!hideErrorMessage && meta.touched && meta.error ? (
-        <p className="ml-1 mt-1 text-xs text-red-500">{meta.error}</p>
+        <p className="ml-1 mt-0.5 text-xs text-red-500">{meta.error}</p>
       ) : null}
     </div>
   );
