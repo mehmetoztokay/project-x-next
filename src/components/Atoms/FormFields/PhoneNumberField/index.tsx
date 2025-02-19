@@ -1,6 +1,6 @@
 import { combineClass } from "@/helpers/development/combineClass";
 import { useField } from "formik";
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import PhoneInput, { PhoneNumber, Value } from "react-phone-number-input";
 
 type PhoneInputProps = Partial<React.ComponentProps<typeof PhoneInput>> & {
@@ -25,6 +25,8 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({
 }) => {
   const [field, meta, setField] = useField(name);
   const [focused, setFocused] = useState(false);
+  const inputRef = useRef<any>(null);
+
   return (
     <div>
       <div
@@ -49,6 +51,7 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({
               "p-0 [&>input]:h-full [&>input]:w-full [&>input]:border-none [&>input]:px-0 [&>input]:py-0 [&>input]:placeholder-transparent [&>input]:outline-none",
               {},
             )}
+            ref={inputRef}
             style={{ backgroundColor: inputBg && inputBg }}
             countrySelectComponent={() => null}
             placeholder=""
@@ -61,8 +64,11 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({
               setField.setTouched(true);
               setFocused(false);
             }}
-            onFocus={() => setFocused(true)}
-            {...props} // Burada gelen props'ları aktarıyoruz
+            onFocus={(e) => {
+              setFocused(true);
+              console.log(e.currentTarget);
+            }}
+            {...props}
           />
         </div>
         <label

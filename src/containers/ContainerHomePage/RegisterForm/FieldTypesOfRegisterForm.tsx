@@ -1,3 +1,5 @@
+import { ICountryCodeSelect } from "@/types/ICountryCodeSelect";
+
 export interface IFieldsOfRegisterForm {
   firstName: string;
   lastName: string;
@@ -9,20 +11,4 @@ export interface IFieldsOfRegisterForm {
   cvFile: File | null;
   checkbox1: boolean;
   checkbox2: boolean;
-}
-
-export interface ICountryCodeSelect {
-  label: string;
-  value: string;
-  id: string;
-  shortLabel?: string;
-  icon?: any;
-  phoneCode: string;
-  iconIsComponent?: boolean;
-}
-
-export interface ICountrySelect {
-  label: string;
-  value: string;
-  id: string;
 }

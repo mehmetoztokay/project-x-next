@@ -63,7 +63,7 @@ export const InputField: React.FC<InputProps> = ({
               "border-red-500": meta.touched && meta.error,
               "pr-14 rtl:pl-14 rtl:pr-3": type == "password" || isClearable,
               "pb-2 pt-4 focus:pb-2 focus:pt-4":
-                field.value.toString().length > 0,
+                field?.value?.toString().length > 0,
             },
           )}
           style={{ backgroundColor: inputBg && inputBg }}

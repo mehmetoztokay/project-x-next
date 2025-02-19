@@ -1,21 +1,24 @@
 "use client";
-import { CheckboxField } from "@/components/Atoms/FormFields/CheckboxField";
+import { ISingleRegisterPayload } from "@/services/singleRegister";
+import { Form, Formik, FormikHelpers } from "formik";
+import { useTranslations } from "next-intl";
+import React, { useEffect, useState } from "react";
+import { getSingleRegisterFormScheme } from "./SingleRegisterFormScheme";
 import { InputField } from "@/components/Atoms/FormFields/InputField";
-import { SelectField } from "@/components/Atoms/FormFields/SelectField";
-import { combineClass } from "@/helpers/development/combineClass";
-import { Formik, Form, FormikHelpers } from "formik";
-import { useEffect, useState } from "react";
-import { IFieldsOfRegisterForm } from "./FieldTypesOfRegisterForm";
-import { FormSchemeOfRegister } from "./FormSchemeOfRegister";
-import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
-import { getCountryList } from "@/helpers/getCountryList";
-import { useSearchParams } from "next/navigation";
-import { FileUploadField } from "@/components/Atoms/FormFields/FileUploadField";
-import { parsePhoneNumber, isValidPhoneNumber } from "react-phone-number-input";
+import { CheckboxField } from "@/components/Atoms/FormFields/CheckboxField";
 import { ICountryCodeSelect } from "@/types/ICountryCodeSelect";
 import { ICountrySelect } from "@/types/ICountrySelect";
+import { getCountryList } from "@/helpers/getCountryList";
+import { useSearchParams } from "next/navigation";
+import { SelectField } from "@/components/Atoms/FormFields/SelectField";
+import { combineClass } from "@/helpers/development/combineClass";
+import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
+import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 
-export const RegisterForm = () => {
+export const SingleRegisterForm = () => {
+  const t = useTranslations("IframePages");
+  const tForm = useTranslations("Forms");
+
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<
     ICountryCodeSelect[]
   >([]);
@@ -55,29 +58,47 @@ export const RegisterForm = () => {
     fetchCountryList();
   }, []);
 
+  const SingleRegisterFormScheme = getSingleRegisterFormScheme(tForm);
+
   return (
-    <div className="mx-auto w-full max-w-[350px] rounded-md bg-white p-5 py-4 shadow-2xl">
-      <h1 className="text-2xl font-bold">Register</h1>
-      <p className="mb-8 font-light">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-      </p>
+    <div className="p-8">
       <Formik
-        validationSchema={FormSchemeOfRegister}
+        validationSchema={SingleRegisterFormScheme}
         initialValues={{
+          // siteId: "",
+          email: "",
           firstName: "",
           lastName: "",
-          email: "",
+          phone: "",
           phoneCode: "",
-          phoneNumber: "",
-          password: "",
+          // fullPageUrl: "",
+          consentMarketing: false,
+          termsAndConditions: false,
+          countryOfResidence: "",
+          // source:
+          crRefCode: "",
+          scaPassword: "",
           countryCodeSelect: "",
-          cvFile: null,
-          checkbox1: false,
-          checkbox2: false,
         }}
         onSubmit={(
-          values: IFieldsOfRegisterForm,
-          { setSubmitting }: FormikHelpers<IFieldsOfRegisterForm>,
+          values: Omit<
+            ISingleRegisterPayload,
+            "siteId" | "fullPageUrl" | "source"
+          > & {
+            termsAndConditions: boolean;
+            countryCodeSelect: ICountryCodeSelect | "";
+          },
+          {
+            setSubmitting,
+          }: FormikHelpers<
+            Omit<
+              ISingleRegisterPayload,
+              "siteId" | "fullPageUrl" | "source"
+            > & {
+              termsAndConditions: boolean;
+              countryCodeSelect: ICountryCodeSelect | "";
+            }
+          >,
         ) => {
           console.log(values);
 
@@ -100,15 +121,35 @@ export const RegisterForm = () => {
         }) => {
           return (
             <>
+              <div className="p-4 py-8 text-xs">
+                <br />
+                <code>
+                  {/* {JSON.stringify(values.phone)}
+                  {JSON.stringify(values.phoneCode)}
+                  {JSON.stringify(values.countryOfResidence)} */}
+                  {/* {JSON.stringify(values.countryCodeSelect)} */}
+                </code>
+              </div>
               <Form className="grid gap-3">
                 <InputField
-                  label="Name"
                   name="firstName"
-                  type="text"
-                  isClearable
+                  label={tForm("formLabels.firstName")}
                 />
-                <InputField label="Surname" name="lastName" type="text" />
-                <InputField label="E mail" name="email" type="mail" />
+                <InputField
+                  name="lastName"
+                  label={tForm("formLabels.lastName")}
+                />
+                <InputField
+                  name="email"
+                  label={tForm("formLabels.email")}
+                  type="email"
+                />
+
+                <InputField
+                  name="scaPassword"
+                  type="password"
+                  label={tForm("formLabels.password")}
+                />
 
                 <div className={combineClass("relative flex gap-1.5", {})}>
                   <div className="w-[27%]">
@@ -118,21 +159,21 @@ export const RegisterForm = () => {
                       value={values.countryCodeSelect}
                       onChange={(option: any) => {
                         // Clear error message of countryCodeSelect
-                        setErrors({ ...errors, countryCodeSelect: undefined });
+                        setErrors({ ...errors, phoneCode: undefined });
                         setValues({
                           ...values,
                           countryCodeSelect: option,
-                          phoneNumber: "+" + option.phoneCode,
+                          phone: "+" + option.phoneCode,
                           phoneCode: option.shortLabel,
                         });
                       }}
                       onBlur={() => {
-                        !touched.countryCodeSelect &&
-                          setFieldTouched("countryCodeSelect", true);
-                        values.countryCodeSelect &&
+                        !touched.phoneCode &&
+                          setFieldTouched("phoneCode", true);
+                        values.phoneCode &&
                           setErrors({
                             ...errors,
-                            countryCodeSelect: undefined,
+                            phoneCode: undefined,
                           });
                       }}
                       placeholderText="Code"
@@ -144,11 +185,11 @@ export const RegisterForm = () => {
                   </div>
                   <div className="w-[73%]">
                     <PhoneNumberField
-                      label="Phone Number"
-                      name="phoneNumber"
+                      label={tForm("formLabels.phone")}
+                      name="phone"
                       // For autocomplete
                       runOnChange={(value) => {
-                        if (values.countryCodeSelect == "") {
+                        if (values.phoneCode == "") {
                           const checkPhoneNumberIsValid = value
                             ? isValidPhoneNumber(value)
                             : false;
@@ -163,10 +204,7 @@ export const RegisterForm = () => {
                                 c.value.toLowerCase() == country?.toLowerCase(),
                             );
                           foundCountry &&
-                            setFieldValue(
-                              "countryCodeSelect",
-                              foundCountry || "",
-                            );
+                            setFieldValue("phoneCode", foundCountry || "");
                         }
                       }}
                       onCountryChange={(country: any) => {
@@ -174,6 +212,7 @@ export const RegisterForm = () => {
                           (c) =>
                             c.value.toLowerCase() == country?.toLowerCase(),
                         );
+
                         foundCountry &&
                           setFieldValue(
                             "phoneCode",
@@ -189,50 +228,29 @@ export const RegisterForm = () => {
                   </div>
                 </div>
 
+                <CheckboxField name="consentMarketing">sela</CheckboxField>
+                <CheckboxField name="termsAndConditions">Terms</CheckboxField>
+
                 <SelectField
                   options={countrySelectValues}
-                  name="test"
+                  name="countryOfResidence"
                   showIconOnControl
                   showIconOnOptions
                   isClearable={false}
+                  onBlur={() => setFieldTouched("countryOfResidence", true)}
+                  onChange={(newValue: any) =>
+                    setFieldValue("countryOfResidence", newValue.value)
+                  }
                 />
 
-                <InputField
-                  label="Password"
-                  name="password"
-                  type="password"
-                  checked={values.checkbox1}
-                />
-                <FileUploadField
-                  uploadMessage={"Upload CV"}
-                  dropMessage="Drop CV"
-                  name="cvFile"
-                  acceptTypesMessage="The file must be PDF format and not exceed 500KB"
-                />
+                {/* TODO: Ref code */}
+                {/* TODO: Source */}
 
-                <CheckboxField name="checkbox1">
-                  You need to enable JavaScript to run this app. You need to
-                  enable JavaScript to run this app.{" "}
-                  <a
-                    target="_blank"
-                    href="https://www.trive.com"
-                    className="text-blue-500 underline"
-                  >
-                    You need to enable JavaScript
-                  </a>{" "}
-                  to run this app.
-                </CheckboxField>
+                {/* Country select */}
+                <div className="my-10"></div>
 
-                <CheckboxField name="checkbox2">Test field</CheckboxField>
-
-                <div className="text-left">
-                  <button
-                    type="submit"
-                    className="mt-1 w-full rounded-full bg-gray-300 px-4 py-2 text-gray-900 transition hover:bg-gray-400"
-                  >
-                    Submit
-                  </button>
-                </div>
+                <button type="submit">gonder</button>
+                <div className="my-10"></div>
               </Form>
             </>
           );

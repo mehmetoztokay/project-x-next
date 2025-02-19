@@ -145,5 +145,36 @@
   "AboutPage": {
     "title": "About page title eu en",
     "description": "About page Description eu en"
+  },
+  "Forms": {
+    "isNotValid": "Invalid input",
+    "useOnlyLetters": "Letters only",
+    "isRequired": "Required field",
+    "minChars": "At least {number} characters",
+    "maxChars": "Max {number} characters",
+    "noSpacesAtStartOrEnd": "No leading or trailing spaces",
+    "onlyLowercase": "Only lowercase letters allowed",
+    "invalidEmail": "Please enter a valid email",
+    "invalidPhone": "Please enter a valid phone",
+    "invalidPhoneCode": "Please enter a valid phone code (e.g. +1, +90)",
+    "checkboxRequired": "This checkbox must be checked to continue",
+    "noSpecialChars": "Special characters are not allowed.",
+    "atLeastOneUpperCase": "Must contain at least one uppercase letter.",
+    "atLeastOneLowerCase": "Must contain at least one lowercase letter.",
+    "atLeastOneNumber": "Must contain at least one number.",
+    "passwordCriteria": "Password must be between 8-15 characters and include at least one uppercase letter, one lowercase letter, and one number. No special characters allowed.",
+    "formLabels": {
+      "firstName": "Fisrt Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "phoneCode": "Area Code",
+      "password": "Password"
+    }
+  },
+  "IframePages": {
+    "title": "Trive",
+    "description": "Trive",
+    "singleRegisterPage": {}
   }
 }
