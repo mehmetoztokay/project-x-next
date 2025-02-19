@@ -1,4 +1,7 @@
-export const regexOnlyLowercaseLetters = /^[a-z]+$/;
+export const regexOnlyLowercaseLetters = /^[^A-Z]*$/;
+
+export const regexMail =
+  /^[a-z0-9](\.?[a-z0-9_-])*@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/;
 
 export const regexOnlyLetters = /^[\p{L}]+(?:\s[\p{L}]+)*$/u;
 

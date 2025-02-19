@@ -2,6 +2,7 @@ import {
   regexAtLeastOneLowerCase,
   regexAtLeastOneNumber,
   regexAtLeastOneUpperCase,
+  regexMail,
   regexNoSpecialChars,
   regexOnlyLetters,
   regexOnlyLowercaseLetters,
@@ -18,6 +19,7 @@ export const getSingleRegisterFormScheme = (tForm: any) => {
       .min(5, tForm("minChars", { number: 5 }))
       .max(50, tForm("maxChars", { number: 50 }))
       .email(tForm("invalidEmail"))
+      .matches(regexMail, tForm("invalidEmail"))
       .matches(regexOnlyLowercaseLetters, tForm("onlyLowercase")),
     // FirstName
     firstName: Yup.string()

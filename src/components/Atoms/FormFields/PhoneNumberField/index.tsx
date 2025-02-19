@@ -66,7 +66,6 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({
             }}
             onFocus={(e) => {
               setFocused(true);
-              console.log(e.currentTarget);
             }}
             {...props}
           />
