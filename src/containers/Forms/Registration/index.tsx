@@ -30,7 +30,9 @@ export const RegistrationForm = () => {
 
   useEffect(() => {
     if (window.parent) {
-      console.log(window.parent);
+      console.log(window.parent.location);
+    } else {
+      console.log(window.location);
     }
     const fetchCountryList = async () => {
       const allCountries = await getCountryList(lang);
