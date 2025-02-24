@@ -1,5 +1,4 @@
 "use client";
-import { ISingleRegisterPayload } from "@/services/registration";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
@@ -14,8 +13,9 @@ import { SelectField } from "@/components/Atoms/FormFields/SelectField";
 import { combineClass } from "@/helpers/development/combineClass";
 import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
 import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
+import { IRegistration_SingleRegister } from "@/services/TriveApiServices/RegistrationApi/RegistrationServiceTypes";
 
-export const SingleRegisterForm = () => {
+export const RegistrationForm = () => {
   const t = useTranslations("IframePages");
   const tForm = useTranslations("Forms");
 
@@ -29,6 +29,9 @@ export const SingleRegisterForm = () => {
   const lang = searchParams.get("lang") || "";
 
   useEffect(() => {
+    if (window.parent) {
+      console.log(window.parent);
+    }
     const fetchCountryList = async () => {
       const allCountries = await getCountryList(lang);
 
@@ -65,7 +68,7 @@ export const SingleRegisterForm = () => {
       <Formik
         validationSchema={SingleRegisterFormScheme}
         initialValues={{
-          // siteId: "",
+          // siteId: 0,
           email: "",
           firstName: "",
           lastName: "",
@@ -73,16 +76,26 @@ export const SingleRegisterForm = () => {
           phoneCode: "",
           // fullPageUrl: "",
           consentMarketing: false,
-          termsAndConditions: false,
           countryOfResidence: "",
-          // source:
+          // source: "",
+          utmSource: "",
+          utmMedium: "",
+          utmCampaign: "",
+          utmContent: "",
+          marketingDataId: "",
+          affiliateCxdId: "",
+          affiliateId: "",
           crRefCode: "",
           scaPassword: "",
+          isSendScaPassword: true,
+          isPartner: false,
+          // Without types
+          termsAndConditions: false,
           countryCodeSelect: "",
         }}
         onSubmit={(
           values: Omit<
-            ISingleRegisterPayload,
+            IRegistration_SingleRegister,
             "siteId" | "fullPageUrl" | "source"
           > & {
             termsAndConditions: boolean;
@@ -92,7 +105,7 @@ export const SingleRegisterForm = () => {
             setSubmitting,
           }: FormikHelpers<
             Omit<
-              ISingleRegisterPayload,
+              IRegistration_SingleRegister,
               "siteId" | "fullPageUrl" | "source"
             > & {
               termsAndConditions: boolean;
@@ -243,9 +256,8 @@ export const SingleRegisterForm = () => {
                   }
                 />
 
-                {/* TODO: Ref code */}
-                {/* TODO: Source */}
-
+                {/* Ref code */}
+                {/* Source */}
                 {/* Country select */}
                 <div className="my-10"></div>
 

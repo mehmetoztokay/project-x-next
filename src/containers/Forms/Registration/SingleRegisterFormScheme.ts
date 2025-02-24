@@ -64,7 +64,7 @@ export const getSingleRegisterFormScheme = (tForm: any) => {
       .matches(regexAtLeastOneUpperCase, tForm("atLeastOneUpperCase"))
       .matches(regexAtLeastOneLowerCase, tForm("atLeastOneLowerCase"))
       .matches(regexAtLeastOneNumber, tForm("atLeastOneNumber")),
-    countryCodeSelect: Yup.object().required(),
+    countryCodeSelect: Yup.object().required(tForm("isRequired")),
   });
 
   return scheme;
