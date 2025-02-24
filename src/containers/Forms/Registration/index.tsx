@@ -30,8 +30,10 @@ export const RegistrationForm = () => {
 
   useEffect(() => {
     if (window.parent) {
-      console.log(window.parent.location);
+      console.log("parent var");
+      console.log(window.location);
     } else {
+      console.log("parent yok");
       console.log(window.location);
     }
     const fetchCountryList = async () => {
