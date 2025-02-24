@@ -1,5 +1,5 @@
 "use client";
-import { ISingleRegisterPayload } from "@/services/singleRegister";
+import { ISingleRegisterPayload } from "@/services/registration";
 import { Form, Formik, FormikHelpers } from "formik";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
