@@ -99,6 +99,7 @@ export const RegistrationForm = () => {
           return (
             <>
               <Form className="grid gap-3">
+                <p>{values.fullPageUrl}</p>
                 <InputField name="firstName" label={tForm("formLabels.firstName")} />
                 <InputField name="lastName" label={tForm("formLabels.lastName")} />
                 <InputField name="email" label={tForm("formLabels.email")} type="email" />
