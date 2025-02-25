@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { IFieldsOfRegisterForm } from "./FieldTypesOfRegisterForm";
 import { FormSchemeOfRegister } from "./FormSchemeOfRegister";
 import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
-import { getCountryList } from "@/helpers/getCountryList";
+import { useCountryList } from "@/helpers/getCountryList";
 import { useSearchParams } from "next/navigation";
 import { FileUploadField } from "@/components/Atoms/FormFields/FileUploadField";
 import { parsePhoneNumber, isValidPhoneNumber } from "react-phone-number-input";
@@ -16,9 +16,7 @@ import { ICountryCodeSelect } from "@/types/ICountryCodeSelect";
 import { ICountrySelect } from "@/types/ICountrySelect";
 
 export const RegisterForm = () => {
-  const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<
-    ICountryCodeSelect[]
-  >([]);
+  const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
   const [countrySelectValues, setCountryNames] = useState<ICountrySelect[]>([]);
 
   const searchParams = useSearchParams();
@@ -27,26 +25,10 @@ export const RegisterForm = () => {
 
   useEffect(() => {
     const fetchCountryList = async () => {
-      const allCountries = await getCountryList(lang);
+      const { getFormattedCountryCodeSelectValues, getFormattedCountrySelectValues } = useCountryList();
 
-      const formattedCountryCodeSelectValues = allCountries.map((country) => ({
-        label: country.phoneCountryLabel,
-        value: country.alphaCode,
-        id: country.alphaCode,
-        shortLabel: `+${country.countryCallingCode}`,
-        icon: country.flagComponent,
-        phoneCode: country.countryCallingCode,
-        iconIsComponent: true,
-      }));
-
-      const formattedCountrySelectValues = allCountries.map((country) => ({
-        label: country.countryName,
-        value: country.alphaCode,
-        id: country.alphaCode,
-        shortLabel: country.alphaCode,
-        icon: country.flagComponent,
-        iconIsComponent: true,
-      }));
+      const formattedCountryCodeSelectValues = await getFormattedCountryCodeSelectValues();
+      const formattedCountrySelectValues = await getFormattedCountrySelectValues();
 
       setCountryCodeSelectValues(formattedCountryCodeSelectValues);
       setCountryNames(formattedCountrySelectValues);
@@ -58,9 +40,7 @@ export const RegisterForm = () => {
   return (
     <div className="mx-auto w-full max-w-[350px] rounded-md bg-white p-5 py-4 shadow-2xl">
       <h1 className="text-2xl font-bold">Register</h1>
-      <p className="mb-8 font-light">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-      </p>
+      <p className="mb-8 font-light">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
       <Formik
         validationSchema={FormSchemeOfRegister}
         initialValues={{
@@ -75,10 +55,7 @@ export const RegisterForm = () => {
           checkbox1: false,
           checkbox2: false,
         }}
-        onSubmit={(
-          values: IFieldsOfRegisterForm,
-          { setSubmitting }: FormikHelpers<IFieldsOfRegisterForm>,
-        ) => {
+        onSubmit={(values: IFieldsOfRegisterForm, { setSubmitting }: FormikHelpers<IFieldsOfRegisterForm>) => {
           console.log(values);
 
           setTimeout(() => {
@@ -87,26 +64,11 @@ export const RegisterForm = () => {
           }, 500);
         }}
       >
-        {({
-          values,
-          setFieldValue,
-          errors,
-          touched,
-          handleBlur,
-          setFieldTouched,
-          setErrors,
-          setValues,
-          handleChange,
-        }) => {
+        {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors, setValues, handleChange }) => {
           return (
             <>
               <Form className="grid gap-3">
-                <InputField
-                  label="Name"
-                  name="firstName"
-                  type="text"
-                  isClearable
-                />
+                <InputField label="Name" name="firstName" type="text" isClearable />
                 <InputField label="Surname" name="lastName" type="text" />
                 <InputField label="E mail" name="email" type="mail" />
 
@@ -127,8 +89,7 @@ export const RegisterForm = () => {
                         });
                       }}
                       onBlur={() => {
-                        !touched.countryCodeSelect &&
-                          setFieldTouched("countryCodeSelect", true);
+                        !touched.countryCodeSelect && setFieldTouched("countryCodeSelect", true);
                         values.countryCodeSelect &&
                           setErrors({
                             ...errors,
@@ -149,60 +110,25 @@ export const RegisterForm = () => {
                       // For autocomplete
                       runOnChange={(value) => {
                         if (values.countryCodeSelect == "") {
-                          const checkPhoneNumberIsValid = value
-                            ? isValidPhoneNumber(value)
-                            : false;
-                          const country = checkPhoneNumberIsValid
-                            ? parsePhoneNumber(value)?.country
-                            : false;
+                          const checkPhoneNumberIsValid = value ? isValidPhoneNumber(value) : false;
+                          const country = checkPhoneNumberIsValid ? parsePhoneNumber(value)?.country : false;
 
-                          const foundCountry =
-                            country &&
-                            countryCodeSelectValues?.find(
-                              (c) =>
-                                c.value.toLowerCase() == country?.toLowerCase(),
-                            );
-                          foundCountry &&
-                            setFieldValue(
-                              "countryCodeSelect",
-                              foundCountry || "",
-                            );
+                          const foundCountry = country && countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
+                          foundCountry && setFieldValue("countryCodeSelect", foundCountry || "");
                         }
                       }}
                       onCountryChange={(country: any) => {
-                        const foundCountry = countryCodeSelectValues?.find(
-                          (c) =>
-                            c.value.toLowerCase() == country?.toLowerCase(),
-                        );
-                        foundCountry &&
-                          setFieldValue(
-                            "phoneCode",
-                            "+" + foundCountry?.phoneCode || "",
-                          );
-                        foundCountry &&
-                          setFieldValue(
-                            "countryCodeSelect",
-                            foundCountry || "",
-                          );
+                        const foundCountry = countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
+                        foundCountry && setFieldValue("phoneCode", "+" + foundCountry?.phoneCode || "");
+                        foundCountry && setFieldValue("countryCodeSelect", foundCountry || "");
                       }}
                     />
                   </div>
                 </div>
 
-                <SelectField
-                  options={countrySelectValues}
-                  name="test"
-                  showIconOnControl
-                  showIconOnOptions
-                  isClearable={false}
-                />
+                <SelectField options={countrySelectValues} name="test" showIconOnControl showIconOnOptions isClearable={false} />
 
-                <InputField
-                  label="Password"
-                  name="password"
-                  type="password"
-                  checked={values.checkbox1}
-                />
+                <InputField label="Password" name="password" type="password" checked={values.checkbox1} />
                 <FileUploadField
                   uploadMessage={"Upload CV"}
                   dropMessage="Drop CV"
@@ -211,13 +137,8 @@ export const RegisterForm = () => {
                 />
 
                 <CheckboxField name="checkbox1">
-                  You need to enable JavaScript to run this app. You need to
-                  enable JavaScript to run this app.{" "}
-                  <a
-                    target="_blank"
-                    href="https://www.trive.com"
-                    className="text-blue-500 underline"
-                  >
+                  You need to enable JavaScript to run this app. You need to enable JavaScript to run this app.{" "}
+                  <a target="_blank" href="https://www.trive.com" className="text-blue-500 underline">
                     You need to enable JavaScript
                   </a>{" "}
                   to run this app.
@@ -226,10 +147,7 @@ export const RegisterForm = () => {
                 <CheckboxField name="checkbox2">Test field</CheckboxField>
 
                 <div className="text-left">
-                  <button
-                    type="submit"
-                    className="mt-1 w-full rounded-full bg-gray-300 px-4 py-2 text-gray-900 transition hover:bg-gray-400"
-                  >
+                  <button type="submit" className="mt-1 w-full rounded-full bg-gray-300 px-4 py-2 text-gray-900 transition hover:bg-gray-400">
                     Submit
                   </button>
                 </div>

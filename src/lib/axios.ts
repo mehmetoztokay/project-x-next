@@ -6,7 +6,7 @@ export const api = axios.create({
   },
 });
 
-// Hata yönetimi
+// Error handling
 api.interceptors.response.use(
   (response) => response,
   (error) => {

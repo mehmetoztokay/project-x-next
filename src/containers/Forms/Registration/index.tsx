@@ -7,56 +7,31 @@ import { InputField } from "@/components/Atoms/FormFields/InputField";
 import { CheckboxField } from "@/components/Atoms/FormFields/CheckboxField";
 import { ICountryCodeSelect } from "@/types/ICountryCodeSelect";
 import { ICountrySelect } from "@/types/ICountrySelect";
-import { getCountryList } from "@/helpers/getCountryList";
 import { useSearchParams } from "next/navigation";
 import { SelectField } from "@/components/Atoms/FormFields/SelectField";
 import { combineClass } from "@/helpers/development/combineClass";
 import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
 import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 import { IRegistration_SingleRegister } from "@/services/TriveApiServices/RegistrationApi/RegistrationServiceTypes";
+import { getSiteIdWithLocale } from "@/i18n/routing";
+import { useFullPageUrl } from "@/helpers/getFullPageUrl";
+import { useCountryList } from "@/helpers/getCountryList";
 
 export const RegistrationForm = () => {
-  const t = useTranslations("IframePages");
   const tForm = useTranslations("Forms");
-
-  const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<
-    ICountryCodeSelect[]
-  >([]);
+  const searchParams = useSearchParams();
+  const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
   const [countrySelectValues, setCountryNames] = useState<ICountrySelect[]>([]);
 
-  const searchParams = useSearchParams();
-
   const lang = searchParams.get("lang") || "";
+  const pageUrl = useFullPageUrl();
 
   useEffect(() => {
-    if (window.parent) {
-      console.log("parent var");
-      console.log(window.location);
-    } else {
-      console.log("parent yok");
-      console.log(window.location);
-    }
     const fetchCountryList = async () => {
-      const allCountries = await getCountryList(lang);
+      const { getFormattedCountryCodeSelectValues, getFormattedCountrySelectValues } = useCountryList();
 
-      const formattedCountryCodeSelectValues = allCountries.map((country) => ({
-        label: country.phoneCountryLabel,
-        value: country.alphaCode,
-        id: country.alphaCode,
-        shortLabel: `+${country.countryCallingCode}`,
-        icon: country.flagComponent,
-        phoneCode: country.countryCallingCode,
-        iconIsComponent: true,
-      }));
-
-      const formattedCountrySelectValues = allCountries.map((country) => ({
-        label: country.countryName,
-        value: country.alphaCode,
-        id: country.alphaCode,
-        shortLabel: country.alphaCode,
-        icon: country.flagComponent,
-        iconIsComponent: true,
-      }));
+      const formattedCountryCodeSelectValues = await getFormattedCountryCodeSelectValues();
+      const formattedCountrySelectValues = await getFormattedCountrySelectValues();
 
       setCountryCodeSelectValues(formattedCountryCodeSelectValues);
       setCountryNames(formattedCountrySelectValues);
@@ -70,18 +45,19 @@ export const RegistrationForm = () => {
   return (
     <div className="p-8">
       <Formik
+        enableReinitialize
         validationSchema={SingleRegisterFormScheme}
         initialValues={{
-          // siteId: 0,
+          siteId: getSiteIdWithLocale(),
           email: "",
           firstName: "",
           lastName: "",
           phone: "",
           phoneCode: "",
-          // fullPageUrl: "",
+          fullPageUrl: pageUrl,
           consentMarketing: false,
           countryOfResidence: "",
-          // source: "",
+          source: "",
           utmSource: "",
           utmMedium: "",
           utmCampaign: "",
@@ -98,20 +74,14 @@ export const RegistrationForm = () => {
           countryCodeSelect: "",
         }}
         onSubmit={(
-          values: Omit<
-            IRegistration_SingleRegister,
-            "siteId" | "fullPageUrl" | "source"
-          > & {
+          values: IRegistration_SingleRegister & {
             termsAndConditions: boolean;
             countryCodeSelect: ICountryCodeSelect | "";
           },
           {
             setSubmitting,
           }: FormikHelpers<
-            Omit<
-              IRegistration_SingleRegister,
-              "siteId" | "fullPageUrl" | "source"
-            > & {
+            IRegistration_SingleRegister & {
               termsAndConditions: boolean;
               countryCodeSelect: ICountryCodeSelect | "";
             }
@@ -125,48 +95,15 @@ export const RegistrationForm = () => {
           }, 500);
         }}
       >
-        {({
-          values,
-          setFieldValue,
-          errors,
-          touched,
-          handleBlur,
-          setFieldTouched,
-          setErrors,
-          setValues,
-          handleChange,
-        }) => {
+        {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors, setValues, handleChange }) => {
           return (
             <>
-              <div className="p-4 py-8 text-xs">
-                <br />
-                <code>
-                  {/* {JSON.stringify(values.phone)}
-                  {JSON.stringify(values.phoneCode)}
-                  {JSON.stringify(values.countryOfResidence)} */}
-                  {/* {JSON.stringify(values.countryCodeSelect)} */}
-                </code>
-              </div>
               <Form className="grid gap-3">
-                <InputField
-                  name="firstName"
-                  label={tForm("formLabels.firstName")}
-                />
-                <InputField
-                  name="lastName"
-                  label={tForm("formLabels.lastName")}
-                />
-                <InputField
-                  name="email"
-                  label={tForm("formLabels.email")}
-                  type="email"
-                />
+                <InputField name="firstName" label={tForm("formLabels.firstName")} />
+                <InputField name="lastName" label={tForm("formLabels.lastName")} />
+                <InputField name="email" label={tForm("formLabels.email")} type="email" />
 
-                <InputField
-                  name="scaPassword"
-                  type="password"
-                  label={tForm("formLabels.password")}
-                />
+                <InputField name="scaPassword" type="password" label={tForm("formLabels.password")} />
 
                 <div className={combineClass("relative flex gap-1.5", {})}>
                   <div className="w-[27%]">
@@ -184,9 +121,8 @@ export const RegistrationForm = () => {
                           phoneCode: option.shortLabel,
                         });
                       }}
-                      onBlur={() => {
-                        !touched.phoneCode &&
-                          setFieldTouched("phoneCode", true);
+                      runOnBlur={() => {
+                        !touched.phoneCode && setFieldTouched("phoneCode", true);
                         values.phoneCode &&
                           setErrors({
                             ...errors,
@@ -207,39 +143,18 @@ export const RegistrationForm = () => {
                       // For autocomplete
                       runOnChange={(value) => {
                         if (values.phoneCode == "") {
-                          const checkPhoneNumberIsValid = value
-                            ? isValidPhoneNumber(value)
-                            : false;
-                          const country = checkPhoneNumberIsValid
-                            ? parsePhoneNumber(value)?.country
-                            : false;
+                          const checkPhoneNumberIsValid = value ? isValidPhoneNumber(value) : false;
+                          const country = checkPhoneNumberIsValid ? parsePhoneNumber(value)?.country : false;
 
-                          const foundCountry =
-                            country &&
-                            countryCodeSelectValues?.find(
-                              (c) =>
-                                c.value.toLowerCase() == country?.toLowerCase(),
-                            );
-                          foundCountry &&
-                            setFieldValue("phoneCode", foundCountry || "");
+                          const foundCountry = country && countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
+                          foundCountry && setFieldValue("phoneCode", foundCountry || "");
                         }
                       }}
                       onCountryChange={(country: any) => {
-                        const foundCountry = countryCodeSelectValues?.find(
-                          (c) =>
-                            c.value.toLowerCase() == country?.toLowerCase(),
-                        );
+                        const foundCountry = countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
 
-                        foundCountry &&
-                          setFieldValue(
-                            "phoneCode",
-                            "+" + foundCountry?.phoneCode || "",
-                          );
-                        foundCountry &&
-                          setFieldValue(
-                            "countryCodeSelect",
-                            foundCountry || "",
-                          );
+                        foundCountry && setFieldValue("phoneCode", "+" + foundCountry?.phoneCode || "");
+                        foundCountry && setFieldValue("countryCodeSelect", foundCountry || "");
                       }}
                     />
                   </div>
@@ -255,9 +170,7 @@ export const RegistrationForm = () => {
                   showIconOnOptions
                   isClearable={false}
                   onBlur={() => setFieldTouched("countryOfResidence", true)}
-                  onChange={(newValue: any) =>
-                    setFieldValue("countryOfResidence", newValue.value)
-                  }
+                  onChange={(newValue: any) => setFieldValue("countryOfResidence", newValue.value)}
                 />
 
                 {/* Ref code */}
