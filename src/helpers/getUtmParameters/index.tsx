@@ -1,3 +1,4 @@
+"use client"
 import { useSearchParams } from "next/navigation";
 
 export const useUtmParams = () => {
@@ -15,9 +16,9 @@ export const useUtmParams = () => {
     return object;
   };
 
-  const hasAnyUtmParam = Object.values(utmParams).some((value) =>
-    Boolean(value && value.trim()),
-  );
+  const hasAnyUtmParam = Object.values(utmParams).some((value) => Boolean(value && value.trim()));
 
-  return { utmParams, addUtmParametersToObject, hasAnyUtmParam };
+  const hasUtmSourceOrCampaign = Boolean(utmParams.utmSource.trim()) || Boolean(utmParams.utmCampaign.trim());
+
+  return { utmParams, addUtmParametersToObject, hasAnyUtmParam, hasUtmSourceOrCampaign };
 };

@@ -1,16 +1,56 @@
 import {
-  ApiServiceEndpointOptions,
   apiServicesEndpoints,
+  getApiServiceEndpoint,
 } from "@/lib/apiEndpoints";
-import { postRequestService } from "../generalRequests";
+// import { cookies } from "next/headers";
+import { useUtmParams } from "@/helpers/getUtmParameters";
+import { getFullPageUrl } from "@/helpers/getFullPageUrl";
+import { getCurrentSiteInfo } from '@/i18n/routing';
+import { api } from "@/lib/axios";
 
-export const createMarketingId = async (
+
+const createMarketingId = async (
   data: IMarketingIdData,
-  options: ApiServiceEndpointOptions,
 ) => {
-  return postRequestService(
-    apiServicesEndpoints.marketing.createMarketingId,
-    data,
-    options,
-  );
+  try {
+    const url = getApiServiceEndpoint(apiServicesEndpoints.marketing.createMarketingId);
+    const response = await api.post(url, data);
+    if (response.data?.hasError !== false) {
+      console.log(response.data?.errors);
+      return null;
+    } else {
+      return response.data?.result;
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
+
+export const getMarketingId = async () => {
+  // const cookieStorage = await cookies();
+  const utmParameters = useUtmParams();
+  const uri = getFullPageUrl();
+  const siteId = getCurrentSiteInfo()?.siteId;
+  // const existingGuid = cookieStorage.get('marketingId');
+
+  if (utmParameters.hasUtmSourceOrCampaign) {
+
+    const marketingId = await createMarketingId({
+      uri,
+      siteId: siteId || -1,
+      // existingGuid: existingGuid?.value ? existingGuid.value : null,
+      existingGuid: null,
+    }).then((response) => {
+      return response
+    }).catch((error) => {
+      console.log(error);
+      return null;
+    })
+
+    return marketingId
+
+  } else return "existingGuid?.value ? existingGuid.value : null"
+
+}
+

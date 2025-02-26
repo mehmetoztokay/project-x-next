@@ -4,60 +4,60 @@ import { defineRouting } from "next-intl/routing";
 
 type LocaleItem = {
   locale: string;
+  prefixLocale: string;
+  region: "tr" | "eu" | "int" | "id" | "olmayan-region";
   direction: "ltr" | "rtl";
   siteId: number;
-  prefixURL: string;
 };
 
 export const locales: LocaleItem[] = [
   // Turkiye
-  { locale: "tr-tr", prefixURL: "/tr", siteId: 0, direction: "ltr" },
+  { locale: "tr-tr", prefixLocale: "/tr", region: "tr", siteId: 0, direction: "ltr" },
 
   // EU
-  { locale: "eu-mt", prefixURL: "/en", siteId: 91, direction: "ltr" },
-  { locale: "eu-es", prefixURL: "/es", siteId: 92, direction: "rtl" },
-  { locale: "eu-de", prefixURL: "/de", siteId: 94, direction: "ltr" },
-  { locale: "eu-it", prefixURL: "/it", siteId: 95, direction: "ltr" },
-  { locale: "eu-fr", prefixURL: "/fr", siteId: 96, direction: "ltr" },
+  { locale: "eu-mt", prefixLocale: "/en", region: "eu", siteId: 91, direction: "ltr" },
+  { locale: "eu-es", prefixLocale: "/es", region: "eu", siteId: 92, direction: "rtl" },
+  { locale: "eu-de", prefixLocale: "/de", region: "eu", siteId: 94, direction: "ltr" },
+  { locale: "eu-it", prefixLocale: "/it", region: "eu", siteId: 95, direction: "ltr" },
+  { locale: "eu-fr", prefixLocale: "/fr", region: "eu", siteId: 96, direction: "ltr" },
 
   // Indonesia
-  { locale: "id-id", prefixURL: "/id", siteId: 50, direction: "ltr" },
-  { locale: "id-en", prefixURL: "/id-en", siteId: 58, direction: "ltr" },
+  { locale: "id-id", prefixLocale: "/id", region: "id", siteId: 50, direction: "ltr" },
+  { locale: "id-en", prefixLocale: "/id-en", region: "id", siteId: 58, direction: "ltr" },
 
   // International
-  { locale: "int-my", prefixURL: "/int", siteId: 300, direction: "ltr" }, // Deafult Int-EN
-  { locale: "int-jp", prefixURL: "/int-jp", siteId: 310, direction: "ltr" },
-  { locale: "int-jp", prefixURL: "/int-jp", siteId: 304, direction: "ltr" },
-  { locale: "int-th", prefixURL: "/int-th", siteId: 305, direction: "ltr" },
-  { locale: "int-kr", prefixURL: "/int-kr", siteId: 302, direction: "ltr" },
-  { locale: "int-tw", prefixURL: "/int-tw", siteId: 303, direction: "ltr" },
-  { locale: "int-ph", prefixURL: "/int-ph", siteId: 306, direction: "ltr" },
-  { locale: "int-es", prefixURL: "/int-es", siteId: 307, direction: "ltr" },
-  { locale: "int-es", prefixURL: "/int-in", siteId: 308, direction: "ltr" },
-  { locale: "int-cn", prefixURL: "/cn", siteId: 304, direction: "ltr" },
+  { locale: "int-my", prefixLocale: "/int", region: "int", siteId: 300, direction: "ltr" }, // Deafult Int-EN
+  { locale: "int-jp", prefixLocale: "/int-jp", region: "int", siteId: 310, direction: "ltr" },
+  { locale: "int-jp", prefixLocale: "/int-jp", region: "int", siteId: 304, direction: "ltr" },
+  { locale: "int-th", prefixLocale: "/int-th", region: "int", siteId: 305, direction: "ltr" },
+  { locale: "int-kr", prefixLocale: "/int-kr", region: "int", siteId: 302, direction: "ltr" },
+  { locale: "int-tw", prefixLocale: "/int-tw", region: "int", siteId: 303, direction: "ltr" },
+  { locale: "int-ph", prefixLocale: "/int-ph", region: "int", siteId: 306, direction: "ltr" },
+  { locale: "int-es", prefixLocale: "/int-es", region: "int", siteId: 307, direction: "ltr" },
+  { locale: "int-es", prefixLocale: "/int-in", region: "int", siteId: 308, direction: "ltr" },
+  { locale: "int-cn", prefixLocale: "/cn", region: "int", siteId: 304, direction: "ltr" },
 
   // Example
   {
     locale: "olmayan-dil",
-    prefixURL: "/olmayan-dil",
+    prefixLocale: "/olmayan-dil",
+    region: "olmayan-region",
     siteId: 0,
     direction: "ltr",
   },
 ];
 
-export const getSiteIdWithLocale = (locale?: string) => {
+export const getCurrentSiteInfo = (locale?: string) => {
   const currentLocale = useLocale();
-  const foundSiteId = locales.find(
-    (l) => l.locale.toLocaleLowerCase() == (locale ? locale?.toLowerCase() : currentLocale?.toLocaleLowerCase()),
-  )?.siteId;
+  const foundSiteId = locales.find((l) => l.locale.toLocaleLowerCase() == (locale ? locale?.toLowerCase() : currentLocale?.toLocaleLowerCase()));
   if (foundSiteId) return foundSiteId;
-  else return 0;
+  else return locales.find((l) => l.locale == "eu-mt");
 };
 
 const getPrefixes = (locales: LocaleItem[]): Record<string, string> =>
   locales.reduce(
-    (acc, { locale, prefixURL }) => {
-      acc[locale] = prefixURL;
+    (acc, { locale, prefixLocale }) => {
+      acc[locale] = prefixLocale;
       return acc;
     },
     {} as Record<string, string>,

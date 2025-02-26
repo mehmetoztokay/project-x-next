@@ -1,5 +1,5 @@
 interface IMarketingIdData {
   uri: string;
   siteId: number;
-  existingGuid?: string;
+  existingGuid: string | null;
 }

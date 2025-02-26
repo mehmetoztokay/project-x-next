@@ -13,8 +13,8 @@ import { combineClass } from "@/helpers/development/combineClass";
 import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
 import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 import { IRegistration_SingleRegister } from "@/services/TriveApiServices/RegistrationApi/RegistrationServiceTypes";
-import { getSiteIdWithLocale } from "@/i18n/routing";
-import { useFullPageUrl } from "@/helpers/getFullPageUrl";
+import { getCurrentSiteInfo } from "@/i18n/routing";
+// import { useFullPageUrl } from "@/helpers/getFullPageUrl";
 import { useCountryList } from "@/helpers/getCountryList";
 
 export const RegistrationForm = () => {
@@ -24,7 +24,10 @@ export const RegistrationForm = () => {
   const [countrySelectValues, setCountryNames] = useState<ICountrySelect[]>([]);
 
   const lang = searchParams.get("lang") || "";
-  const pageUrl = useFullPageUrl();
+  // const pageUrl = useFullPageUrl();
+  const pageUrl = "sea";
+
+
 
   useEffect(() => {
     const fetchCountryList = async () => {
@@ -38,6 +41,7 @@ export const RegistrationForm = () => {
     };
 
     fetchCountryList();
+
   }, []);
 
   const SingleRegisterFormScheme = getSingleRegisterFormScheme(tForm);
@@ -48,7 +52,7 @@ export const RegistrationForm = () => {
         enableReinitialize
         validationSchema={SingleRegisterFormScheme}
         initialValues={{
-          siteId: getSiteIdWithLocale(),
+          siteId: getCurrentSiteInfo()?.siteId || -1,
           email: "",
           firstName: "",
           lastName: "",
