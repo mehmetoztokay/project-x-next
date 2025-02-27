@@ -6,6 +6,21 @@ export interface ICountry {
   flagUrl?: string;
   flagComponent?: React.FC<any>;
 }
+export interface ICountryCodeSelect {
+  label: string;
+  value: string;
+  id: string;
+  shortLabel?: string;
+  icon?: any;
+  phoneCode: string;
+  iconIsComponent?: boolean;
+}
+
+export interface ICountrySelect {
+  label: string;
+  value: string;
+  id: string;
+}
 
 import countries from "i18n-iso-countries";
 import { getCountryCallingCode } from "react-phone-number-input";

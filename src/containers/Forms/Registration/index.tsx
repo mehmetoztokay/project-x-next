@@ -5,8 +5,6 @@ import React, { useEffect, useState } from "react";
 import { getSingleRegisterFormScheme } from "./SingleRegisterFormScheme";
 import { InputField } from "@/components/Atoms/FormFields/InputField";
 import { CheckboxField } from "@/components/Atoms/FormFields/CheckboxField";
-import { ICountryCodeSelect } from "@/types/ICountryCodeSelect";
-import { ICountrySelect } from "@/types/ICountrySelect";
 import { useSearchParams } from "next/navigation";
 import { SelectField } from "@/components/Atoms/FormFields/SelectField";
 import { combineClass } from "@/helpers/development/combineClass";
@@ -15,7 +13,7 @@ import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 import { IRegistration_SingleRegister } from "@/services/TriveApiServices/RegistrationApi/RegistrationServiceTypes";
 import { getCurrentSiteInfo } from "@/i18n/routing";
 // import { useFullPageUrl } from "@/helpers/getFullPageUrl";
-import { useCountryList } from "@/helpers/getCountryList";
+import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/helpers/getCountryList";
 
 export const RegistrationForm = () => {
   const tForm = useTranslations("Forms");
@@ -26,8 +24,6 @@ export const RegistrationForm = () => {
   const lang = searchParams.get("lang") || "";
   // const pageUrl = useFullPageUrl();
   const pageUrl = "sea";
-
-
 
   useEffect(() => {
     const fetchCountryList = async () => {
@@ -41,7 +37,6 @@ export const RegistrationForm = () => {
     };
 
     fetchCountryList();
-
   }, []);
 
   const SingleRegisterFormScheme = getSingleRegisterFormScheme(tForm);

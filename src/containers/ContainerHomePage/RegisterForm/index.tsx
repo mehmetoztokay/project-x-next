@@ -8,12 +8,10 @@ import { useEffect, useState } from "react";
 import { IFieldsOfRegisterForm } from "./FieldTypesOfRegisterForm";
 import { FormSchemeOfRegister } from "./FormSchemeOfRegister";
 import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
-import { useCountryList } from "@/helpers/getCountryList";
+import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/helpers/getCountryList";
 import { useSearchParams } from "next/navigation";
 import { FileUploadField } from "@/components/Atoms/FormFields/FileUploadField";
 import { parsePhoneNumber, isValidPhoneNumber } from "react-phone-number-input";
-import { ICountryCodeSelect } from "@/types/ICountryCodeSelect";
-import { ICountrySelect } from "@/types/ICountrySelect";
 
 export const RegisterForm = () => {
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
