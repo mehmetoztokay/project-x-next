@@ -11,6 +11,7 @@ type LocaleItem = {
 };
 
 export const locales: LocaleItem[] = [
+  // Buraya language de eklenebilir defaultLanguage gibi bir sey
   // Turkiye
   { locale: "tr-tr", prefixLocale: "/tr", region: "tr", siteId: 0, direction: "ltr" },
 
@@ -25,6 +26,9 @@ export const locales: LocaleItem[] = [
   { locale: "id-id", prefixLocale: "/id", region: "id", siteId: 50, direction: "ltr" },
   { locale: "id-en", prefixLocale: "/id-en", region: "id", siteId: 58, direction: "ltr" },
 
+  // Africa
+  { locale: "za-en", prefixLocale: "/id", region: "id", siteId: 300, direction: "ltr" },
+
   // International
   { locale: "int-my", prefixLocale: "/int", region: "int", siteId: 300, direction: "ltr" }, // Deafult Int-EN
   { locale: "int-jp", prefixLocale: "/int-jp", region: "int", siteId: 310, direction: "ltr" },
@@ -33,6 +37,7 @@ export const locales: LocaleItem[] = [
   { locale: "int-kr", prefixLocale: "/int-kr", region: "int", siteId: 302, direction: "ltr" },
   { locale: "int-tw", prefixLocale: "/int-tw", region: "int", siteId: 303, direction: "ltr" },
   { locale: "int-ph", prefixLocale: "/int-ph", region: "int", siteId: 306, direction: "ltr" },
+  { locale: "int-pk", prefixLocale: "/int-pk", region: "int", siteId: 311, direction: "rtl" },
   { locale: "int-es", prefixLocale: "/int-es", region: "int", siteId: 307, direction: "ltr" },
   { locale: "int-es", prefixLocale: "/int-in", region: "int", siteId: 308, direction: "ltr" },
   { locale: "int-cn", prefixLocale: "/cn", region: "int", siteId: 304, direction: "ltr" },
@@ -47,7 +52,7 @@ export const locales: LocaleItem[] = [
   },
 ];
 
-export const getCurrentSiteInfo = (locale?: string) => {
+export const useCurrentSiteInfo = (locale?: string) => {
   const currentLocale = useLocale();
   const foundSiteId = locales.find((l) => l.locale.toLocaleLowerCase() == (locale ? locale?.toLowerCase() : currentLocale?.toLocaleLowerCase()));
   if (foundSiteId) return foundSiteId;

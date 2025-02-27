@@ -11,9 +11,9 @@ import { combineClass } from "@/helpers/development/combineClass";
 import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
 import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 import { IRegistration_SingleRegister } from "@/services/TriveApiServices/RegistrationApi/RegistrationServiceTypes";
-import { getCurrentSiteInfo } from "@/i18n/routing";
 // import { useFullPageUrl } from "@/helpers/getFullPageUrl";
 import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/helpers/getCountryList";
+import { useCurrentSiteInfo } from "@/i18n/routing";
 
 export const RegistrationForm = () => {
   const tForm = useTranslations("Forms");
@@ -47,7 +47,7 @@ export const RegistrationForm = () => {
         enableReinitialize
         validationSchema={SingleRegisterFormScheme}
         initialValues={{
-          siteId: getCurrentSiteInfo()?.siteId || -1,
+          siteId: useCurrentSiteInfo()?.siteId || -1,
           email: "",
           firstName: "",
           lastName: "",

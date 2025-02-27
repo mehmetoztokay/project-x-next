@@ -1,19 +1,12 @@
-import { useUtmParams } from "@/helpers/getUtmParameters"
-import { getCurrentSiteInfo } from "@/i18n/routing"
-import { getMarketingId } from "@/services/TriveApiServices/Marketing"
-import React, { use, useEffect, useState } from 'react'
+import { useEffect } from "react";
 
-export const TestPage = async () => {
+export const TestPage = () => {
+  useEffect(() => {
+    // TODO Does not work
+    // const marketingId = await getMarketingId()
 
-    useEffect(() => {
-        // TODO Does not work
-        // const marketingId = await getMarketingId()
+    console.log("selam");
+  }, []);
 
-    }, [])
-
-
-    return (
-        <div>TestPages</div>
-    )
-}
-
+  return <div>TestPages</div>;
+};

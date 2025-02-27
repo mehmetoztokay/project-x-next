@@ -1,13 +1,13 @@
-import { getCurrentSiteInfo } from "@/i18n/routing";
+import { useCurrentSiteInfo } from "@/i18n/routing";
 
-const API_EU_GATEWAY_BASE_URL = "https://api-test-gateway.trive.com/api/gateway";
-const API_INT_GATEWAY_BASE_URL = "https://api-test-int-gateway.trive.com/api/gateway";
-const API_GATEWAY_INVEST_BASE_URL = "https://api-test-gateway.triveinvest.co.id/api/gateway";
+const API_EU_GATEWAY_BASE_URL = "https://api-gateway.trive.com/api/gateway";
+const API_INT_GATEWAY_BASE_URL = "https://api-int-gateway.trive.com/api/gateway";
+const API_GATEWAY_INVEST_BASE_URL = "https://api-gateway.triveinvest.co.id/api/gateway";
 
 const API_VERSION = "1";
 
 const getBaseURL = () => {
-  const currentSite = getCurrentSiteInfo();
+  const currentSite = useCurrentSiteInfo();
 
   switch (currentSite?.region) {
     case "id":
