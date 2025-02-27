@@ -1,6 +1,6 @@
 "use client";
 import { Form, Formik, FormikHelpers } from "formik";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { getSingleRegisterFormScheme } from "./SingleRegisterFormScheme";
 import { InputField } from "@/components/Atoms/FormFields/InputField";
@@ -24,6 +24,7 @@ export const RegistrationForm = () => {
   const lang = searchParams.get("lang") || "";
   // const pageUrl = useFullPageUrl();
   const pageUrl = "sea";
+  const locale = useLocale();
 
   useEffect(() => {
     const fetchCountryList = async () => {
@@ -47,7 +48,7 @@ export const RegistrationForm = () => {
         enableReinitialize
         validationSchema={SingleRegisterFormScheme}
         initialValues={{
-          siteId: useCurrentSiteInfo()?.siteId || -1,
+          siteId: useCurrentSiteInfo({ locale })?.siteId || -1,
           email: "",
           firstName: "",
           lastName: "",

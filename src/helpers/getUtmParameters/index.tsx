@@ -1,9 +1,4 @@
-"use client"
-import { useSearchParams } from "next/navigation";
-
-export const useUtmParams = () => {
-  const searchParams = useSearchParams();
-
+export const useUtmParams = ({ searchParams }: { searchParams: URLSearchParams }) => {
   const utmParams = {
     utmSource: searchParams.get("utm_source") ?? "",
     utmMedium: searchParams.get("utm_medium") ?? "",
@@ -11,9 +6,8 @@ export const useUtmParams = () => {
     utmContent: searchParams.get("utm_content") ?? "",
   };
 
-  const addUtmParametersToObject = (object: Record<string, any>) => {
-    Object.assign(object, utmParams);
-    return object;
+  const addUtmParametersToObject = <T extends Record<string, any>>(object: T): T => {
+    return { ...object, ...utmParams };
   };
 
   const hasAnyUtmParam = Object.values(utmParams).some((value) => Boolean(value && value.trim()));

@@ -2,7 +2,7 @@ import { useLocale } from "next-intl";
 import { createNavigation } from "next-intl/navigation";
 import { defineRouting } from "next-intl/routing";
 
-type LocaleItem = {
+export type LocaleItem = {
   locale: string;
   prefixLocale: string;
   region: "tr" | "eu" | "int" | "id" | "olmayan-region";
@@ -52,9 +52,8 @@ export const locales: LocaleItem[] = [
   },
 ];
 
-export const useCurrentSiteInfo = (locale?: string) => {
-  const currentLocale = useLocale();
-  const foundSiteId = locales.find((l) => l.locale.toLocaleLowerCase() == (locale ? locale?.toLowerCase() : currentLocale?.toLocaleLowerCase()));
+export const useCurrentSiteInfo = ({ locale }: { locale: LocaleItem["locale"] }): LocaleItem => {
+  const foundSiteId = locales.find((l) => l.locale.toLocaleLowerCase() == locale?.toLocaleLowerCase());
   if (foundSiteId) return foundSiteId;
   else return locales.find((l) => l.locale == "eu-mt");
 };
