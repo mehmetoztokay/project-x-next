@@ -8,10 +8,11 @@ import {
 } from "./RegistrationServiceTypes";
 
 import { api } from "@/lib/axios";
+import { LocaleItem } from "@/i18n/routing";
 
-export const singleRegister = async (data: IRegistration_SingleRegister) => {
+export const singleRegister = async ({ data, locale }: { data: IRegistration_SingleRegister; locale: LocaleItem["locale"] }) => {
   try {
-    const url = getApiServiceEndpoint(apiServicesEndpoints.registration.singleRegister);
+    const url = getApiServiceEndpoint(apiServicesEndpoints.registration.singleRegister, locale);
     const response = await api.post(url, data);
     if (response.data?.hasError !== false) {
       throw new Error(response.data?.errors);
@@ -23,9 +24,9 @@ export const singleRegister = async (data: IRegistration_SingleRegister) => {
   }
 };
 
-export const registerStep1 = async (data: IRegistration_RegisterStep1) => {
+export const registerStep1 = async ({ data, locale }: { data: IRegistration_RegisterStep1; locale: LocaleItem["locale"] }) => {
   try {
-    const url = getApiServiceEndpoint(apiServicesEndpoints.registration.registerStep1);
+    const url = getApiServiceEndpoint(apiServicesEndpoints.registration.registerStep1, locale);
     const response = await api.post(url, data);
     if (response.data?.hasError !== false) {
       throw new Error(response.data?.errors);
@@ -37,9 +38,9 @@ export const registerStep1 = async (data: IRegistration_RegisterStep1) => {
   }
 };
 
-export const registerStep2 = async (data: IRegistration_RegisterStep2) => {
+export const registerStep2 = async ({ data, locale }: { data: IRegistration_RegisterStep2; locale: LocaleItem["locale"] }) => {
   try {
-    const url = getApiServiceEndpoint(apiServicesEndpoints.registration.registerStep2);
+    const url = getApiServiceEndpoint(apiServicesEndpoints.registration.registerStep2, locale);
     const response = await api.post(url, data);
     if (response.data?.hasError !== false) {
       throw new Error(response.data?.errors);
@@ -51,9 +52,9 @@ export const registerStep2 = async (data: IRegistration_RegisterStep2) => {
   }
 };
 
-export const clientCheck = async (data: IRegistration_ClientCheck) => {
+export const clientCheck = async ({ data, locale }: { data: IRegistration_ClientCheck; locale: LocaleItem["locale"] }) => {
   try {
-    const url = getApiServiceEndpoint(apiServicesEndpoints.registration.clientCheck);
+    const url = getApiServiceEndpoint(apiServicesEndpoints.registration.clientCheck, locale);
     const response = await api.post(url, data);
     if (response.data?.hasError !== false) {
       throw new Error(response.data?.errors);
