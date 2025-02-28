@@ -7,12 +7,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   isPending?: boolean;
 };
 
-export const Button = ({
-  className,
-  text = "",
-  isPending = false,
-  ...props
-}: ButtonProps) => {
+export const Button = ({ className, text = "", isPending = false, ...props }: ButtonProps) => {
   return (
     <button
       className={combineClass(

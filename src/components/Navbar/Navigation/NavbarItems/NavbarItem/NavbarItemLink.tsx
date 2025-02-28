@@ -9,12 +9,7 @@ type props = {
   setSubmenuActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const NavbarItemLink: React.FC<props> = ({
-  navItem,
-  subMenuActive,
-  setSubmenuActive,
-  openChildMenu,
-}) => {
+export const NavbarItemLink: React.FC<props> = ({ navItem, subMenuActive, setSubmenuActive, openChildMenu }) => {
   const pathname = usePathname();
 
   const classOfLink =
@@ -33,10 +28,9 @@ export const NavbarItemLink: React.FC<props> = ({
         >
           {navItem.title}
           <svg
-            className={combineClass(
-              "-rotate-90 transform fill-gray-600 lg:transform-none",
-              { "!transform fill-blue-500 lg:rotate-180": subMenuActive },
-            )}
+            className={combineClass("-rotate-90 transform fill-gray-600 lg:transform-none", {
+              "!transform fill-blue-500 lg:rotate-180": subMenuActive,
+            })}
             width="10"
             height="10"
             viewBox="0 0 16 16"
@@ -58,10 +52,7 @@ export const NavbarItemLink: React.FC<props> = ({
         </Link>
       )}
       <div
-        className={combineClass(
-          "h-[1px] bg-gradient-to-r from-gray-300 to-transparent opacity-50 lg:hidden",
-          { "opacity-0": openChildMenu },
-        )}
+        className={combineClass("h-[1px] bg-gradient-to-r from-gray-300 to-transparent opacity-50 lg:hidden", { "opacity-0": openChildMenu })}
       ></div>
     </div>
   );

@@ -21,10 +21,7 @@ export const Navigation = () => {
   // if click outside the dropdown, close the dropdown
   React.useEffect(() => {
     const handleClickOutside = (event: any) => {
-      if (
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target)
-      ) {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
         setOpenMobileMenu(false);
       }
     };
@@ -54,11 +51,7 @@ export const Navigation = () => {
               setOpenChildMenu={setOpenChildMenu}
             />
           </div>
-          <NavbarItemsRight
-            navigationIsNull={navigation.isNull}
-            openMobileMenu={openMobileMenu}
-            setOpenMobileMenu={setOpenMobileMenu}
-          />
+          <NavbarItemsRight navigationIsNull={navigation.isNull} openMobileMenu={openMobileMenu} setOpenMobileMenu={setOpenMobileMenu} />
         </div>
       </div>
     </nav>

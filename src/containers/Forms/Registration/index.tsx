@@ -11,11 +11,11 @@ import { combineClass } from "@/helpers/development/combineClass";
 import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
 import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 import { IRegistration_SingleRegister } from "@/services/TriveApiServices/RegistrationApi/RegistrationServiceTypes";
-import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/helpers/useCountryList";
+import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/hooks/useCountryList";
 import { useCurrentSiteInfo } from "@/i18n/routing";
 import { getFullPageUrl } from "@/helpers/getFullPageUrl";
 import { getMarketingId } from "@/services/TriveApiServices/Marketing";
-import { useUtmParams } from "@/helpers/getUtmParameters";
+import { useUtmParams } from "@/hooks/useUtmParams";
 
 export const RegistrationForm = () => {
   const tForm = useTranslations("Forms");

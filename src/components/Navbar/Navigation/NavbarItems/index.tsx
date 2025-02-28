@@ -12,13 +12,7 @@ type props = {
   setOpenChildMenu: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const NavbarItems: React.FC<props> = ({
-  navigation,
-  openMobileMenu,
-  setOpenMobileMenu,
-  openChildMenu,
-  setOpenChildMenu,
-}) => {
+export const NavbarItems: React.FC<props> = ({ navigation, openMobileMenu, setOpenMobileMenu, openChildMenu, setOpenChildMenu }) => {
   return (
     <>
       {navigation && !navigation?.isNull && (
@@ -31,20 +25,10 @@ export const NavbarItems: React.FC<props> = ({
             },
           )}
         >
-          <div
-            className={combineClass(
-              "container mx-auto overflow-hidden lg:py-0",
-              {},
-            )}
-          >
+          <div className={combineClass("container mx-auto overflow-hidden lg:py-0", {})}>
             <div className={combineClass("my-6 gap-4 lg:my-0 lg:flex", {})}>
               {navigation?.navItems?.map((navItem: any, indexNav: number) => (
-                <NavbarItem
-                  key={indexNav}
-                  navItem={navItem}
-                  openChildMenu={openChildMenu}
-                  setOpenChildMenu={setOpenChildMenu}
-                />
+                <NavbarItem key={indexNav} navItem={navItem} openChildMenu={openChildMenu} setOpenChildMenu={setOpenChildMenu} />
               ))}
             </div>
           </div>

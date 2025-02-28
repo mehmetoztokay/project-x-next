@@ -8,11 +8,7 @@ type props = {
   setOpenMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const NavbarItemsRight: React.FC<props> = ({
-  navigationIsNull,
-  openMobileMenu,
-  setOpenMobileMenu,
-}) => {
+export const NavbarItemsRight: React.FC<props> = ({ navigationIsNull, openMobileMenu, setOpenMobileMenu }) => {
   return (
     <div className="relative z-10 flex items-center gap-4">
       <div className="flex items-center gap-4">
@@ -28,10 +24,7 @@ export const NavbarItemsRight: React.FC<props> = ({
         </button>
       </div>
       {!navigationIsNull && (
-        <div
-          className={combineClass("flex lg:hidden")}
-          onClick={() => setOpenMobileMenu(!openMobileMenu)}
-        >
+        <div className={combineClass("flex lg:hidden")} onClick={() => setOpenMobileMenu(!openMobileMenu)}>
           <div
             className={combineClass(
               "relative inline-block h-[30px] w-[30px] rotate-0 transform cursor-pointer touch-none select-none transition-all duration-300 ease-[cubic-bezier(0.4,0.01,0.165,0.99)]",

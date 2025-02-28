@@ -36,15 +36,12 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({
         })}
       >
         <div
-          className={combineClass(
-            "peer w-full rounded-md border border-gray-200 px-3 py-3",
-            {
-              "border-blue-500 pb-2 pt-4 text-gray-900": focused,
-              "!text-gray-900": field.value > 0,
-              "border-red-500": meta.touched && meta.error,
-              "pb-2 pt-4": field.value,
-            },
-          )}
+          className={combineClass("peer w-full rounded-md border border-gray-200 px-3 py-3", {
+            "border-blue-500 pb-2 pt-4 text-gray-900": focused,
+            "!text-gray-900": field.value > 0,
+            "border-red-500": meta.touched && meta.error,
+            "pb-2 pt-4": field.value,
+          })}
         >
           <PhoneInput
             className={combineClass(
@@ -72,13 +69,10 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({
         </div>
         <label
           htmlFor={name}
-          className={combineClass(
-            "pointer-events-none absolute left-1 top-1/2 w-full -translate-y-1/2 transform px-2 duration-200 ease-in-out",
-            {
-              "-translate-y-[20px] text-[10px]": field.value || focused,
-              "text-blue-500": focused,
-            },
-          )}
+          className={combineClass("pointer-events-none absolute left-1 top-1/2 w-full -translate-y-1/2 transform px-2 duration-200 ease-in-out", {
+            "-translate-y-[20px] text-[10px]": field.value || focused,
+            "text-blue-500": focused,
+          })}
           style={{
             backgroundColor: inputBg && (field.value || focused) && inputBg,
           }}
@@ -86,9 +80,7 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({
           {label}
         </label>
       </div>
-      {!hideErrorMessage && meta.touched && meta.error && (
-        <div className="ml-1 mt-0.5 text-xs text-red-500">{meta.error}</div>
-      )}
+      {!hideErrorMessage && meta.touched && meta.error && <div className="ml-1 mt-0.5 text-xs text-red-500">{meta.error}</div>}
     </div>
   );
 };

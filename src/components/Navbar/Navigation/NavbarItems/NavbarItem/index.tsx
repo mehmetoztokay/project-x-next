@@ -10,11 +10,7 @@ type props = {
   setOpenChildMenu: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const NavbarItem: React.FC<props> = ({
-  navItem,
-  openChildMenu,
-  setOpenChildMenu,
-}) => {
+export const NavbarItem: React.FC<props> = ({ navItem, openChildMenu, setOpenChildMenu }) => {
   const [subMenuActive, setSubmenuActive] = useState<boolean>(false);
 
   const navbarItemRef = useRef<HTMLDivElement>(null);
@@ -22,10 +18,7 @@ export const NavbarItem: React.FC<props> = ({
   // if click outside the dropdown, close the dropdown
   React.useEffect(() => {
     const handleClickOutside = (event: any) => {
-      if (
-        navbarItemRef.current &&
-        !navbarItemRef.current.contains(event.target)
-      ) {
+      if (navbarItemRef.current && !navbarItemRef.current.contains(event.target)) {
         setSubmenuActive(false);
       }
     };
@@ -44,19 +37,8 @@ export const NavbarItem: React.FC<props> = ({
   return (
     <div>
       <div ref={navbarItemRef}>
-        <NavbarItemLink
-          navItem={navItem}
-          subMenuActive={subMenuActive}
-          setSubmenuActive={setSubmenuActive}
-          openChildMenu={openChildMenu}
-        />
-        {navItem.hasChildren && (
-          <NavbarItemSubMenu
-            navItem={navItem}
-            subMenuActive={subMenuActive}
-            setSubmenuActive={setSubmenuActive}
-          />
-        )}
+        <NavbarItemLink navItem={navItem} subMenuActive={subMenuActive} setSubmenuActive={setSubmenuActive} openChildMenu={openChildMenu} />
+        {navItem.hasChildren && <NavbarItemSubMenu navItem={navItem} subMenuActive={subMenuActive} setSubmenuActive={setSubmenuActive} />}
       </div>
     </div>
   );

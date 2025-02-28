@@ -1,5 +1,5 @@
 import { Locale, locales, usePathname, useRouter } from "@/i18n/routing";
-import { getCurrentQueries } from "@/helpers/getCurrentQueries";
+import { getCurrentQueries } from "@/helpers/getCurrentQueryParameters";
 import { useTransition } from "react";
 import { useLocale } from "next-intl";
 
@@ -27,10 +27,7 @@ export const useChangeLocale = () => {
     if (newLocale === locale || isPending) return;
 
     startTransitionLocale(() => {
-      router.replace(
-        { pathname, query: currentQueries },
-        { locale: newLocale },
-      );
+      router.replace({ pathname, query: currentQueries }, { locale: newLocale });
       // updateDirection(newLocale);
     });
   };
