@@ -1,9 +1,9 @@
 export const useUtmParams = ({ searchParams }: { searchParams: URLSearchParams }) => {
   const utmParams = {
-    utmSource: searchParams.get("utm_source") ?? "",
-    utmMedium: searchParams.get("utm_medium") ?? "",
-    utmCampaign: searchParams.get("utm_campaign") ?? "",
-    utmContent: searchParams.get("utm_content") ?? "",
+    utmSource: searchParams.get("utm_source") ?? null,
+    utmMedium: searchParams.get("utm_medium") ?? null,
+    utmCampaign: searchParams.get("utm_campaign") ?? null,
+    utmContent: searchParams.get("utm_content") ?? null,
   };
 
   const addUtmParametersToObject = <T extends Record<string, any>>(object: T): T => {
@@ -12,7 +12,7 @@ export const useUtmParams = ({ searchParams }: { searchParams: URLSearchParams }
 
   const hasAnyUtmParam = Object.values(utmParams).some((value) => Boolean(value && value.trim()));
 
-  const hasUtmSourceOrCampaign = Boolean(utmParams.utmSource.trim()) || Boolean(utmParams.utmCampaign.trim());
+  const hasUtmSourceOrCampaign = Boolean(utmParams.utmSource) || Boolean(utmParams.utmCampaign);
 
   return { utmParams, addUtmParametersToObject, hasAnyUtmParam, hasUtmSourceOrCampaign };
 };

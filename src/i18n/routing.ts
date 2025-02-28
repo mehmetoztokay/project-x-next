@@ -17,7 +17,7 @@ export const locales: LocaleItem[] = [
 
   // EU
   { locale: "eu-mt", prefixLocale: "/en", region: "eu", siteId: 91, direction: "ltr" },
-  { locale: "eu-es", prefixLocale: "/es", region: "eu", siteId: 92, direction: "rtl" },
+  { locale: "eu-es", prefixLocale: "/es", region: "eu", siteId: 92, direction: "ltr" },
   { locale: "eu-de", prefixLocale: "/de", region: "eu", siteId: 94, direction: "ltr" },
   { locale: "eu-it", prefixLocale: "/it", region: "eu", siteId: 95, direction: "ltr" },
   { locale: "eu-fr", prefixLocale: "/fr", region: "eu", siteId: 96, direction: "ltr" },
@@ -55,7 +55,8 @@ export const locales: LocaleItem[] = [
 export const useCurrentSiteInfo = ({ locale }: { locale: LocaleItem["locale"] }): LocaleItem => {
   const foundSiteId = locales.find((l) => l.locale.toLocaleLowerCase() == locale?.toLocaleLowerCase());
   if (foundSiteId) return foundSiteId;
-  else return locales.find((l) => l.locale == "eu-mt");
+  else return locales.find((l) => l.locale == "eu-mt")!;
+  // Default return "eu-mt"
 };
 
 const getPrefixes = (locales: LocaleItem[]): Record<string, string> =>

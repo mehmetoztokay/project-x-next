@@ -15,32 +15,17 @@ type Props = {
   isIframeLayout?: boolean;
 };
 
-export default async function CoreLayout({
-  children,
-  locale,
-  isIframeLayout,
-}: Props) {
+export default async function CoreLayout({ children, locale, isIframeLayout }: Props) {
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages();
+
   return (
-    <html
-      className={combineClass("h-full w-full", {})}
-      lang={locale}
-      dir={locales.find((l) => l.locale === locale)?.direction}
-    >
-      <body
-        className={combineClass(
-          `${inter.className} h-full w-full antialiased`,
-          {},
-        )}
-      >
+    <html className={combineClass("h-full w-full", {})} lang={locale} dir={locales.find((l) => l.locale === locale)?.direction || "ltr"}>
+      <body className={combineClass(`${inter.className} h-full w-full antialiased`, {})}>
         <NextIntlClientProvider messages={messages}>
           <main>
-            <ControlLayout
-              children={children}
-              isIframeLayout={isIframeLayout}
-            />
+            <ControlLayout children={children} isIframeLayout={isIframeLayout} />
           </main>
         </NextIntlClientProvider>
       </body>

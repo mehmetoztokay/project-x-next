@@ -1,4 +1,4 @@
-import { ICountryCodeSelect } from "@/helpers/getCountryList";
+import { ICountryCodeSelect } from "@/helpers/useCountryList";
 
 export interface IFieldsOfRegisterForm {
   firstName: string;

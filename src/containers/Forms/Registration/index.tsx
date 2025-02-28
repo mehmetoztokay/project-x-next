@@ -11,22 +11,25 @@ import { combineClass } from "@/helpers/development/combineClass";
 import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
 import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 import { IRegistration_SingleRegister } from "@/services/TriveApiServices/RegistrationApi/RegistrationServiceTypes";
-// import { useFullPageUrl } from "@/helpers/getFullPageUrl";
-import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/helpers/getCountryList";
+import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/helpers/useCountryList";
 import { useCurrentSiteInfo } from "@/i18n/routing";
+import { getFullPageUrl } from "@/helpers/getFullPageUrl";
+import { getMarketingId } from "@/services/TriveApiServices/Marketing";
+import { useUtmParams } from "@/helpers/getUtmParameters";
 
 export const RegistrationForm = () => {
   const tForm = useTranslations("Forms");
-  const searchParams = useSearchParams();
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
   const [countrySelectValues, setCountryNames] = useState<ICountrySelect[]>([]);
+  const [marketingDataId, setMarketingDataId] = useState<string | null>(null);
 
-  const lang = searchParams.get("lang") || "";
-  // const pageUrl = useFullPageUrl();
-  const pageUrl = "sea";
+  const pageUrl = getFullPageUrl();
   const locale = useLocale();
+  const searchParams = useSearchParams();
+  const { utmCampaign, utmContent, utmMedium, utmSource } = useUtmParams({ searchParams }).utmParams;
 
   useEffect(() => {
+    // Get countryList for Country Code and Country of Residence Select
     const fetchCountryList = async () => {
       const { getFormattedCountryCodeSelectValues, getFormattedCountrySelectValues } = useCountryList();
 
@@ -38,6 +41,15 @@ export const RegistrationForm = () => {
     };
 
     fetchCountryList();
+
+    // Get Marketing Id
+    const fetchMarketingId = async () => {
+      const marketingIdValue = await getMarketingId({ locale: locale, searchParams });
+
+      setMarketingDataId(marketingIdValue);
+    };
+
+    fetchMarketingId();
   }, []);
 
   const SingleRegisterFormScheme = getSingleRegisterFormScheme(tForm);
@@ -48,7 +60,7 @@ export const RegistrationForm = () => {
         enableReinitialize
         validationSchema={SingleRegisterFormScheme}
         initialValues={{
-          siteId: useCurrentSiteInfo({ locale })?.siteId || -1,
+          siteId: useCurrentSiteInfo({ locale })?.siteId,
           email: "",
           firstName: "",
           lastName: "",
@@ -57,12 +69,12 @@ export const RegistrationForm = () => {
           fullPageUrl: pageUrl,
           consentMarketing: false,
           countryOfResidence: "",
-          source: "",
-          utmSource: "",
-          utmMedium: "",
-          utmCampaign: "",
-          utmContent: "",
-          marketingDataId: "",
+          source: "WEB",
+          utmSource: utmSource,
+          utmMedium: utmMedium,
+          utmCampaign: utmCampaign,
+          utmContent: utmContent,
+          marketingDataId,
           affiliateCxdId: "",
           affiliateId: "",
           crRefCode: "",
@@ -89,17 +101,17 @@ export const RegistrationForm = () => {
         ) => {
           console.log(values);
 
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 500);
+          // setTimeout(() => {
+          //   alert(JSON.stringify(values, null, 2));
+          //   setSubmitting(false);
+          // }, 500);
         }}
       >
         {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors, setValues, handleChange }) => {
           return (
             <>
+              <code>{JSON.stringify(values.phoneCode)}</code>
               <Form className="grid gap-3">
-                <p>{values.fullPageUrl}</p>
                 <InputField name="firstName" label={tForm("formLabels.firstName")} />
                 <InputField name="lastName" label={tForm("formLabels.lastName")} />
                 <InputField name="email" label={tForm("formLabels.email")} type="email" />
@@ -119,7 +131,7 @@ export const RegistrationForm = () => {
                           ...values,
                           countryCodeSelect: option,
                           phone: "+" + option.phoneCode,
-                          phoneCode: option.shortLabel,
+                          phoneCode: "+" + option.phoneCode,
                         });
                       }}
                       runOnBlur={() => {
@@ -148,7 +160,8 @@ export const RegistrationForm = () => {
                           const country = checkPhoneNumberIsValid ? parsePhoneNumber(value)?.country : false;
 
                           const foundCountry = country && countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
-                          foundCountry && setFieldValue("phoneCode", foundCountry || "");
+                          foundCountry && setFieldValue("phoneCode", "+" + foundCountry?.phoneCode || "");
+                          foundCountry && setFieldValue("countryCodeSelect", foundCountry || "");
                         }
                       }}
                       onCountryChange={(country: any) => {
@@ -163,14 +176,13 @@ export const RegistrationForm = () => {
 
                 <CheckboxField name="consentMarketing">sela</CheckboxField>
                 <CheckboxField name="termsAndConditions">Terms</CheckboxField>
-
                 <SelectField
                   options={countrySelectValues}
                   name="countryOfResidence"
                   showIconOnControl
                   showIconOnOptions
                   isClearable={false}
-                  onBlur={() => setFieldTouched("countryOfResidence", true)}
+                  runOnBlur={() => setFieldTouched("countryOfResidence", true)}
                   onChange={(newValue: any) => setFieldValue("countryOfResidence", newValue.value)}
                 />
 

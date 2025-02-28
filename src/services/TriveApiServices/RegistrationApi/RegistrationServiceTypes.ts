@@ -8,22 +8,22 @@ interface IRegistration_BaseService {
   fullPageUrl: string;
   consentMarketing: boolean;
   countryOfResidence: string;
-  source: string;
+  source: "WEB";
 }
 
-export interface IRegistration_SingleRegister
-  extends IRegistration_BaseService {
-  utmSource: string;
-  utmMedium: string;
-  utmCampaign: string;
-  utmContent: string;
-  marketingDataId: string;
+export interface IRegistration_SingleRegister extends IRegistration_BaseService {
+  utmSource: string | null;
+  utmMedium: string | null;
+  utmCampaign: string | null;
+  utmContent: string | null;
+  marketingDataId: string | null;
+  // TODO affiliateCxdId and affiliateId simdilik bos gidiyor, ama cellexpert'ten geldiginde bunlar doldurulmali.
   affiliateCxdId: string;
   affiliateId: string;
   crRefCode: string;
   scaPassword: string;
   isSendScaPassword: boolean;
-  isPartner: boolean;
+  isPartner: false;
 }
 
 export interface IRegistration_RegisterStep1 extends IRegistration_BaseService {
@@ -37,7 +37,7 @@ export interface IRegistration_RegisterStep2 {
   siteId: number;
   email: string;
   password: string;
-  isPartner: boolean;
+  isPartner: false;
 }
 
 export interface IRegistration_ClientCheck {
