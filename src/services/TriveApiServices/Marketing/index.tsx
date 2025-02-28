@@ -1,9 +1,9 @@
 import { apiServicesEndpoints, getApiServiceEndpoint } from "@/lib/apiEndpoints";
-// import { cookies } from "next/headers";
 import { useUtmParams } from "@/helpers/getUtmParameters";
 import { getFullPageUrl } from "@/helpers/getFullPageUrl";
 import { api } from "@/lib/axios";
 import { LocaleItem, useCurrentSiteInfo } from "@/i18n/routing";
+import { Cookies } from "react-cookie";
 
 const createMarketingId = async ({ data, locale }: { data: IMarketingIdData; locale: LocaleItem["locale"] }) => {
   try {
@@ -22,15 +22,19 @@ const createMarketingId = async ({ data, locale }: { data: IMarketingIdData; loc
 };
 
 export const getMarketingId = async ({ searchParams, locale }: { searchParams: URLSearchParams; locale: LocaleItem["locale"] }) => {
-  // const cookieStorage = await cookies();
+  const cookies = new Cookies();
   const uri = getFullPageUrl();
   const utmParameters = useUtmParams({ searchParams });
   const siteId = useCurrentSiteInfo({ locale })?.siteId;
 
-  // const existingGuid = cookieStorage.get('marketingId');
+  const sixMonthsLater = new Date();
+  sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);
 
+  const existingMarketingId = cookies.get("existingMarketingId");
   if (utmParameters.hasUtmSourceOrCampaign) {
-    const marketingId = await createMarketingId({ data: { existingGuid: null, uri, siteId }, locale })
+    // If has utm-parameter fetch
+    const marketingId = await createMarketingId({ data: { existingGuid: existingMarketingId ? existingMarketingId : null, uri, siteId }, locale })
+      // Set existingGuid to null if it doesn't already exist
       .then((response) => {
         return response;
       })
@@ -39,6 +43,8 @@ export const getMarketingId = async ({ searchParams, locale }: { searchParams: U
         return null;
       });
 
+    marketingId && cookies.set("existingMarketingId", marketingId, { expires: sixMonthsLater });
     return marketingId;
-  } else return "existingGuid?.value ? existingGuid.value : null";
+  } else if (existingMarketingId) return existingMarketingId;
+  else return null;
 };
