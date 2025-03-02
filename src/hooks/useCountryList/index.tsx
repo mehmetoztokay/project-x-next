@@ -33,9 +33,7 @@ export const useCountryList = ({ locale, language }: { locale: LocaleItem["local
   if (language && !countries.getSupportedLanguages().includes(language)) language = "en";
   // If not supported lang return default en
   else language = useCurrentSiteInfo({ locale }).shortLang;
-  console.log(useCurrentSiteInfo({ locale }));
 
-  console.log(countries.getSupportedLanguages());
   const getCountryList = async (): Promise<ICountry[]> => {
     try {
       const localeModule = await import(`i18n-iso-countries/langs/${language}.json`);

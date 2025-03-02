@@ -99,101 +99,95 @@ export const RegistrationForm = ({ isTwoSteps }: { isTwoSteps?: boolean }) => {
             }
           >,
         ) => {
-          console.log(values);
+          console.log(JSON.stringify(values, null, 2));
 
-          // setTimeout(() => {
-          //   alert(JSON.stringify(values, null, 2));
-          //   setSubmitting(false);
-          // }, 500);
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+          }, 100);
         }}
       >
         {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors, setValues, handleChange }) => {
           return (
-            <>
-              <code>{JSON.stringify(values.phoneCode)}</code>
-              <Form className="grid gap-3">
-                <InputField name="firstName" label={tForm("formLabels.firstName")} />
-                <InputField name="lastName" label={tForm("formLabels.lastName")} />
-                <InputField name="email" label={tForm("formLabels.email")} type="email" />
+            <>              <Form className="grid gap-3">
+              <InputField name="firstName" label={tForm("formLabels.firstName")} />
+              <InputField name="lastName" label={tForm("formLabels.lastName")} />
+              <InputField name="email" label={tForm("formLabels.email")} type="email" />
 
-                <InputField name="scaPassword" type="password" label={tForm("formLabels.password")} />
+              <InputField name="scaPassword" type="password" label={tForm("formLabels.password")} />
 
-                <div className={combineClass("relative flex gap-1.5", {})}>
-                  <div className="w-[27%]">
-                    <SelectField
-                      isClearable={false}
-                      name="countryCodeSelect"
-                      value={values.countryCodeSelect}
-                      onChange={(option: any) => {
-                        // Clear error message of countryCodeSelect
-                        setErrors({ ...errors, phoneCode: undefined });
-                        setValues({
-                          ...values,
-                          countryCodeSelect: option,
-                          phone: "+" + option.phoneCode,
-                          phoneCode: "+" + option.phoneCode,
+              <div className={combineClass("relative flex gap-1.5", {})}>
+                <div className="w-[27%]">
+                  <SelectField
+                    isClearable={false}
+                    name="countryCodeSelect"
+                    value={values.countryCodeSelect}
+                    onChange={(option: any) => {
+                      // Clear error message of countryCodeSelect
+                      setErrors({ ...errors, phoneCode: undefined });
+                      setValues({
+                        ...values,
+                        countryCodeSelect: option,
+                        phone: "+" + option.phoneCode,
+                        phoneCode: "+" + option.phoneCode,
+                      });
+                    }}
+                    runOnBlur={() => {
+                      !touched.phoneCode && setFieldTouched("phoneCode", true);
+                      values.phoneCode &&
+                        setErrors({
+                          ...errors,
+                          phoneCode: undefined,
                         });
-                      }}
-                      runOnBlur={() => {
-                        !touched.phoneCode && setFieldTouched("phoneCode", true);
-                        values.phoneCode &&
-                          setErrors({
-                            ...errors,
-                            phoneCode: undefined,
-                          });
-                      }}
-                      placeholderText="Code"
-                      options={countryCodeSelectValues}
-                      className="h-100 !static text-base"
-                      showOnlyIconOnControl
-                      showIconOnOptions
-                    />
-                  </div>
-                  <div className="w-[73%]">
-                    <PhoneNumberField
-                      label={tForm("formLabels.phone")}
-                      name="phone"
-                      // For autocomplete
-                      runOnChange={(value) => {
-                        if (values.phoneCode == "") {
-                          const checkPhoneNumberIsValid = value ? isValidPhoneNumber(value) : false;
-                          const country = checkPhoneNumberIsValid ? parsePhoneNumber(value)?.country : false;
+                    }}
+                    placeholderText="Code"
+                    options={countryCodeSelectValues}
+                    className="h-100 !static text-base"
+                    showOnlyIconOnControl
+                    showIconOnOptions
+                  />
+                </div>
+                <div className="w-[73%]">
+                  <PhoneNumberField
+                    label={tForm("formLabels.phone")}
+                    name="phone"
+                    // For autocomplete
+                    runOnChange={(value) => {
+                      if (values.phoneCode == "") {
+                        const checkPhoneNumberIsValid = value ? isValidPhoneNumber(value) : false;
+                        const country = checkPhoneNumberIsValid ? parsePhoneNumber(value)?.country : false;
 
-                          const foundCountry = country && countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
-                          foundCountry && setFieldValue("phoneCode", "+" + foundCountry?.phoneCode || "");
-                          foundCountry && setFieldValue("countryCodeSelect", foundCountry || "");
-                        }
-                      }}
-                      onCountryChange={(country: any) => {
-                        const foundCountry = countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
-
+                        const foundCountry = country && countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
                         foundCountry && setFieldValue("phoneCode", "+" + foundCountry?.phoneCode || "");
                         foundCountry && setFieldValue("countryCodeSelect", foundCountry || "");
-                      }}
-                    />
-                  </div>
+                      }
+                    }}
+                    onCountryChange={(country: any) => {
+                      const foundCountry = countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
+
+                      foundCountry && setFieldValue("phoneCode", "+" + foundCountry?.phoneCode || "");
+                      foundCountry && setFieldValue("countryCodeSelect", foundCountry || "");
+                    }}
+                  />
                 </div>
+              </div>
 
-                <CheckboxField name="consentMarketing">sela</CheckboxField>
-                <CheckboxField name="termsAndConditions">Terms</CheckboxField>
-                <SelectField
-                  options={countrySelectValues}
-                  name="countryOfResidence"
-                  showIconOnControl
-                  showIconOnOptions
-                  isClearable={false}
-                  runOnBlur={() => setFieldTouched("countryOfResidence", true)}
-                  onChange={(newValue: any) => setFieldValue("countryOfResidence", newValue.value)}
-                />
-
-                {/* Ref code */}
-                {/* Source */}
-                {/* Country select */}
-                <div className="my-10"></div>
-
-                <button type="submit">gonder</button>
-                <div className="my-10"></div>
-              </Form>
+              <CheckboxField name="consentMarketing">sela</CheckboxField>
+              {/* TODO raw ile html elemani ekleme bir de soyle aranmali, eger mesela key terms.message ise okey html getirebilirsin eger < bu varsa mesela ama isntHtml gibi bir sey varsa kesinlikle raw degildir denmeli */}
+              <CheckboxField name="termsAndConditions">Terms</CheckboxField>
+              <SelectField
+                options={countrySelectValues}
+                name="countryOfResidence"
+                showIconOnControl
+                showIconOnOptions
+                isClearable={false}
+                runOnBlur={() => setFieldTouched("countryOfResidence", true)}
+                onChange={(newValue: any) => setFieldValue("countryOfResidence", newValue.value)}
+              />
+              <div className="mt-5">
+                <button type="submit" className="py-2 px-4 bg-blue-400 rounded-md hover:bg-blue-500 transition-all duration-300 text-white">gonder</button>
+              </div>
+            </Form>
             </>
           );
         }}

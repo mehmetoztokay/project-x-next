@@ -52,7 +52,6 @@ const CustomControl = ({
         <img
           src={icon}
           alt={label}
-          onClick={() => console.log("sela")}
           className={combineClass("relative h-4 w-6 rounded-sm ltr:left-2 ltr:mr-1 rtl:right-2 rtl:ml-1", {
             "hidden lg:inline-block": hiddenIconOnControlForMobile,
             "!hidden": props.menuIsOpen,
