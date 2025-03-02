@@ -12,6 +12,7 @@ import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/hooks/useC
 import { useSearchParams } from "next/navigation";
 import { FileUploadField } from "@/components/Atoms/FormFields/FileUploadField";
 import { parsePhoneNumber, isValidPhoneNumber } from "react-phone-number-input";
+import { useLocale } from "next-intl";
 
 export const RegisterForm = () => {
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
@@ -20,10 +21,11 @@ export const RegisterForm = () => {
   const searchParams = useSearchParams();
 
   const lang = searchParams.get("lang") || "";
+  const locale = useLocale();
 
   useEffect(() => {
     const fetchCountryList = async () => {
-      const { getFormattedCountryCodeSelectValues, getFormattedCountrySelectValues } = useCountryList();
+      const { getFormattedCountryCodeSelectValues, getFormattedCountrySelectValues } = useCountryList({ locale });
 
       const formattedCountryCodeSelectValues = await getFormattedCountryCodeSelectValues();
       const formattedCountrySelectValues = await getFormattedCountrySelectValues();

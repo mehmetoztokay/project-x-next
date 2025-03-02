@@ -17,7 +17,7 @@ import { getFullPageUrl } from "@/helpers/getFullPageUrl";
 import { getMarketingId } from "@/services/TriveApiServices/Marketing";
 import { useUtmParams } from "@/hooks/useUtmParams";
 
-export const RegistrationForm = () => {
+export const RegistrationForm = ({ isTwoSteps }: { isTwoSteps?: boolean }) => {
   const tForm = useTranslations("Forms");
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
   const [countrySelectValues, setCountryNames] = useState<ICountrySelect[]>([]);
@@ -31,7 +31,7 @@ export const RegistrationForm = () => {
   useEffect(() => {
     // Get countryList for Country Code and Country of Residence Select
     const fetchCountryList = async () => {
-      const { getFormattedCountryCodeSelectValues, getFormattedCountrySelectValues } = useCountryList();
+      const { getFormattedCountryCodeSelectValues, getFormattedCountrySelectValues } = useCountryList({ locale });
 
       const formattedCountryCodeSelectValues = await getFormattedCountryCodeSelectValues();
       const formattedCountrySelectValues = await getFormattedCountrySelectValues();

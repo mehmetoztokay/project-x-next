@@ -155,6 +155,7 @@
     "noSpacesAtStartOrEnd": "No leading or trailing spaces",
     "onlyLowercase": "Only lowercase letters allowed",
     "invalidEmail": "Please enter a valid email",
+    "emailAlreadyTaken": "This email is already associated with an existing account",
     "invalidPhone": "Please enter a valid phone",
     "invalidPhoneCode": "Please enter a valid phone code (e.g. +1, +90)",
     "checkboxRequired": "This checkbox must be checked to continue",

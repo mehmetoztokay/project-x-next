@@ -22,17 +22,21 @@ export interface ICountrySelect {
   id: string;
 }
 
+import { LocaleItem, useCurrentSiteInfo } from "@/i18n/routing";
 import countries from "i18n-iso-countries";
 import { getCountryCallingCode } from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 
 const excludeCountries = ["AQ", "BV", "TF", "HM", "PN", "GS", "UM"];
 
-export const useCountryList = () => {
-  const getCountryList = async (language: string = "en"): Promise<ICountry[]> => {
-    // If not supported lang return default en
-    if (!countries.getSupportedLanguages().includes(language)) language = "en";
+export const useCountryList = ({ locale, language }: { locale: LocaleItem["locale"]; language?: LocaleItem["shortLang"] }) => {
+  if (language && !countries.getSupportedLanguages().includes(language)) language = "en";
+  // If not supported lang return default en
+  else language = useCurrentSiteInfo({ locale }).shortLang;
+  console.log(useCurrentSiteInfo({ locale }));
 
+  console.log(countries.getSupportedLanguages());
+  const getCountryList = async (): Promise<ICountry[]> => {
     try {
       const localeModule = await import(`i18n-iso-countries/langs/${language}.json`);
       countries.registerLocale(localeModule.default);
@@ -59,8 +63,8 @@ export const useCountryList = () => {
     return countryList;
   };
 
-  const getFormattedCountryCodeSelectValues = async (lang: string = "en") => {
-    const allCountries = await getCountryList(lang);
+  const getFormattedCountryCodeSelectValues = async () => {
+    const allCountries = await getCountryList();
 
     const formattedCountryCodeSelectValues = allCountries.map((country) => ({
       label: country.phoneCountryLabel,
@@ -75,8 +79,8 @@ export const useCountryList = () => {
     return formattedCountryCodeSelectValues;
   };
 
-  const getFormattedCountrySelectValues = async (lang: string = "en") => {
-    const allCountries = await getCountryList(lang);
+  const getFormattedCountrySelectValues = async () => {
+    const allCountries = await getCountryList();
 
     const formattedCountrySelectValues = allCountries.map((country) => ({
       label: country.countryName,
