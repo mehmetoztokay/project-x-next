@@ -19,7 +19,8 @@ select:-webkit-autofill:focus {
 }
 
 input[type="tel"] {
-  direction: inherit;
+  direction: inherit !important;
+  height: auto !important;
 }
 
 /* :root {
