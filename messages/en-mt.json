@@ -1,7 +1,7 @@
 {
   "Layout": {
     "locales": {
-      "eu-en": {
+      "eu-mt": {
         "title": "English",
         "flag": "gb"
       },
@@ -17,8 +17,12 @@
         "title": "Italiano",
         "flag": "it"
       },
+      "tr-tr": {
+        "title": "Türkçe",
+        "flag": "tr"
+      },
       "olmayan-dil": {
-        "title": "Olmayan Dil",
+        "title": "Olmayan Dil(deneme)",
         "flag": "olmayan-dil"
       }
     },
@@ -169,8 +173,9 @@
       "lastName": "Last Name",
       "email": "Email",
       "phone": "Phone",
-      "phoneCode": "Area Code",
-      "password": "Password"
+      "phoneCode": "Code",
+      "password": "Password",
+      "countryOfResidence": "Country of Residence"
     }
   },
   "IframePages": {

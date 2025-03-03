@@ -10,7 +10,6 @@ import { combineClass } from "@/helpers/development/combineClass";
 const inter = Inter({ subsets: ["latin"] });
 const natoSansArabic = Noto_Sans_Arabic({ subsets: ["arabic"] });
 
-
 type Props = {
   children: ReactNode;
   locale: string;
@@ -21,9 +20,7 @@ export default async function CoreLayout({ children, locale, isIframeLayout }: P
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages();
-  const currentSite = useCurrentSiteInfo({ locale })
-
-  console.log("currentSite", currentSite);
+  const currentSite = useCurrentSiteInfo({ locale });
 
   return (
     <html className={combineClass("h-full w-full", {})} lang={locale} dir={locales.find((l) => l.locale === locale)?.direction || "ltr"}>
