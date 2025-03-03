@@ -98,6 +98,7 @@ export const routing = defineRouting({
   },
   pathnames: {
     "/": "/",
+    "/about": "/about",
     // "/about": {
     //   "eu-mt": "/about-en-mt",
     //   "eu-de": "/about-de",
