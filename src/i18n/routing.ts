@@ -98,15 +98,15 @@ export const routing = defineRouting({
   },
   pathnames: {
     "/": "/",
-    "/about": {
-      "eu-mt": "/about-en-mt",
-      "eu-de": "/about-de",
-      "eu-es": "/about-es",
-      "eu-it": "/about-it",
-      "tr-tr": "/about-tr",
-      "int-th": "/about-int-th",
-      "olmayan-dil": "/about-olmayan-dil",
-    },
+    // "/about": {
+    //   "eu-mt": "/about-en-mt",
+    //   "eu-de": "/about-de",
+    //   "eu-es": "/about-es",
+    //   "eu-it": "/about-it",
+    //   "tr-tr": "/about-tr",
+    //   "int-th": "/about-int-th",
+    //   "olmayan-dil": "/about-olmayan-dil",
+    // },
   },
 });
 

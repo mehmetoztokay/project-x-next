@@ -32,14 +32,18 @@ const excludeCountries = ["AQ", "BV", "TF", "HM", "PN", "GS", "UM"];
 export const useCountryList = ({ locale, language }: { locale: LocaleItem["locale"]; language?: LocaleItem["shortLang"] }) => {
   if (language && !countries.getSupportedLanguages().includes(language)) language = "en";
   // If not supported lang return default en
-  else language = useCurrentSiteInfo({ locale }).shortLang;
+  else
+    language = countries.getSupportedLanguages().includes(useCurrentSiteInfo({ locale }).shortLang) ? useCurrentSiteInfo({ locale }).shortLang : "en";
 
   const getCountryList = async (): Promise<ICountry[]> => {
     try {
       const localeModule = await import(`i18n-iso-countries/langs/${language}.json`);
-      countries.registerLocale(localeModule.default);
+      localeModule && countries.registerLocale(localeModule.default);
     } catch (error) {
-      console.error(`Countries are not loaded for: ${language} lang.`, error);
+      console.warn(`Countries are not loaded for: ${language} lang.`, error);
+
+      const defaultLocaleModule = await import(`i18n-iso-countries/langs/en.json`);
+      defaultLocaleModule && countries.registerLocale(defaultLocaleModule.default);
     }
 
     const countryListObject = countries.getNames(language, {
