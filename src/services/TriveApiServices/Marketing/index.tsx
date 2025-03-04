@@ -6,18 +6,13 @@ import { LocaleItem, useCurrentSiteInfo } from "@/i18n/routing";
 import { Cookies } from "react-cookie";
 
 const createMarketingId = async ({ data, locale }: { data: IMarketingIdData; locale: LocaleItem["locale"] }) => {
-  try {
-    const url = getApiServiceEndpoint(apiServicesEndpoints.marketing.createMarketingId, locale);
-    const response = await api.post(url, data);
-    if (response.data?.hasError !== false) {
-      console.log(response.data?.errors);
-      return null;
-    } else {
-      return response.data?.result;
-    }
-  } catch (error) {
-    console.log(error);
+  const url = getApiServiceEndpoint(apiServicesEndpoints.marketing.createMarketingId, locale);
+  const response = await api.post(url, data);
+  if (response.data?.hasError !== false) {
+    console.log(response.data?.errors);
     return null;
+  } else {
+    return response.data?.result;
   }
 };
 

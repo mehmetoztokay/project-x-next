@@ -2,7 +2,7 @@
 import { Form, Formik, FormikHelpers } from "formik";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
-import { getRegisterStep1FormScheme, getSingleRegisterFormScheme } from "./SingleRegisterFormScheme";
+import { getSingleRegisterFormScheme } from "./SingleRegisterFormScheme";
 import { InputField } from "@/components/Atoms/FormFields/InputField";
 import { CheckboxField } from "@/components/Atoms/FormFields/CheckboxField";
 import { useSearchParams } from "next/navigation";
@@ -51,11 +51,6 @@ export const RegistrationForm = () => {
   }, []);
 
   const SingleRegisterFormScheme = getSingleRegisterFormScheme(tForm);
-  const RegisterStep1FormScheme = getRegisterStep1FormScheme(tForm);
-
-  console.log(RegisterStep1FormScheme);
-
-
   return (
     <div className="p-52">
       <Formik
@@ -112,6 +107,7 @@ export const RegistrationForm = () => {
         {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors, setValues, handleChange }) => {
           return (
             <>
+              {JSON.stringify(marketingDataId, null, 2)}
               <Form className="grid gap-3">
                 <InputField name="firstName" label={tForm("formLabels.firstName")} />
                 <InputField name="lastName" label={tForm("formLabels.lastName")} />
