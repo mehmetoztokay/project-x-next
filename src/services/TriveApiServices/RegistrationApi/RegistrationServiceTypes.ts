@@ -27,6 +27,10 @@ export interface IRegistration_SingleRegister extends IRegistration_BaseService 
 }
 
 export interface IRegistration_RegisterStep1 extends IRegistration_BaseService {
+  utmSource: string | null;
+  utmMedium: string | null;
+  utmCampaign: string | null;
+  utmContent: string | null;
   marketingDataId: string;
   affiliateCxdId: string;
   affiliateId: string;

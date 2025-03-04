@@ -69,7 +69,7 @@ export const PhoneNumberField: React.FC<PhoneInputProps> = ({
         </div>
         <label
           htmlFor={name}
-          className={combineClass("pointer-events-none absolute left-1 top-1/2 w-full -translate-y-1/2 transform px-2 duration-200 ease-in-out", {
+          className={combineClass("pointer-events-none absolute left-1 top-1/2 w-full -translate-y-1/2 transform px-2 rtl:pr-3 rtl:left-auto duration-200 ease-in-out", {
             "-translate-y-[20px] text-[10px]": field.value || focused,
             "text-blue-500": focused,
           })}
