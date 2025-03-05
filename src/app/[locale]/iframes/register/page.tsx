@@ -1,4 +1,4 @@
-import { RegistrationForm } from "@/containers/Forms/Registration";
+import { RegistrationForm } from "@/containers/Forms/Registration/SingleRegister";
 import React from "react";
 
 const Register = () => {
