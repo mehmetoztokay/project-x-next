@@ -175,6 +175,7 @@
     "registrationSuccessful": "Registration successful!",
     "registrationSuccessfullStartTrading": "Your registration has been successfully completed, you can start trading!",
     "startTrading": "Start Trading",
+    "test_isHTML": "<p class='text-3xl'>seaaaaa</p>",
     "formLabels": {
       "firstName": "First Name",
       "lastName": "Last Name",
