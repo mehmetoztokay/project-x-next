@@ -10,6 +10,7 @@ import {
   ControlProps,
   DropdownIndicatorProps,
   IndicatorsContainerProps,
+  InputProps,
   MenuProps,
   NoticeProps,
   OptionProps,
@@ -19,6 +20,10 @@ import {
 import { useField } from "formik";
 import { normalizeText } from "@/helpers/normalizeText";
 import React from "react";
+
+const CustomInput = ({ canAutoComplete, ...props }: { canAutoComplete: boolean } & InputProps) => {
+  return <components.Input {...props} autoComplete={canAutoComplete ? "auto" : "never"} />;
+};
 
 const CustomControl = ({
   showIconOnControl,
@@ -186,6 +191,7 @@ export const SelectField = ({
   hiddenIconOpOptionsForMobile = false,
   removeDropdownIndicatorIsFocused = false,
   hideErrorMessage = false,
+  canAutoComplete = false,
   runOnBlur,
   ...props
 }: {
@@ -203,6 +209,7 @@ export const SelectField = ({
   hiddenIconOpOptionsForMobile?: boolean;
   removeDropdownIndicatorIsFocused?: boolean;
   hideErrorMessage?: boolean;
+  canAutoComplete?: boolean;
   runOnBlur?: (value: any) => void;
 } & Props) => {
   const [field, meta, setField] = useField(name);
@@ -213,6 +220,7 @@ export const SelectField = ({
         className="text-gray-900"
         closeMenuOnSelect={true}
         isClearable={true}
+        closeMenuOnScroll
         onBlur={(value) => {
           setField.setTouched(true);
           runOnBlur && runOnBlur(value);
@@ -261,6 +269,7 @@ export const SelectField = ({
               hiddenIconOpOptionsForMobile={hiddenIconOpOptionsForMobile}
             />
           ),
+          Input: (inputProps) => <CustomInput {...inputProps} canAutoComplete={canAutoComplete} />,
           Placeholder: CustomPlaceholder,
           NoOptionsMessage: CustomNoOptionsMessage,
         }}
