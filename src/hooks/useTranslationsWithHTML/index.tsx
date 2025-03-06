@@ -13,7 +13,7 @@ import React from "react";
 export const useTranslationsWithHTML = (namespace: string) => {
   const t = originalUseTranslations(namespace);
 
-  const tExtended = (key: string): string | React.ReactNode => {
+  const tExtended = (key: string, values: any = {}): string | React.ReactNode => {
     // Eğer anahtarın çevirisi yoksa, direkt olarak key'i döndür
     if (!t.has(key)) {
       return key; // Çeviri bulunamazsa, key döndürülür
@@ -24,8 +24,8 @@ export const useTranslationsWithHTML = (namespace: string) => {
       return <div dangerouslySetInnerHTML={{ __html: t.raw(key) }} />;
     }
 
-    // Normal metin döndürülür
-    return t(key);
+    // Normal metin döndürülür, burada values parametrelerini de ekliyoruz
+    return t(key, values);
   };
 
   // Raw, Rich gibi metodları burada direkt olarak sağlıyoruz

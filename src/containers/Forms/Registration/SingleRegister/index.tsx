@@ -28,7 +28,6 @@ export const RegistrationForm = () => {
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
   const [countrySelectValues, setCountryNames] = useState<ICountrySelect[]>([]);
   const [marketingDataId, setMarketingDataId] = useState<string | null>(null);
-  const [isOpenSuccessAlert, setIsOpenSuccessAlert] = useState<boolean>(true);
   const [submittingForm, setSubmittingForm] = useState<boolean>(false);
   const [formSubmittedSuccessfull, setFormSubmittedSuccessfull] = useState<boolean>(false);
   const [formHadError, setFormHadError] = useState<boolean>(false);
@@ -90,15 +89,27 @@ export const RegistrationForm = () => {
       delete (formData as any).countryCodeSelect;
 
       const submitForm = async () => {
+        setFormHadError(false);
         setSubmittingForm(true);
-        const checkClient = await clientCheck({ data: { email: values.email }, locale });
+        const checkClient = await clientCheck({ data: { email: values.email }, locale }).catch((error) => {
+          console.log(error);
+          setSubmittingForm(false);
+          setFormHadError(true);
+        });
 
         // Check client is registred
         if (checkClient) {
           setSubmittingForm(false);
           formik.setErrors({ ...formik.errors, email: `${tForm("emailAlreadyTaken")} (${values.email})` });
         } else {
-          const refCodeIsValid = (values.crRefCode && (await checkRefCode({ locale, refCode: values.crRefCode }))) || "";
+          const refCodeIsValid =
+            (values.crRefCode &&
+              (await checkRefCode({ locale, refCode: values.crRefCode }).catch((error) => {
+                console.log(error);
+                setSubmittingForm(false);
+                setFormHadError(true);
+              }))) ||
+            "";
 
           if (values.crRefCode && !refCodeIsValid) {
             // Check if there is a refCode and refCode isValid
@@ -111,10 +122,11 @@ export const RegistrationForm = () => {
               setSubmittingForm(false);
               formik.setSubmitting(false);
               setFormSubmittedSuccessfull(true);
-              singleRegisterResult.result.scaToken && setScaUrl(scaUrl + "SCA?token=" + singleRegisterResult.result.scaToken);
+              singleRegisterResult.result.scaToken && setScaUrl(scaUrl + "accounts?token=" + singleRegisterResult.result.scaToken);
             } else {
               console.log(singleRegisterResult);
               setFormHadError(true);
+              setSubmittingForm(false);
             }
           }
         }
@@ -153,28 +165,28 @@ export const RegistrationForm = () => {
 
   return (
     <div className="flex justify-center">
-      {formSubmittedSuccessfull && !formHadError && (
+      {formSubmittedSuccessfull && (
         <div className="">
           <Alert
             canClose
-            isOpenAlert={isOpenSuccessAlert}
+            isOpenAlert={formSubmittedSuccessfull}
             onClickClose={() => {
-              setIsOpenSuccessAlert(false);
               setFormSubmittedSuccessfull(false);
+              setScaUrl(scaUrl);
             }}
           >
             <div className="px-6 py-10 text-center lg:px-12">
               <FaRegCircleCheck className="mx-auto text-4xl text-green-600 lg:text-6xl" />
               <p className="mt-4 text-2xl font-semibold leading-none lg:text-3xl">{tForm("registrationSuccessful")}</p>
               <p className="mb-6 mt-2">{tForm("registrationSuccessfullStartTrading")}</p>
-              <a className="btn text-sm lg:text-base" href={scaUrl}>
+              <a className="btn text-sm lg:text-base" target="_blank" href={scaUrl}>
                 {tForm("startTrading")}
               </a>
             </div>
           </Alert>
         </div>
       )}
-      {!formSubmittedSuccessfull && !formHadError && (
+      {!formSubmittedSuccessfull && (
         <FormikProvider value={formik}>
           <form className="grid w-full gap-3" onSubmit={formik.handleSubmit}>
             <InputField name="firstName" label={tForm("formLabels.firstName") as ""} />
@@ -215,7 +227,6 @@ export const RegistrationForm = () => {
                 <PhoneNumberField
                   label={tForm("formLabels.phone") as ""}
                   name="phone"
-                  // For autocomplete
                   runOnChange={(value) => {
                     if (formik.values.phoneCode == "") {
                       const checkPhoneNumberIsValid = value ? isValidPhoneNumber(value) : false;
@@ -257,16 +268,47 @@ export const RegistrationForm = () => {
               </div>
             )}
 
-            <CheckboxField name="consentMarketing">sela</CheckboxField>
+            <CheckboxField name="consentMarketing">
+              I confirm and constent to Trive contacting me by phone, email for marketing purposes.
+            </CheckboxField>
             {/* TODO raw ile html elemani ekleme bir de soyle aranmali, eger mesela key terms.message ise okey html getirebilirsin eger < bu varsa mesela ama isntHtml gibi bir sey varsa kesinlikle raw degildir denmeli */}
-            <CheckboxField name="termsAndConditions">Terms</CheckboxField>
+            <CheckboxField name="termsAndConditions">I am not a US Citizen or a US Resident for tax purposes.</CheckboxField>
+            <p className="text-sm font-light">
+              <b> By clicking "Register" I confirm, I read and understood</b>
+              <b>
+                {" "}
+                <a
+                  className="underline"
+                  href="https://www.trive.com/assets/img/pdfs/Master_Privacy_Policy.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  translate="yes"
+                >
+                  "Privacy Policy"
+                </a>
+              </b>
+              ,{" "}
+              <b>
+                {" "}
+                <a
+                  className="underline"
+                  href="https://www.trive.com/assets/img/pdfs/Terms_of_Use.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  translate="yes"
+                >
+                  "Terms of Use"
+                </a>
+              </b>
+              .
+            </p>
             {formHadError && (
               <Alert
                 isMiniAlert
                 canClose
                 miniAlertType="danger"
                 onClickClose={() => {
-                  setFormHadError(true);
+                  setFormHadError(false);
                 }}
               >
                 <div>
