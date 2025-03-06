@@ -3,7 +3,7 @@ import { NextIntlClientProvider, useLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { ReactNode } from "react";
 import { ControlLayout } from "../ControlLayout";
-import "@/app/globals.css";
+import "@/styles/globals.css";
 import { locales, useCurrentSiteInfo } from "@/i18n/routing";
 import { combineClass } from "@/helpers/development/combineClass";
 

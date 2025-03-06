@@ -16,17 +16,32 @@ import { useCurrentSiteInfo } from "@/i18n/routing";
 import { getFullPageUrl } from "@/helpers/getFullPageUrl";
 import { getMarketingId } from "@/services/TriveApiServices/Marketing";
 import { useUtmParams } from "@/hooks/useUtmParams";
+import { clientCheck, singleRegister } from "@/services/TriveApiServices/RegistrationApi";
+import { Alert } from "@/components/Alert";
+import { checkRefCode } from "@/services/TriveApiServices/Partner";
+import { Spinner } from "@/components/Spinner";
+import { FaRegCircleCheck } from "react-icons/fa6";
 
 export const RegistrationForm = () => {
   const tForm = useTranslations("Forms");
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
   const [countrySelectValues, setCountryNames] = useState<ICountrySelect[]>([]);
   const [marketingDataId, setMarketingDataId] = useState<string | null>(null);
+  const [isOpenSuccessAlert, setIsOpenSuccessAlert] = useState<boolean>(true);
+  const [submittingForm, setSubmittingForm] = useState<boolean>(false);
+  const [formSubmittedSuccessfull, setFormSubmittedSuccessfull] = useState<boolean>(false);
+  const [formHadError, setFormHadError] = useState<boolean>(false);
 
   const pageUrl = getFullPageUrl();
   const locale = useLocale();
+  const currentSite = useCurrentSiteInfo({ locale });
   const searchParams = useSearchParams();
   const { utmCampaign, utmContent, utmMedium, utmSource } = useUtmParams({ searchParams }).utmParams;
+  // Referral code should be works in INT or ID region
+  const refCodeParam =
+    currentSite.region == "int" || currentSite.region == "id" ? searchParams.get("refCode") || searchParams.get("refcode") || "" : "";
+  const [showReferralCode, setShowReferralCode] = useState<boolean>(false);
+  const [scaUrl, setScaUrl] = useState<string>(currentSite.scaUrl);
 
   useEffect(() => {
     // Get countryList for Country Code and Country of Residence Select
@@ -45,6 +60,7 @@ export const RegistrationForm = () => {
     const fetchMarketingId = async () => {
       const marketingIdValue = await getMarketingId({ locale: locale, searchParams });
 
+      formik.setFieldValue("marketingDataId", marketingIdValue);
       setMarketingDataId(marketingIdValue);
     };
     fetchMarketingId();
@@ -65,15 +81,48 @@ export const RegistrationForm = () => {
         }
       >,
     ) => {
-      console.log(JSON.stringify(values, null, 2));
+      setSubmitting(false);
 
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 100);
+      const formData = { ...formik.values };
+
+      delete (formData as any).termsAndConditions;
+      delete (formData as any).countryCodeSelect;
+
+      const submitForm = async () => {
+        setSubmittingForm(true);
+        const checkClient = await clientCheck({ data: { email: values.email }, locale });
+
+        // Check client is registred
+        if (checkClient) {
+          setSubmittingForm(false);
+          formik.setErrors({ ...formik.errors, email: `${tForm("emailAlreadyTaken")} (${values.email})` });
+        } else {
+          const refCodeIsValid = (values.crRefCode && (await checkRefCode({ locale, refCode: values.crRefCode }))) || "";
+
+          if (values.crRefCode && !refCodeIsValid) {
+            // Check if there is a refCode and refCode isValid
+            setSubmittingForm(false);
+            formik.setFieldError("crRefCode", tForm("invalidRefCodeMessage"));
+          } else {
+            const singleRegisterResult = await singleRegister({ data: formData, locale });
+
+            if (!singleRegisterResult.hasError && singleRegisterResult.result.isSuccessful) {
+              setSubmittingForm(false);
+              formik.setSubmitting(false);
+              setFormSubmittedSuccessfull(true);
+              singleRegisterResult.result.scaToken && setScaUrl(scaUrl + "SCA?token=" + singleRegisterResult.result.scaToken);
+            } else {
+              console.log(singleRegisterResult);
+              setFormHadError(true);
+            }
+          }
+        }
+      };
+
+      submitForm();
     },
     initialValues: {
-      siteId: useCurrentSiteInfo({ locale })?.siteId,
+      siteId: currentSite?.siteId,
       email: "",
       firstName: "",
       lastName: "",
@@ -90,7 +139,7 @@ export const RegistrationForm = () => {
       marketingDataId,
       affiliateCxdId: "",
       affiliateId: "",
-      crRefCode: "",
+      crRefCode: refCodeParam,
       scaPassword: "",
       isSendScaPassword: true,
       isPartner: false,
@@ -102,89 +151,143 @@ export const RegistrationForm = () => {
   });
 
   return (
-    <div className="p-52">
-      <FormikProvider value={formik}>
-        <form className="grid gap-3" onSubmit={formik.handleSubmit}>
-          <InputField name="firstName" label={tForm("formLabels.firstName")} />
-          <InputField name="lastName" label={tForm("formLabels.lastName")} />
-          <InputField name="email" label={tForm("formLabels.email")} type="email" />
-          <div className={combineClass("relative flex gap-1.5", {})}>
-            <div className="w-[27%]">
-              <SelectField
-                isClearable={false}
-                name="countryCodeSelect"
-                value={formik.values.countryCodeSelect}
-                onChange={(option: any) => {
-                  // Clear error message of countryCodeSelect
-                  formik.setErrors({ ...formik.errors, phoneCode: undefined });
-                  formik.setValues({
-                    ...formik.values,
-                    countryCodeSelect: option,
-                    phone: "+" + option.phoneCode,
-                    phoneCode: "+" + option.phoneCode,
-                  });
-                }}
-                runOnBlur={() => {
-                  !formik.touched.phoneCode && formik.setFieldTouched("phoneCode", true);
-                  formik.values.phoneCode &&
-                    formik.setErrors({
-                      ...formik.errors,
-                      phoneCode: undefined,
-                    });
-                }}
-                placeholderText="Code"
-                options={countryCodeSelectValues}
-                className="h-100 !static text-base"
-                showOnlyIconOnControl
-                showIconOnOptions
-              />
+    <div className="flex justify-center">
+      {formSubmittedSuccessfull && !formHadError && (
+        <div className="">
+          <Alert
+            canClose
+            isOpenAlert={isOpenSuccessAlert}
+            onClickClose={() => {
+              setIsOpenSuccessAlert(false);
+              setFormSubmittedSuccessfull(false);
+            }}
+          >
+            <div className="px-6 py-10 text-center lg:px-12">
+              <FaRegCircleCheck className="mx-auto text-4xl text-green-600 lg:text-6xl" />
+              <p className="mt-4 text-2xl font-semibold leading-none lg:text-3xl">{tForm("registrationSuccessful")}</p>
+              <p className="mb-6 mt-2">{tForm("registrationSuccessfullStartTrading")}</p>
+              <a className="btn text-sm lg:text-base" href={scaUrl}>
+                {tForm("startTrading")}
+              </a>
             </div>
-            <div className="w-[73%]">
-              <PhoneNumberField
-                label={tForm("formLabels.phone")}
-                name="phone"
-                // For autocomplete
-                runOnChange={(value) => {
-                  if (formik.values.phoneCode == "") {
-                    const checkPhoneNumberIsValid = value ? isValidPhoneNumber(value) : false;
-                    const country = checkPhoneNumberIsValid ? parsePhoneNumber(value)?.country : false;
+          </Alert>
+        </div>
+      )}
+      {!formSubmittedSuccessfull && !formHadError && (
+        <FormikProvider value={formik}>
+          <form className="grid w-full gap-3" onSubmit={formik.handleSubmit}>
+            <InputField name="firstName" label={tForm("formLabels.firstName")} />
+            <InputField name="lastName" label={tForm("formLabels.lastName")} />
+            <InputField name="email" label={tForm("formLabels.email")} type="email" />
+            <div className={combineClass("relative flex gap-1.5", {})}>
+              <div className="w-[27%]">
+                <SelectField
+                  isClearable={false}
+                  name="countryCodeSelect"
+                  value={formik.values.countryCodeSelect}
+                  onChange={(option: any) => {
+                    // Clear error message of countryCodeSelect
+                    formik.setErrors({ ...formik.errors, phoneCode: undefined });
+                    formik.setValues({
+                      ...formik.values,
+                      countryCodeSelect: option,
+                      phone: "+" + option.phoneCode,
+                      phoneCode: "+" + option.phoneCode,
+                    });
+                  }}
+                  runOnBlur={() => {
+                    !formik.touched.phoneCode && formik.setFieldTouched("phoneCode", true);
+                    formik.values.phoneCode &&
+                      formik.setErrors({
+                        ...formik.errors,
+                        phoneCode: undefined,
+                      });
+                  }}
+                  placeholderText="Code"
+                  options={countryCodeSelectValues}
+                  className="h-100 !static text-base"
+                  showOnlyIconOnControl
+                  showIconOnOptions
+                />
+              </div>
+              <div className="w-[73%]">
+                <PhoneNumberField
+                  label={tForm("formLabels.phone")}
+                  name="phone"
+                  // For autocomplete
+                  runOnChange={(value) => {
+                    if (formik.values.phoneCode == "") {
+                      const checkPhoneNumberIsValid = value ? isValidPhoneNumber(value) : false;
+                      const country = checkPhoneNumberIsValid ? parsePhoneNumber(value)?.country : false;
 
-                    const foundCountry = country && countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
+                      const foundCountry = country && countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
+                      foundCountry && formik.setFieldValue("phoneCode", "+" + foundCountry?.phoneCode || "");
+                      foundCountry && formik.setFieldValue("countryCodeSelect", foundCountry || "");
+                    }
+                  }}
+                  onCountryChange={(country: any) => {
+                    const foundCountry = countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
+
                     foundCountry && formik.setFieldValue("phoneCode", "+" + foundCountry?.phoneCode || "");
                     foundCountry && formik.setFieldValue("countryCodeSelect", foundCountry || "");
-                  }
-                }}
-                onCountryChange={(country: any) => {
-                  const foundCountry = countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
-
-                  foundCountry && formik.setFieldValue("phoneCode", "+" + foundCountry?.phoneCode || "");
-                  foundCountry && formik.setFieldValue("countryCodeSelect", foundCountry || "");
-                }}
-              />
+                  }}
+                />
+              </div>
             </div>
-          </div>
-          <SelectField
-            options={countrySelectValues}
-            name="countryOfResidence"
-            showIconOnControl
-            placeholderText={tForm("formLabels.countryOfResidence")}
-            showIconOnOptions
-            isClearable={false}
-            runOnBlur={() => formik.setFieldTouched("countryOfResidence", true)}
-            onChange={(newValue: any) => formik.setFieldValue("countryOfResidence", newValue.value)}
-          />
-          <InputField name="scaPassword" type="password" label={tForm("formLabels.password")} />
+            <SelectField
+              options={countrySelectValues}
+              name="countryOfResidence"
+              showIconOnControl
+              placeholderText={tForm("formLabels.countryOfResidence")}
+              showIconOnOptions
+              isClearable={false}
+              runOnBlur={() => formik.setFieldTouched("countryOfResidence", true)}
+              onChange={(newValue: any) => formik.setFieldValue("countryOfResidence", newValue.value)}
+            />
+            <InputField name="scaPassword" type="password" label={tForm("formLabels.password")} />
+            {(currentSite.region == "int" || currentSite.region == "id") && (
+              <div>
+                {!showReferralCode && !refCodeParam && (
+                  <button className="ps-1 underline underline-offset-2 opacity-70" onClick={() => setShowReferralCode(true)}>
+                    {tForm("addRefCodeMessage")}
+                  </button>
+                )}
+                {(showReferralCode || refCodeParam) && <InputField name="crRefCode" label={tForm("formLabels.refCode")} isClearable />}
+              </div>
+            )}
 
-          <CheckboxField name="consentMarketing">sela</CheckboxField>
-          {/* TODO raw ile html elemani ekleme bir de soyle aranmali, eger mesela key terms.message ise okey html getirebilirsin eger < bu varsa mesela ama isntHtml gibi bir sey varsa kesinlikle raw degildir denmeli */}
-          <CheckboxField name="termsAndConditions">Terms</CheckboxField>
-          <div className="mt-5">
-            <button type="submit" className="rounded-md bg-blue-400 px-4 py-2 text-white transition-all duration-300 hover:bg-blue-500">
-              gonder
-            </button>
-          </div>
-        </form>
-      </FormikProvider>
+            <CheckboxField name="consentMarketing">sela</CheckboxField>
+            {/* TODO raw ile html elemani ekleme bir de soyle aranmali, eger mesela key terms.message ise okey html getirebilirsin eger < bu varsa mesela ama isntHtml gibi bir sey varsa kesinlikle raw degildir denmeli */}
+            <CheckboxField name="termsAndConditions">Terms</CheckboxField>
+            {formHadError && (
+              <Alert
+                isMiniAlert
+                canClose
+                miniAlertType="danger"
+                onClickClose={() => {
+                  setFormHadError(true);
+                }}
+              >
+                <div>
+                  <p className="font-semibold">{tForm("errorTitle")}</p>
+                  <p className="font-light">{tForm("anErrorOccuredTryAgain")}</p>
+                </div>
+              </Alert>
+            )}
+            <div className="mt-1">
+              <button type="submit" className="btn flex items-center gap-1" disabled={submittingForm}>
+                {submittingForm ? (
+                  <>
+                    <Spinner /> <p>{tForm("formLabels.register")}</p>
+                  </>
+                ) : (
+                  <p>{tForm("formLabels.register")}</p>
+                )}
+              </button>
+            </div>
+          </form>
+        </FormikProvider>
+      )}
     </div>
   );
 };

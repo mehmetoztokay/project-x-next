@@ -46,6 +46,6 @@ export const clientCheck = async ({ data, locale }: { data: IRegistration_Client
   if (response.data?.hasError !== false) {
     throw new Error(response.data?.errors);
   } else {
-    return response.data;
+    return response.data?.result?.isRegistered || false;
   }
 };

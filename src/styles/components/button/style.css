@@ -1,0 +1,48 @@
+/* Varsayılan Buton */
+@layer components {
+  .btn {
+    --border-bottom-width: 0px;
+    --border-color: rgba(0, 0, 0, 0);
+    --border-left-width: 0px;
+    --border-right-width: 0px;
+    --border-style: solid;
+    --border-top-width: 0px;
+    background: linear-gradient(270deg, rgb(113, 203, 230) 0%, rgb(15, 126, 245) 41.0121%, rgb(0, 89, 184) 81.623%);
+    border-radius: 100px;
+    height: 100%;
+    opacity: 1;
+    padding: 14px 24px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    transition: background-position 0.6s ease;
+    cursor: pointer;
+    background-size: 200% 200%; /* Gradient için geniş bir alan */
+    background-position: 100% 0%;
+    user-select: none;
+  }
+
+  /* Hover Durumu */
+  .btn:hover {
+    background-position: 30% 20%; /* Gradient sağa kayarak koyulaşacak */
+  }
+
+  /* Focus Durumu */
+  .btn:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgb(0, 126, 245);
+    background-position: 30% 20%;
+  }
+
+  /* Aktif Durum */
+  .btn:active {
+    background-position: 30% 20%;
+  }
+
+  .btn:disabled,
+  .btn.disabled {
+    cursor: not-allowed; /* Tıklanamaz olma durumu */
+    pointer-events: none; /* Butona tıklanmasını engeller */
+    opacity: 0.8; /* Butonu soluk yapar */
+  }
+}

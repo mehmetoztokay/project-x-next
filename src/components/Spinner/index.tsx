@@ -1,11 +1,14 @@
+import { combineClass } from "@/helpers/development/combineClass";
 import React from "react";
 
-export const Spinner = () => {
+export const Spinner = ({ classes, isDark }: { classes?: string; isDark?: boolean }) => {
   return (
     <div role="status">
       <svg
         aria-hidden="true"
-        className="h-4 w-4 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+        className={combineClass("h-4 w-4 animate-spin fill-gray-600 text-gray-300 [animation-duration:0.7s]", classes, {
+          "fill-gray-300 text-gray-600": isDark,
+        })}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

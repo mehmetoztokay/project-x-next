@@ -168,14 +168,23 @@
     "atLeastOneLowerCase": "Must contain at least one lowercase letter.",
     "atLeastOneNumber": "Must contain at least one number.",
     "passwordCriteria": "Password must be between 8-15 characters and include at least one uppercase letter, one lowercase letter, and one number. No special characters allowed.",
+    "addRefCodeMessage": "Add Referral Code",
+    "invalidRefCodeMessage": "Invalid referral code. You can remove or update the referral code.",
+    "errorTitle": "Error!",
+    "anErrorOccuredTryAgain": "An error occurred, please try again.",
+    "registrationSuccessful": "Registration successful!",
+    "registrationSuccessfullStartTrading": "Your registration has been successfully completed, you can start trading!",
+    "startTrading": "Start Trading",
     "formLabels": {
-      "firstName": "Fisrt Name",
+      "firstName": "First Name",
       "lastName": "Last Name",
       "email": "Email",
       "phone": "Phone",
       "phoneCode": "Code",
       "password": "Password",
-      "countryOfResidence": "Country of Residence"
+      "countryOfResidence": "Country of Residence",
+      "refCode": "Ref Code",
+      "register": "Register"
     }
   },
   "IframePages": {
