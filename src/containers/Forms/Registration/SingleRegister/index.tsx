@@ -164,7 +164,22 @@ export const RegistrationForm = () => {
   });
 
   return (
-    <div className="flex justify-center">
+    <div className="">
+      <div className="p-5">
+        <details className="my-5 rounded p-4 text-xs leading-5">
+          <summary className="cursor-pointer select-none">Show values</summary>
+          <div className="mt-2">
+            {Object.entries(formik.values).map(([key, value]) => (
+              <p key={key}>
+                <code>
+                  {JSON.stringify(key)}: {JSON.stringify(value)}
+                </code>
+              </p>
+            ))}
+          </div>
+        </details>
+      </div>
+
       {formSubmittedSuccessfull && (
         <div className="">
           <Alert
