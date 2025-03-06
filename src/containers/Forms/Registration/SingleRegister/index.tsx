@@ -1,6 +1,6 @@
 "use client";
 import { FormikHelpers, FormikProvider, useFormik } from "formik";
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { getSingleRegisterFormScheme } from "./SingleRegisterFormScheme";
 import { InputField } from "@/components/Atoms/FormFields/InputField";
@@ -21,9 +21,10 @@ import { Alert } from "@/components/Alert";
 import { checkRefCode } from "@/services/TriveApiServices/Partner";
 import { Spinner } from "@/components/Spinner";
 import { FaRegCircleCheck } from "react-icons/fa6";
+import { useTranslationsWithHTML } from "@/hooks/useTranslationsWithHTML";
 
 export const RegistrationForm = () => {
-  const tForm = useTranslations("Forms");
+  const tForm = useTranslationsWithHTML("Forms");
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
   const [countrySelectValues, setCountryNames] = useState<ICountrySelect[]>([]);
   const [marketingDataId, setMarketingDataId] = useState<string | null>(null);
@@ -102,7 +103,7 @@ export const RegistrationForm = () => {
           if (values.crRefCode && !refCodeIsValid) {
             // Check if there is a refCode and refCode isValid
             setSubmittingForm(false);
-            formik.setFieldError("crRefCode", tForm("invalidRefCodeMessage"));
+            formik.setFieldError("crRefCode", tForm("invalidRefCodeMessage") as "");
           } else {
             const singleRegisterResult = await singleRegister({ data: formData, locale });
 
@@ -176,9 +177,9 @@ export const RegistrationForm = () => {
       {!formSubmittedSuccessfull && !formHadError && (
         <FormikProvider value={formik}>
           <form className="grid w-full gap-3" onSubmit={formik.handleSubmit}>
-            <InputField name="firstName" label={tForm("formLabels.firstName")} />
-            <InputField name="lastName" label={tForm("formLabels.lastName")} />
-            <InputField name="email" label={tForm("formLabels.email")} type="email" />
+            <InputField name="firstName" label={tForm("formLabels.firstName") as ""} />
+            <InputField name="lastName" label={tForm("formLabels.lastName") as ""} />
+            <InputField name="email" label={tForm("formLabels.email") as ""} type="email" />
             <div className={combineClass("relative flex gap-1.5", {})}>
               <div className="w-[27%]">
                 <SelectField
@@ -212,7 +213,7 @@ export const RegistrationForm = () => {
               </div>
               <div className="w-[73%]">
                 <PhoneNumberField
-                  label={tForm("formLabels.phone")}
+                  label={tForm("formLabels.phone") as ""}
                   name="phone"
                   // For autocomplete
                   runOnChange={(value) => {
@@ -238,13 +239,13 @@ export const RegistrationForm = () => {
               options={countrySelectValues}
               name="countryOfResidence"
               showIconOnControl
-              placeholderText={tForm("formLabels.countryOfResidence")}
+              placeholderText={tForm("formLabels.countryOfResidence") as ""}
               showIconOnOptions
               isClearable={false}
               runOnBlur={() => formik.setFieldTouched("countryOfResidence", true)}
               onChange={(newValue: any) => formik.setFieldValue("countryOfResidence", newValue.value)}
             />
-            <InputField name="scaPassword" type="password" label={tForm("formLabels.password")} />
+            <InputField name="scaPassword" type="password" label={tForm("formLabels.password") as ""} />
             {(currentSite.region == "int" || currentSite.region == "id") && (
               <div>
                 {!showReferralCode && !refCodeParam && (
@@ -252,7 +253,7 @@ export const RegistrationForm = () => {
                     {tForm("addRefCodeMessage")}
                   </button>
                 )}
-                {(showReferralCode || refCodeParam) && <InputField name="crRefCode" label={tForm("formLabels.refCode")} isClearable />}
+                {(showReferralCode || refCodeParam) && <InputField name="crRefCode" label={tForm("formLabels.refCode") as ""} isClearable />}
               </div>
             )}
 

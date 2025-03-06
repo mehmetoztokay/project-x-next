@@ -1,9 +1,10 @@
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { Params } from "@/types/general";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/Atoms/Button";
 import { HomePageContainer } from "@/containers/ContainerHomePage";
+import { useTranslationsWithHTML } from "@/hooks/useTranslationsWithHTML";
 
 export async function generateMetadata({ params }: { params: Params }) {
   const { locale } = await params;
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: { params: Params }) {
 
 export default function HomePage() {
   const locale = useLocale();
-  const t = useTranslations("HomePage");
+  const t = useTranslationsWithHTML("HomePage");
 
   return <HomePageContainer locale={locale} t={t} />;
 }

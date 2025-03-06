@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { CountryFlag } from "../CountryFlag";
 import { combineClass } from "@/helpers/development/combineClass";
 import { useChangeLocale } from "@/hooks/useChanheLocale";
+import { useTranslationsWithHTML } from "@/hooks/useTranslationsWithHTML";
 
 export const LocaleSwitcher = () => {
-  const t = useTranslations("Layout");
+  const t = useTranslationsWithHTML("Layout");
   const localeItems = t.raw("locales");
 
   const { changeLocale, isPendingLocale } = useChangeLocale();
