@@ -20,8 +20,10 @@ import { clientCheck, singleRegister } from "@/services/TriveApiServices/Registr
 import { Alert } from "@/components/Alert";
 import { checkRefCode } from "@/services/TriveApiServices/Partner";
 import { Spinner } from "@/components/Spinner";
-import { FaRegCircleCheck } from "react-icons/fa6";
+import { FaCheck, FaRegCircleCheck } from "react-icons/fa6";
 import { useTranslationsWithHTML } from "@/hooks/useTranslationsWithHTML";
+import { IoClose } from "react-icons/io5";
+import { controlRegex, regexAtLeastOneLowerCase, regexAtLeastOneNumber, regexAtLeastOneUpperCase, regexNoSpecialChars } from "@/helpers/regexUtils";
 
 export const RegistrationForm = () => {
   const tForm = useTranslationsWithHTML("Forms");
@@ -31,6 +33,7 @@ export const RegistrationForm = () => {
   const [submittingForm, setSubmittingForm] = useState<boolean>(false);
   const [formSubmittedSuccessfull, setFormSubmittedSuccessfull] = useState<boolean>(false);
   const [formHadError, setFormHadError] = useState<boolean>(false);
+  const [isFocusedPassword, setIsFocusedPassword] = useState<boolean>(false);
 
   const pageUrl = getFullPageUrl();
   const locale = useLocale();
@@ -89,46 +92,47 @@ export const RegistrationForm = () => {
       delete (formData as any).countryCodeSelect;
 
       const submitForm = async () => {
-        setFormHadError(false);
-        setSubmittingForm(true);
-        const checkClient = await clientCheck({ data: { email: values.email }, locale }).catch((error) => {
-          console.log(error);
-          setSubmittingForm(false);
-          setFormHadError(true);
-        });
+        try {
+          setFormHadError(false);
+          setSubmittingForm(true);
 
-        // Check client is registred
-        if (checkClient) {
-          setSubmittingForm(false);
-          formik.setErrors({ ...formik.errors, email: `${tForm("emailAlreadyTaken")} (${values.email})` });
-        } else {
-          const refCodeIsValid =
-            (values.crRefCode &&
-              (await checkRefCode({ locale, refCode: values.crRefCode }).catch((error) => {
-                console.log(error);
-                setSubmittingForm(false);
-                setFormHadError(true);
-              }))) ||
-            "";
+          // Check isClient
+          const checkClient = await clientCheck({ data: { email: values.email }, locale });
 
-          if (values.crRefCode && !refCodeIsValid) {
-            // Check if there is a refCode and refCode isValid
-            setSubmittingForm(false);
-            formik.setFieldError("crRefCode", tForm("invalidRefCodeMessage") as "");
-          } else {
-            const singleRegisterResult = await singleRegister({ data: formData, locale });
+          if (checkClient) {
+            formik.setErrors({ ...formik.errors, email: `${tForm("emailAlreadyTaken")} (${values.email})` });
+            return setSubmittingForm(false);
+          }
 
-            if (!singleRegisterResult.hasError && singleRegisterResult.result.isSuccessful) {
-              setSubmittingForm(false);
-              formik.setSubmitting(false);
-              setFormSubmittedSuccessfull(true);
-              singleRegisterResult.result.scaToken && setScaUrl(scaUrl + "accounts?token=" + singleRegisterResult.result.scaToken);
-            } else {
-              console.log(singleRegisterResult);
-              setFormHadError(true);
-              setSubmittingForm(false);
+          // Check Referral Code (If there is)
+          let refCodeIsValid = "";
+          if (values.crRefCode) {
+            refCodeIsValid = await checkRefCode({ locale, refCode: values.crRefCode });
+
+            if (!refCodeIsValid) {
+              formik.setFieldError("crRefCode", tForm("invalidRefCodeMessage") as "");
+              return setSubmittingForm(false);
             }
           }
+          // Registration
+          const singleRegisterResult = await singleRegister({ data: formData, locale });
+          if (singleRegisterResult.hasError) {
+            console.error(singleRegisterResult);
+            setFormHadError(true);
+          } else if (singleRegisterResult.result?.isSuccessful) {
+            formik.setSubmitting(false);
+            setFormSubmittedSuccessfull(true);
+
+            const scaToken = singleRegisterResult.result?.scaToken;
+            if (scaToken) {
+              setScaUrl(`${scaUrl}accounts?token=${scaToken}`);
+            }
+          }
+        } catch (error) {
+          console.error("Form Submission Error:", error);
+          setFormHadError(true);
+        } finally {
+          setSubmittingForm(false);
         }
       };
 
@@ -180,7 +184,7 @@ export const RegistrationForm = () => {
               <p className="mt-4 text-2xl font-semibold leading-none lg:text-3xl">{tForm("registrationSuccessful")}</p>
               <p className="mb-6 mt-2">{tForm("registrationSuccessfullStartTrading")}</p>
               <a className="btn text-sm lg:text-base" target="_blank" href={scaUrl}>
-                {tForm("startTrading")}
+                {tForm("login")}
               </a>
             </div>
           </Alert>
@@ -196,6 +200,7 @@ export const RegistrationForm = () => {
               <div className="w-[27%]">
                 <SelectField
                   isClearable={false}
+                  controlClasses=""
                   name="countryCodeSelect"
                   value={formik.values.countryCodeSelect}
                   onChange={(option: any) => {
@@ -256,7 +261,55 @@ export const RegistrationForm = () => {
               runOnBlur={() => formik.setFieldTouched("countryOfResidence", true)}
               onChange={(newValue: any) => formik.setFieldValue("countryOfResidence", newValue.value)}
             />
-            <InputField name="scaPassword" type="password" label={tForm("formLabels.password") as ""} />
+            <InputField
+              name="scaPassword"
+              runOnFocus={() => setIsFocusedPassword(true)}
+              runOnBlur={() => setIsFocusedPassword(false)}
+              type="password"
+              label={tForm("formLabels.password") as ""}
+            />
+            {isFocusedPassword && (
+              <div
+                className={combineClass("flex flex-col gap-2 rounded-md border bg-[#FAFAFA] px-3 py-4", {
+                  "border border-red-300 bg-red-300/5": !(
+                    formik.values.scaPassword.length >= 8 &&
+                    formik.values.scaPassword.length <= 15 &&
+                    controlRegex(regexAtLeastOneUpperCase, formik.values.scaPassword) &&
+                    controlRegex(regexAtLeastOneLowerCase, formik.values.scaPassword) &&
+                    controlRegex(regexNoSpecialChars, formik.values.scaPassword) &&
+                    controlRegex(regexAtLeastOneNumber, formik.values.scaPassword)
+                  ),
+                })}
+              >
+                <div className="flex gap-x-1.5 text-sm">
+                  {formik.values.scaPassword.length >= 8 && formik.values.scaPassword.length <= 15 ? (
+                    <FaCheck className="mt-0.5 text-green-500" />
+                  ) : (
+                    <IoClose className="mt-0.5 text-red-500" />
+                  )}
+                  <p>{tForm("useBetween8and15chars")}</p>
+                </div>
+
+                <div className="flex gap-x-1.5 text-sm">
+                  {controlRegex(regexAtLeastOneUpperCase, formik.values.scaPassword) &&
+                  controlRegex(regexAtLeastOneLowerCase, formik.values.scaPassword) ? (
+                    <FaCheck className="mt-0.5 text-green-500" />
+                  ) : (
+                    <IoClose className="mt-0.5 text-red-500" />
+                  )}
+                  <p>{tForm("useLowerCaseAndUpperCase")}</p>
+                </div>
+
+                <div className="flex gap-x-1.5 text-sm">
+                  {controlRegex(regexNoSpecialChars, formik.values.scaPassword) && controlRegex(regexAtLeastOneNumber, formik.values.scaPassword) ? (
+                    <FaCheck className="mt-0.5 text-green-500" />
+                  ) : (
+                    <IoClose className="mt-0.5 text-red-500" />
+                  )}
+                  <p>{tForm("useCombinationOfNumbersAndLetters")}</p>
+                </div>
+              </div>
+            )}
             {(currentSite.region == "int" || currentSite.region == "id") && (
               <div>
                 {!showReferralCode && !refCodeParam && (
@@ -318,7 +371,7 @@ export const RegistrationForm = () => {
               </Alert>
             )}
             <div className="mt-1">
-              <button type="submit" className="btn flex items-center gap-1" disabled={submittingForm}>
+              <button type="submit" className="btn flex items-center gap-1">
                 {submittingForm ? (
                   <>
                     <Spinner /> <p>{tForm("formLabels.register")}</p>

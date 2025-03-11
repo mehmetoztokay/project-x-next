@@ -2,7 +2,7 @@ import { combineClass } from "@/helpers/development/combineClass";
 import { useField } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 
-type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "onBlur" | "onFocus"> & {
   label: string;
   name: string;
   className?: string;
@@ -10,6 +10,8 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   hideErrorMessage?: boolean;
   isClearable?: boolean;
   focusAfterCleared?: boolean;
+  runOnFocus?: () => void;
+  runOnBlur?: () => void;
 };
 
 export const InputField: React.FC<InputProps> = ({
@@ -23,6 +25,8 @@ export const InputField: React.FC<InputProps> = ({
   hideErrorMessage = false,
   isClearable = false,
   focusAfterCleared = false,
+  runOnFocus,
+  runOnBlur,
   ...props
 }) => {
   const [fieldType, setFieldType] = useState(type);
@@ -51,6 +55,14 @@ export const InputField: React.FC<InputProps> = ({
     <div>
       <div className="relative text-gray-700">
         <input
+          {...field}
+          onFocus={() => {
+            runOnFocus && runOnFocus();
+          }}
+          onBlur={() => {
+            runOnBlur && runOnBlur();
+            setField.setTouched(true);
+          }}
           ref={inputRef}
           type={fieldType}
           id={id || name}
@@ -66,7 +78,6 @@ export const InputField: React.FC<InputProps> = ({
             },
           )}
           style={{ backgroundColor: inputBg && inputBg }}
-          {...field}
           {...props}
         />
         <label

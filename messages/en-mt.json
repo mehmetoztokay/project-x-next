@@ -175,6 +175,10 @@
     "registrationSuccessful": "Registration successful!",
     "registrationSuccessfullStartTrading": "Your registration has been successfully completed, you can start trading!",
     "startTrading": "Start Trading",
+    "login": "Login",
+    "useBetween8and15chars": "Between 8 and 15 characters",
+    "useLowerCaseAndUpperCase": "Uppercase and lowercase letters",
+    "useCombinationOfNumbersAndLetters": "Combination of numbers and English letters",
     "test_isHTML": "<p class='text-3xl'>seaaaaa</p>",
     "formLabels": {
       "firstName": "First Name",

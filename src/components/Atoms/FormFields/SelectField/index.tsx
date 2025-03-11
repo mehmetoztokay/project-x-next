@@ -21,8 +21,8 @@ import { useField } from "formik";
 import { normalizeText } from "@/helpers/normalizeText";
 import React from "react";
 
-const CustomInput = ({ canAutoComplete, ...props }: { canAutoComplete: boolean } & InputProps) => {
-  return <components.Input {...props} autoComplete={canAutoComplete ? "auto" : "never"} />;
+const CustomInput = ({ canAutoComplete, inputClasses, ...props }: { canAutoComplete: boolean; inputClasses: string } & InputProps) => {
+  return <components.Input {...props} autoComplete={canAutoComplete ? "auto" : "never"} className={inputClasses} />;
 };
 
 const CustomControl = ({
@@ -31,12 +31,14 @@ const CustomControl = ({
   hiddenIconOnControlForMobile,
   showShortLabelOnMobile,
   meta,
+  controlClasses,
   ...props
 }: {
   showShortLabelOnMobile?: boolean;
   showIconOnControl?: boolean;
   showOnlyIconOnControl?: boolean;
   hiddenIconOnControlForMobile?: boolean;
+  controlClasses: string;
   meta?: any;
 } & ControlProps) => {
   const selectedValue = props.getValue();
@@ -47,6 +49,7 @@ const CustomControl = ({
       {...props}
       className={combineClass(
         "!focus-within:border-gray-500 flex w-full max-w-full items-center overflow-auto rounded-md border !border-gray-200 !stroke-none p-[.375rem] px-[.07rem] text-gray-900 !shadow-none !outline-0",
+        controlClasses,
         {
           "!border-blue-500": props.menuIsOpen,
           "!border-red-500": meta.touched && meta.error,
@@ -192,6 +195,8 @@ export const SelectField = ({
   removeDropdownIndicatorIsFocused = false,
   hideErrorMessage = false,
   canAutoComplete = false,
+  inputClasses = "",
+  controlClasses = "",
   runOnBlur,
   ...props
 }: {
@@ -210,6 +215,8 @@ export const SelectField = ({
   removeDropdownIndicatorIsFocused?: boolean;
   hideErrorMessage?: boolean;
   canAutoComplete?: boolean;
+  inputClasses?: string;
+  controlClasses?: string;
   runOnBlur?: (value: any) => void;
 } & Props) => {
   const [field, meta, setField] = useField(name);
@@ -255,6 +262,7 @@ export const SelectField = ({
             <CustomControl
               {...controlProps}
               meta={meta}
+              controlClasses={controlClasses}
               showIconOnControl={showIconOnControl}
               hiddenIconOnControlForMobile={hiddenIconOnControlForMobile}
               showOnlyIconOnControl={showOnlyIconOnControl}
@@ -269,7 +277,7 @@ export const SelectField = ({
               hiddenIconOpOptionsForMobile={hiddenIconOpOptionsForMobile}
             />
           ),
-          Input: (inputProps) => <CustomInput {...inputProps} canAutoComplete={canAutoComplete} />,
+          Input: (inputProps) => <CustomInput {...inputProps} canAutoComplete={canAutoComplete} inputClasses={inputClasses} />,
           Placeholder: CustomPlaceholder,
           NoOptionsMessage: CustomNoOptionsMessage,
         }}
