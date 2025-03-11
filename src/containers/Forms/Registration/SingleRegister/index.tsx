@@ -197,10 +197,12 @@ export const RegistrationForm = () => {
             <InputField name="lastName" label={tForm("formLabels.lastName") as ""} />
             <InputField name="email" label={tForm("formLabels.email") as ""} type="email" />
             <div className={combineClass("relative flex gap-1.5", {})}>
-              <div className="w-[27%]">
+              <div className="absolute z-10 ml-[1px] mt-[1px] w-20">
                 <SelectField
+                  menuClasses="!w-[200px] !max-w-[200px]"
+                  hideErrorMessage
                   isClearable={false}
-                  controlClasses=""
+                  controlClasses={`!border-none ${formik.values.countryCodeSelect && "!w-16"}`}
                   name="countryCodeSelect"
                   value={formik.values.countryCodeSelect}
                   onChange={(option: any) => {
@@ -228,10 +230,12 @@ export const RegistrationForm = () => {
                   showIconOnOptions
                 />
               </div>
-              <div className="w-[73%]">
+              <div className="w-full">
                 <PhoneNumberField
                   label={tForm("formLabels.phone") as ""}
                   name="phone"
+                  className={formik.values.countryCodeSelect ? "!pl-[50px]" : "!pl-[72px]"}
+                  labelClassName={formik.values.countryCodeSelect ? "!pl-[60px]" : "!pl-[80px]"}
                   runOnChange={(value) => {
                     if (formik.values.phoneCode == "") {
                       const checkPhoneNumberIsValid = value ? isValidPhoneNumber(value) : false;
