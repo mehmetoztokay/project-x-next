@@ -20,6 +20,7 @@ import {
 import { useField } from "formik";
 import { normalizeText } from "@/helpers/normalizeText";
 import React from "react";
+import { Spinner } from "@/components/Spinner";
 
 const CustomInput = ({ canAutoComplete, inputClasses, ...props }: { canAutoComplete: boolean; inputClasses: string } & InputProps) => {
   return <components.Input {...props} autoComplete={canAutoComplete ? "auto" : "never"} className={inputClasses} />;
@@ -34,6 +35,7 @@ const CustomControl = ({
   controlClasses,
   placeholderText,
   showLabelOnSelected,
+  isLoadingSelect,
   ...props
 }: {
   showShortLabelOnMobile?: boolean;
@@ -43,6 +45,7 @@ const CustomControl = ({
   controlClasses: string;
   placeholderText: string;
   showLabelOnSelected: boolean;
+  isLoadingSelect?: boolean;
   meta?: any;
 } & ControlProps) => {
   const selectedValue = props.getValue();
@@ -61,6 +64,11 @@ const CustomControl = ({
         },
       )}
     >
+      {isLoadingSelect && (
+        <div className="absolute right-[8px]">
+          <Spinner classes="w-[20px] h-[20px]" />
+        </div>
+      )}
       {!iconIsComponent && (showIconOnControl || showOnlyIconOnControl) && icon && !props.menuIsOpen && (
         <img
           src={icon}
@@ -207,6 +215,7 @@ export const SelectField = ({
   controlClasses = "",
   runOnBlur,
   showLabelOnSelected = true,
+  isLoadingSelect = false,
   ...props
 }: {
   name: string;
@@ -228,6 +237,7 @@ export const SelectField = ({
   controlClasses?: string;
   runOnBlur?: (value: any) => void;
   showLabelOnSelected?: boolean;
+  isLoadingSelect?: boolean;
 } & Props) => {
   const [field, meta, setField] = useField(name);
   return (
@@ -274,6 +284,7 @@ export const SelectField = ({
               meta={meta}
               showLabelOnSelected={showLabelOnSelected}
               placeholderText={placeholderText}
+              isLoadingSelect={isLoadingSelect}
               controlClasses={controlClasses}
               showIconOnControl={showIconOnControl}
               hiddenIconOnControlForMobile={hiddenIconOnControlForMobile}

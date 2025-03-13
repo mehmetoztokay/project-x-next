@@ -35,7 +35,7 @@ export const RegistrationForm = () => {
   const [formSubmittedSuccessfull, setFormSubmittedSuccessfull] = useState<boolean>(false);
   const [formHadError, setFormHadError] = useState<boolean>(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState<boolean>(false);
-  const [isoCode, setIsoCode] = useState<string | null>(null);
+  const [isLoadingSelect, setIsLoadingSelect] = useState<boolean>(false);
 
   const pageUrl = getFullPageUrl();
   const locale = useLocale();
@@ -62,19 +62,24 @@ export const RegistrationForm = () => {
       // Get Locale Iso Code for Country Selects
       const fetchCountryIsoCode = async () => {
         try {
+          setIsLoadingSelect(true);
           const countryIsoCode = await getCountryIsoCode({ locale });
 
           if (countryIsoCode) {
             const foundCountryCode = formattedCountryCodeSelectValues.find((country) => country.value.toLowerCase() == countryIsoCode.toLowerCase());
             const foundCountry = formattedCountrySelectValues.find((country) => country.value.toLowerCase() == countryIsoCode.toLowerCase());
-            formik.setFieldValue("countryCodeSelect", foundCountryCode);
-            formik.setFieldValue("phoneCode", "+" + foundCountryCode?.phoneCode);
-            formik.setFieldValue("phone", "+" + foundCountryCode?.phoneCode);
 
-            formik.setFieldValue("countrySelect", foundCountry);
+            if (foundCountryCode && foundCountry) {
+              formik.setFieldValue("countryCodeSelect", foundCountryCode);
+              formik.setFieldValue("phoneCode", "+" + foundCountryCode?.phoneCode);
+              formik.setFieldValue("phone", "+" + foundCountryCode?.phoneCode);
+              formik.setFieldValue("countrySelect", foundCountry);
+            }
           }
         } catch (error) {
           console.log(error);
+        } finally {
+          setIsLoadingSelect(false);
         }
       };
 
@@ -230,6 +235,7 @@ export const RegistrationForm = () => {
             <div className={combineClass("relative flex gap-1.5", {})}>
               <div className="absolute z-10 ml-[1px] mt-[1px] w-20">
                 <SelectField
+                  isLoadingSelect={isLoadingSelect}
                   menuClasses="!w-[250px] !max-w-[250px]"
                   hideErrorMessage
                   isClearable={false}
@@ -287,6 +293,7 @@ export const RegistrationForm = () => {
               </div>
             </div>
             <SelectField
+              isLoadingSelect={isLoadingSelect}
               options={countrySelectValues}
               name="countryOfResidence"
               showIconOnControl
