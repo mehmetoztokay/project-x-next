@@ -10,18 +10,14 @@ oneMonthsLater.setMonth(oneMonthsLater.getMonth() + 1);
 const isIframe = checkIsInIframe();
 
 export const getIpAddress = async ({ locale }: { locale: LocaleItem["locale"] }): Promise<string | null> => {
-  const ipAddressFromCookie = cookies.get("localeIpAddress");
-  if (ipAddressFromCookie) return ipAddressFromCookie;
+  const url = getApiServiceEndpoint(apiServicesEndpoints.geoIp.getIp, locale);
+
+  const response = await api.get(url);
+
+  if (!response) return null;
   else {
-    const url = getApiServiceEndpoint(apiServicesEndpoints.geoIp.getIp, locale);
-
-    const response = await api.get(url);
-
-    if (!response) return null;
-    else {
-      cookies.set("localeIpAddress", JSON.stringify(response.data), { expires: oneMonthsLater, path: "/", sameSite: isIframe ? "none" : "lax" });
-      return response.data;
-    }
+    cookies.set("localeIpAddress", JSON.stringify(response.data), { expires: oneMonthsLater, path: "/" });
+    return response.data;
   }
 };
 
@@ -30,23 +26,18 @@ export const getCountryIsoCode = async ({ locale, ip }: { ip?: string; locale: L
 
   if (!ipAddress) return null;
   else {
-    const countryIsoCodeFromCookie = cookies.get("localeCountryIsoCode");
-    if (countryIsoCodeFromCookie) return countryIsoCodeFromCookie;
-    else {
-      const url = getApiServiceEndpoint(apiServicesEndpoints.geoIp.countryInfo(ipAddress), locale);
-      const response = await api.get(url);
+    const url = getApiServiceEndpoint(apiServicesEndpoints.geoIp.countryInfo(ipAddress), locale);
+    const response = await api.get(url);
 
-      if (!response || response?.data.hasError) {
-        console.log(response);
-        return null;
-      } else {
-        cookies.set("localeCountryIsoCode", JSON.stringify(response.data?.result.iso_code), {
-          expires: oneMonthsLater,
-          path: "/",
-          sameSite: isIframe ? "none" : "lax",
-        });
-        return response.data?.result.iso_code;
-      }
+    if (!response || response?.data.hasError) {
+      console.log(response);
+      return null;
+    } else {
+      cookies.set("localeCountryIsoCode", JSON.stringify(response.data?.result.iso_code), {
+        expires: oneMonthsLater,
+        path: "/",
+      });
+      return response.data?.result.iso_code;
     }
   }
 };

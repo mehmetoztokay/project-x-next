@@ -28,7 +28,7 @@ export const getMarketingId = async ({ searchParams, locale }: { searchParams: U
   const sixMonthsLater = new Date();
   sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);
 
-  const existingMarketingId = cookies.get("existingMarketingId");
+  const existingMarketingId = localStorage.get("existingMarketingId");
   if (utmParameters.hasUtmSourceOrCampaign) {
     // If has utm-parameter fetch
     const marketingId = await createMarketingId({ data: { existingGuid: existingMarketingId ? existingMarketingId : null, uri, siteId }, locale })
@@ -41,8 +41,7 @@ export const getMarketingId = async ({ searchParams, locale }: { searchParams: U
         return null;
       });
 
-    marketingId &&
-      cookies.set("existingMarketingId", JSON.stringify(marketingId), { expires: sixMonthsLater, path: "/", sameSite: isIframe ? "none" : "lax" });
+    marketingId && localStorage.set("existingMarketingId", JSON.stringify(marketingId), { expires: sixMonthsLater, path: "/" });
     return marketingId;
   } else if (existingMarketingId) return existingMarketingId;
   else return null;
