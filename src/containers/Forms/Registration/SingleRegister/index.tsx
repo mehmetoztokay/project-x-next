@@ -69,7 +69,7 @@ export const RegistrationForm = () => {
             const foundCountry = formattedCountrySelectValues.find((country) => country.value.toLowerCase() == countryIsoCode.toLowerCase());
             formik.setFieldValue("countryCodeSelect", foundCountryCode);
 
-            formik.setFieldValue("countrySelect", foundCountry);
+            // formik.setFieldValue("countrySelect", foundCountry);
           }
         } catch (error) {
           console.log(error);
@@ -198,7 +198,6 @@ export const RegistrationForm = () => {
 
   return (
     <div className="">
-      {JSON.stringify(formik.values.countrySelect)}
       {formSubmittedSuccessfull && (
         <div className="">
           <Alert

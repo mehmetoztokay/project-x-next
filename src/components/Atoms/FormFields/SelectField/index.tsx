@@ -32,6 +32,8 @@ const CustomControl = ({
   showShortLabelOnMobile,
   meta,
   controlClasses,
+  placeholderText,
+  showLabelOnSelected,
   ...props
 }: {
   showShortLabelOnMobile?: boolean;
@@ -39,20 +41,23 @@ const CustomControl = ({
   showOnlyIconOnControl?: boolean;
   hiddenIconOnControlForMobile?: boolean;
   controlClasses: string;
+  placeholderText: string;
+  showLabelOnSelected: boolean;
   meta?: any;
 } & ControlProps) => {
   const selectedValue = props.getValue();
-  const { icon, iconIsComponent, label, shortLabel }: any = selectedValue?.[0] || {};
 
+  const { icon, iconIsComponent, label, shortLabel }: any = selectedValue?.[0] || {};
   return (
     <components.Control
       {...props}
       className={combineClass(
-        "!focus-within:border-gray-500 flex w-full max-w-full items-center overflow-auto rounded-md border !border-gray-200 !stroke-none p-[.375rem] px-[.07rem] text-gray-900 !shadow-none !outline-0",
+        "!focus-within:border-gray-500 relative flex w-full max-w-full items-center overflow-auto rounded-md border !border-gray-200 !stroke-none p-[.375rem] px-[.07rem] text-gray-900 !shadow-none !outline-0",
         controlClasses,
         {
           "!border-blue-500": props.menuIsOpen,
           "!border-red-500": meta.touched && meta.error,
+          "!pb-[3px] !pt-[9px]": selectedValue.length,
         },
       )}
     >
@@ -75,6 +80,9 @@ const CustomControl = ({
         >
           {React.createElement(icon)}
         </div>
+      )}
+      {selectedValue.length != 0 && showLabelOnSelected && (
+        <p className="absolute -translate-y-[16px] translate-x-[7px] text-[10px]">{placeholderText}</p>
       )}
       {props.children}
     </components.Control>
@@ -198,6 +206,7 @@ export const SelectField = ({
   inputClasses = "",
   controlClasses = "",
   runOnBlur,
+  showLabelOnSelected = true,
   ...props
 }: {
   name: string;
@@ -218,6 +227,7 @@ export const SelectField = ({
   inputClasses?: string;
   controlClasses?: string;
   runOnBlur?: (value: any) => void;
+  showLabelOnSelected?: boolean;
 } & Props) => {
   const [field, meta, setField] = useField(name);
   return (
@@ -262,6 +272,8 @@ export const SelectField = ({
             <CustomControl
               {...controlProps}
               meta={meta}
+              showLabelOnSelected={showLabelOnSelected}
+              placeholderText={placeholderText}
               controlClasses={controlClasses}
               showIconOnControl={showIconOnControl}
               hiddenIconOnControlForMobile={hiddenIconOnControlForMobile}
