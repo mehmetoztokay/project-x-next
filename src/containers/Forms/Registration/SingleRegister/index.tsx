@@ -101,23 +101,14 @@ export const RegistrationForm = () => {
     fetchMarketingId();
   }, []);
 
+  type FormValues = IRegistration_SingleRegister & {
+    termsAndConditions: boolean;
+    countryCodeSelect: ICountryCodeSelect | "";
+    countrySelect: ICountrySelect | "";
+  };
+
   const formik = useFormik({
-    onSubmit: (
-      values: IRegistration_SingleRegister & {
-        termsAndConditions: boolean;
-        countryCodeSelect: ICountryCodeSelect | "";
-        countrySelect: ICountrySelect | "";
-      },
-      {
-        setSubmitting,
-      }: FormikHelpers<
-        IRegistration_SingleRegister & {
-          termsAndConditions: boolean;
-          countryCodeSelect: ICountryCodeSelect | "";
-          countrySelect: ICountrySelect | "";
-        }
-      >,
-    ) => {
+    onSubmit: (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
       setSubmitting(false);
 
       const formData = { ...formik.values };
