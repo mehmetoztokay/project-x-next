@@ -2,12 +2,6 @@ import { checkIsInIframe } from "@/helpers/checkInIframe";
 import { LocaleItem } from "@/i18n/routing";
 import { apiServicesEndpoints, getApiServiceEndpoint } from "@/lib/apiEndpoints";
 import { api } from "@/lib/axios";
-import { Cookies } from "react-cookie";
-
-const cookies = new Cookies();
-const oneMonthsLater = new Date();
-oneMonthsLater.setMonth(oneMonthsLater.getMonth() + 1);
-const isIframe = checkIsInIframe();
 
 export const getIpAddress = async ({ locale }: { locale: LocaleItem["locale"] }): Promise<string | null> => {
   const url = getApiServiceEndpoint(apiServicesEndpoints.geoIp.getIp, locale);
@@ -16,7 +10,6 @@ export const getIpAddress = async ({ locale }: { locale: LocaleItem["locale"] })
 
   if (!response) return null;
   else {
-    cookies.set("localeIpAddress", JSON.stringify(response.data), { expires: oneMonthsLater, path: "/" });
     return response.data;
   }
 };
@@ -32,12 +25,6 @@ export const getCountryIsoCode = async ({ locale, ip }: { ip?: string; locale: L
     if (!response || response?.data.hasError) {
       console.log(response);
       return null;
-    } else {
-      cookies.set("localeCountryIsoCode", JSON.stringify(response.data?.result.iso_code), {
-        expires: oneMonthsLater,
-        path: "/",
-      });
-      return response.data?.result.iso_code;
-    }
+    } else return response.data?.result.iso_code;
   }
 };

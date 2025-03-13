@@ -49,13 +49,6 @@ export const RegistrationForm = () => {
   const [scaUrl, setScaUrl] = useState<string>(currentSite.scaUrl);
 
   useEffect(() => {
-    const testLS = localStorage.getItem("testKey");
-    if (testLS) {
-      console.log("found" + " " + testLS);
-    } else {
-      localStorage.setItem("testKey", "testValue");
-      console.log("added" + " " + "testValue");
-    }
     // Get countryList for Country Code and Country of Residence Select
     const fetchCountryList = async () => {
       const { getFormattedCountryCodeSelectValues, getFormattedCountrySelectValues } = useCountryList({ locale });

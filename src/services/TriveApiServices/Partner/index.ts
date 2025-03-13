@@ -3,7 +3,6 @@ import { useUtmParams } from "@/hooks/useUtmParams";
 import { getFullPageUrl } from "@/helpers/getFullPageUrl";
 import { api } from "@/lib/axios";
 import { LocaleItem, useCurrentSiteInfo } from "@/i18n/routing";
-import { Cookies } from "react-cookie";
 
 export const checkRefCode = async ({ refCode, locale }: { refCode: string; locale: LocaleItem["locale"] }) => {
   //   const refCode = searchParams.get("refcode") || searchParams.get("refCode") || null;

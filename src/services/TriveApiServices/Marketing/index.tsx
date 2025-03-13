@@ -3,10 +3,6 @@ import { useUtmParams } from "@/hooks/useUtmParams";
 import { getFullPageUrl } from "@/helpers/getFullPageUrl";
 import { api } from "@/lib/axios";
 import { LocaleItem, useCurrentSiteInfo } from "@/i18n/routing";
-import { Cookies } from "react-cookie";
-import { checkIsInIframe } from "@/helpers/checkInIframe";
-
-const isIframe = checkIsInIframe();
 
 const createMarketingId = async ({ data, locale }: { data: IMarketingIdData; locale: LocaleItem["locale"] }) => {
   const url = getApiServiceEndpoint(apiServicesEndpoints.marketing.createMarketingId, locale);
@@ -20,7 +16,6 @@ const createMarketingId = async ({ data, locale }: { data: IMarketingIdData; loc
 };
 
 export const getMarketingId = async ({ searchParams, locale }: { searchParams: URLSearchParams; locale: LocaleItem["locale"] }) => {
-  const cookies = new Cookies();
   const uri = getFullPageUrl();
   const utmParameters = useUtmParams({ searchParams });
   const siteId = useCurrentSiteInfo({ locale })?.siteId;
@@ -28,7 +23,7 @@ export const getMarketingId = async ({ searchParams, locale }: { searchParams: U
   const sixMonthsLater = new Date();
   sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);
 
-  const existingMarketingId = localStorage.get("existingMarketingId");
+  const existingMarketingId = localStorage.getItem("existingMarketingId");
   if (utmParameters.hasUtmSourceOrCampaign) {
     // If has utm-parameter fetch
     const marketingId = await createMarketingId({ data: { existingGuid: existingMarketingId ? existingMarketingId : null, uri, siteId }, locale })
@@ -41,7 +36,7 @@ export const getMarketingId = async ({ searchParams, locale }: { searchParams: U
         return null;
       });
 
-    marketingId && localStorage.set("existingMarketingId", JSON.stringify(marketingId), { expires: sixMonthsLater, path: "/" });
+    marketingId && localStorage.setItem("existingMarketingId", JSON.stringify(marketingId));
     return marketingId;
   } else if (existingMarketingId) return existingMarketingId;
   else return null;
