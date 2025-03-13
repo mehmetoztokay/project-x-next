@@ -38,7 +38,7 @@ export const getMarketingId = async ({ searchParams, locale }: { searchParams: U
         return null;
       });
 
-    marketingId && cookies.set("existingMarketingId", JSON.stringify(marketingId), { expires: sixMonthsLater });
+    marketingId && cookies.set("existingMarketingId", JSON.stringify(marketingId), { expires: sixMonthsLater, path: "/" });
     return marketingId;
   } else if (existingMarketingId) return existingMarketingId;
   else return null;

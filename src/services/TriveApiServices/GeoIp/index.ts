@@ -17,7 +17,7 @@ export const getIpAddress = async ({ locale }: { locale: LocaleItem["locale"] })
 
     if (!response) return null;
     else {
-      cookies.set("localeIpAddress", JSON.stringify(response.data), { expires: oneMonthsLater });
+      cookies.set("localeIpAddress", JSON.stringify(response.data), { expires: oneMonthsLater, path: "/" });
       return response.data;
     }
   }
@@ -38,7 +38,7 @@ export const getCountryIsoCode = async ({ locale, ip }: { ip?: string; locale: L
         console.log(response);
         return null;
       } else {
-        cookies.set("localeCountryIsoCode", JSON.stringify(response.data?.result.iso_code), { expires: oneMonthsLater });
+        cookies.set("localeCountryIsoCode", JSON.stringify(response.data?.result.iso_code), { expires: oneMonthsLater, path: "/" });
         return response.data?.result.iso_code;
       }
     }
