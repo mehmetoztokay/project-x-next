@@ -24,16 +24,18 @@ import { FaCheck, FaRegCircleCheck } from "react-icons/fa6";
 import { useTranslationsWithHTML } from "@/hooks/useTranslationsWithHTML";
 import { IoClose } from "react-icons/io5";
 import { controlRegex, regexAtLeastOneLowerCase, regexAtLeastOneNumber, regexAtLeastOneUpperCase, regexNoSpecialChars } from "@/helpers/regexUtils";
+import { getCountryIsoCode } from "@/services/TriveApiServices/GeoIp";
 
 export const RegistrationForm = () => {
   const tForm = useTranslationsWithHTML("Forms");
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
-  const [countrySelectValues, setCountryNames] = useState<ICountrySelect[]>([]);
+  const [countrySelectValues, setCountrySelectValues] = useState<ICountrySelect[]>([]);
   const [marketingDataId, setMarketingDataId] = useState<string | null>(null);
   const [submittingForm, setSubmittingForm] = useState<boolean>(false);
   const [formSubmittedSuccessfull, setFormSubmittedSuccessfull] = useState<boolean>(false);
   const [formHadError, setFormHadError] = useState<boolean>(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState<boolean>(false);
+  const [isoCode, setIsoCode] = useState<string | null>(null);
 
   const pageUrl = getFullPageUrl();
   const locale = useLocale();
@@ -55,16 +57,39 @@ export const RegistrationForm = () => {
       const formattedCountrySelectValues = await getFormattedCountrySelectValues();
 
       setCountryCodeSelectValues(formattedCountryCodeSelectValues);
-      setCountryNames(formattedCountrySelectValues);
+      setCountrySelectValues(formattedCountrySelectValues);
+
+      // Get Locale Iso Code for Country Selects
+      const fetchCountryIsoCode = async () => {
+        try {
+          const countryIsoCode = await getCountryIsoCode({ locale });
+
+          if (countryIsoCode) {
+            const foundCountryCode = formattedCountryCodeSelectValues.find((country) => country.value.toLowerCase() == countryIsoCode.toLowerCase());
+            const foundCountry = formattedCountrySelectValues.find((country) => country.value.toLowerCase() == countryIsoCode.toLowerCase());
+            formik.setFieldValue("countryCodeSelect", foundCountryCode);
+
+            formik.setFieldValue("countrySelect", foundCountry);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchCountryIsoCode();
     };
     fetchCountryList();
 
     // Get Marketing Id
     const fetchMarketingId = async () => {
-      const marketingIdValue = await getMarketingId({ locale: locale, searchParams });
+      try {
+        const marketingIdValue = await getMarketingId({ locale: locale, searchParams });
 
-      formik.setFieldValue("marketingDataId", marketingIdValue);
-      setMarketingDataId(marketingIdValue);
+        formik.setFieldValue("marketingDataId", marketingIdValue);
+        setMarketingDataId(marketingIdValue);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchMarketingId();
   }, []);
@@ -74,6 +99,7 @@ export const RegistrationForm = () => {
       values: IRegistration_SingleRegister & {
         termsAndConditions: boolean;
         countryCodeSelect: ICountryCodeSelect | "";
+        countrySelect: ICountrySelect | "";
       },
       {
         setSubmitting,
@@ -81,6 +107,7 @@ export const RegistrationForm = () => {
         IRegistration_SingleRegister & {
           termsAndConditions: boolean;
           countryCodeSelect: ICountryCodeSelect | "";
+          countrySelect: ICountrySelect | "";
         }
       >,
     ) => {
@@ -90,6 +117,7 @@ export const RegistrationForm = () => {
 
       delete (formData as any).termsAndConditions;
       delete (formData as any).countryCodeSelect;
+      delete (formData as any).countrySelect;
 
       const submitForm = async () => {
         try {
@@ -163,12 +191,14 @@ export const RegistrationForm = () => {
       // Without types
       termsAndConditions: false,
       countryCodeSelect: "",
+      countrySelect: "",
     },
     validationSchema: getSingleRegisterFormScheme(tForm),
   });
 
   return (
     <div className="">
+      {JSON.stringify(formik.values.countrySelect)}
       {formSubmittedSuccessfull && (
         <div className="">
           <Alert
@@ -199,7 +229,7 @@ export const RegistrationForm = () => {
             <div className={combineClass("relative flex gap-1.5", {})}>
               <div className="absolute z-10 ml-[1px] mt-[1px] w-20">
                 <SelectField
-                  menuClasses="!w-[200px] !max-w-[200px]"
+                  menuClasses="!w-[250px] !max-w-[250px]"
                   hideErrorMessage
                   isClearable={false}
                   controlClasses={`!border-none ${formik.values.countryCodeSelect && "!w-16"}`}
@@ -234,8 +264,8 @@ export const RegistrationForm = () => {
                 <PhoneNumberField
                   label={tForm("formLabels.phone") as ""}
                   name="phone"
-                  className={formik.values.countryCodeSelect ? "!pl-[50px]" : "!pl-[72px]"}
-                  labelClassName={formik.values.countryCodeSelect ? "!pl-[60px]" : "!pl-[80px]"}
+                  className={formik.values.countryCodeSelect ? "!ps-[50px]" : "!ps-[72px]"}
+                  labelClassName={formik.values.countryCodeSelect ? "!ps-[60px] rtl:!ps-[65px]" : "!ps-[80px]"}
                   runOnChange={(value) => {
                     if (formik.values.phoneCode == "") {
                       const checkPhoneNumberIsValid = value ? isValidPhoneNumber(value) : false;
@@ -259,11 +289,15 @@ export const RegistrationForm = () => {
               options={countrySelectValues}
               name="countryOfResidence"
               showIconOnControl
+              value={formik.values.countrySelect}
               placeholderText={tForm("formLabels.countryOfResidence") as ""}
               showIconOnOptions
               isClearable={false}
               runOnBlur={() => formik.setFieldTouched("countryOfResidence", true)}
-              onChange={(newValue: any) => formik.setFieldValue("countryOfResidence", newValue.value)}
+              onChange={(newValue: any) => {
+                formik.setFieldValue("countryOfResidence", newValue.value);
+                formik.setFieldValue("countrySelect", newValue);
+              }}
             />
             <InputField
               name="scaPassword"

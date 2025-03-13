@@ -37,6 +37,10 @@ export const apiServicesEndpoints = {
     clientCheck: `/registration/v${API_VERSION}/Partner/clientcheck`,
     refCodeCheck: `/registration/v${API_VERSION}/Partner/refcodecheck`,
   },
+  geoIp: {
+    countryInfo: (ipAddress: string) => `/geoip/v${API_VERSION}/GeoIp/countryinfo?ipAddress=${ipAddress}`,
+    getIp: `/geoip/v${API_VERSION}/GeoIp/getIp`,
+  },
 };
 
 export const getApiServiceEndpoint = (endpoint: string, locale: LocaleItem["locale"]) => `${getBaseURL({ locale })}${endpoint}`;
