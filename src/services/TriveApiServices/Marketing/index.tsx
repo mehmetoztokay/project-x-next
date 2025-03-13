@@ -36,7 +36,7 @@ export const getMarketingId = async ({ searchParams, locale }: { searchParams: U
         return null;
       });
 
-    marketingId && localStorage.setItem("existingMarketingId", JSON.stringify(marketingId));
+    marketingId && localStorage.setItem("existingMarketingId", marketingId);
     return marketingId;
   } else if (existingMarketingId) return existingMarketingId;
   else return null;
