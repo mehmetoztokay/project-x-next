@@ -68,8 +68,10 @@ export const RegistrationForm = () => {
             const foundCountryCode = formattedCountryCodeSelectValues.find((country) => country.value.toLowerCase() == countryIsoCode.toLowerCase());
             const foundCountry = formattedCountrySelectValues.find((country) => country.value.toLowerCase() == countryIsoCode.toLowerCase());
             formik.setFieldValue("countryCodeSelect", foundCountryCode);
+            formik.setFieldValue("phoneCode", "+" + foundCountryCode?.phoneCode);
+            formik.setFieldValue("phone", "+" + foundCountryCode?.phoneCode);
 
-            // formik.setFieldValue("countrySelect", foundCountry);
+            formik.setFieldValue("countrySelect", foundCountry);
           }
         } catch (error) {
           console.log(error);
