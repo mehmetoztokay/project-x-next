@@ -4,6 +4,9 @@ import { getFullPageUrl } from "@/helpers/getFullPageUrl";
 import { api } from "@/lib/axios";
 import { LocaleItem, useCurrentSiteInfo } from "@/i18n/routing";
 import { Cookies } from "react-cookie";
+import { checkIsInIframe } from "@/helpers/checkInIframe";
+
+const isIframe = checkIsInIframe();
 
 const createMarketingId = async ({ data, locale }: { data: IMarketingIdData; locale: LocaleItem["locale"] }) => {
   const url = getApiServiceEndpoint(apiServicesEndpoints.marketing.createMarketingId, locale);
@@ -38,7 +41,8 @@ export const getMarketingId = async ({ searchParams, locale }: { searchParams: U
         return null;
       });
 
-    marketingId && cookies.set("existingMarketingId", JSON.stringify(marketingId), { expires: sixMonthsLater, path: "/" });
+    marketingId &&
+      cookies.set("existingMarketingId", JSON.stringify(marketingId), { expires: sixMonthsLater, path: "/", sameSite: isIframe ? "none" : "lax" });
     return marketingId;
   } else if (existingMarketingId) return existingMarketingId;
   else return null;
