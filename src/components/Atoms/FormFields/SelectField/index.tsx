@@ -20,7 +20,7 @@ import {
 import { useField } from "formik";
 import { normalizeText } from "@/helpers/normalizeText";
 import React from "react";
-import { Spinner } from "@/components/Spinner";
+import { Spinner } from "@/components/Atoms/Spinner";
 
 const CustomInput = ({ canAutoComplete, inputClasses, ...props }: { canAutoComplete: boolean; inputClasses: string } & InputProps) => {
   return <components.Input {...props} autoComplete={canAutoComplete ? "auto" : "never"} className={inputClasses} />;

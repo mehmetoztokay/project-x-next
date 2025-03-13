@@ -1,4 +1,4 @@
-import { Spinner } from "@/components/Spinner";
+import { Spinner } from "@/components/Atoms/Spinner";
 import { combineClass } from "@/helpers/development/combineClass";
 import React from "react";
 
