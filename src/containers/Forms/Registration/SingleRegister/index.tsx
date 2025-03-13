@@ -235,6 +235,7 @@ export const RegistrationForm = () => {
             <div className={combineClass("relative flex gap-1.5", {})}>
               <div className="absolute z-10 ml-[1px] mt-[1px] w-20">
                 <SelectField
+                  isDisabled={isLoadingSelect}
                   isLoadingSelect={isLoadingSelect}
                   menuClasses="!w-[250px] !max-w-[250px]"
                   hideErrorMessage
@@ -293,6 +294,7 @@ export const RegistrationForm = () => {
               </div>
             </div>
             <SelectField
+              isDisabled={isLoadingSelect}
               isLoadingSelect={isLoadingSelect}
               options={countrySelectValues}
               name="countryOfResidence"
