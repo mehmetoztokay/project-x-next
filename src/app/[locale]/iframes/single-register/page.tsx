@@ -1,10 +1,10 @@
-import { RegistrationForm } from "@/containers/Forms/Registration/SingleRegister";
+import { SingleRegisterForm } from "@/containers/Forms/Registration/SingleRegister";
 import React from "react";
 
 const Register = () => {
   return (
     <div>
-      <RegistrationForm />
+      <SingleRegisterForm />
     </div>
   );
 };

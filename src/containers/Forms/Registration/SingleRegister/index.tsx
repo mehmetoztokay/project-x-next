@@ -26,7 +26,7 @@ import { IoClose } from "react-icons/io5";
 import { controlRegex, regexAtLeastOneLowerCase, regexAtLeastOneNumber, regexAtLeastOneUpperCase, regexNoSpecialChars } from "@/helpers/regexUtils";
 import { getCountryIsoCode } from "@/services/TriveApiServices/GeoIp";
 
-export const RegistrationForm = () => {
+export const SingleRegisterForm = () => {
   const tForm = useTranslationsWithHTML("Forms");
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
   const [countrySelectValues, setCountrySelectValues] = useState<ICountrySelect[]>([]);

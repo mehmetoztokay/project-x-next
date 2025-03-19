@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  ReactNode,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 type ModalProps = {
@@ -28,6 +22,7 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   onOpen,
   onClose,
+
   hasCancelAbortAlert = false,
   alertMessage = "Are you sure you want to cancel?",
   abortAlertButtonText = "Abort",
@@ -66,15 +61,7 @@ export const Modal: React.FC<ModalProps> = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [
-    isOpenModal,
-    setIsOpenModal,
-    onOpen,
-    onClose,
-    showAlert,
-    hasCancelAbortAlert,
-    modalId,
-  ]);
+  }, [isOpenModal, setIsOpenModal, onOpen, onClose, showAlert, hasCancelAbortAlert, modalId]);
 
   const toggleOverflowHiddenClassToBody = () => {
     document.querySelector("body")?.classList.toggle("overflow-hidden");
@@ -122,13 +109,7 @@ export const Modal: React.FC<ModalProps> = ({
                 onClick={handleClose}
               >
                 <div className="w-1/2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="100%"
-                    viewBox="0 -960 960 960"
-                    width="100%"
-                    className="fill-gray-400"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" className="fill-gray-400">
                     <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                   </svg>
                 </div>
@@ -140,39 +121,24 @@ export const Modal: React.FC<ModalProps> = ({
                     onClick={() => setShowAlert(false)}
                   >
                     <div className="w-1/2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="100%"
-                        viewBox="0 -960 960 960"
-                        width="100%"
-                        className="fill-gray-400"
-                      >
+                      <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" className="fill-gray-400">
                         <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                       </svg>
                     </div>
                   </button>
                   <p>{alertMessage}</p>
                   <div className="mt-2 flex gap-4">
-                    <button
-                      className="underline underline-offset-2"
-                      onClick={handleContinue}
-                    >
+                    <button className="underline underline-offset-2" onClick={handleContinue}>
                       {continueAlertButtonText}
                     </button>
-                    <button
-                      className="text-red-500 opacity-70"
-                      onClick={handleAbort}
-                    >
+                    <button className="text-red-500 opacity-70" onClick={handleAbort}>
                       {abortAlertButtonText}
                     </button>
                   </div>
                 </div>
               )}
             </div>
-            <div
-              className="mb-28"
-              style={{ marginBottom: paddingY ? paddingY.toString() : "" }}
-            >
+            <div className="mb-28" style={{ marginBottom: paddingY ? paddingY.toString() : "" }}>
               {children}
             </div>
           </div>
@@ -183,3 +149,37 @@ export const Modal: React.FC<ModalProps> = ({
 
   return createPortal(modalContent, document.body);
 };
+
+// Using
+// const ModalExample = () => {
+//   return (
+//     <>
+//       <Modal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal}>
+//         <div className="p-6">
+//           <div className="flex max-w-[500px] items-center rounded bg-white p-4 pt-14">
+//             <div className="">
+//               <p>Lorem ipsum dolor</p>
+//               <button onClick={() => setIsOpenModal2(true)} className="rounded bg-blue-400 px-4 py-4">
+//                 Open modal
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </Modal>
+//       <Modal isOpenModal={isOpenModal2} setIsOpenModal={setIsOpenModal2} hasCancelAbortAlert>
+//         <div className="p-6">
+//           <div className="flex max-w-[500px] items-center rounded bg-white p-4 pt-14">
+//             <div className="mb-4">
+//               <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium, iusto.</p>
+//             </div>
+//           </div>
+//         </div>
+//       </Modal>
+//       <div className="my-4 flex items-center justify-center">
+//         <button className="mx-auto rounded bg-blue-400 px-4 py-4" onClick={() => setIsOpenModal(true)}>
+//           Open modal 1
+//         </button>
+//       </div>
+//     </>
+//   );
+// };
