@@ -1,7 +1,7 @@
 import React from "react";
 import { Params } from "@/types/general";
 import { getTranslations } from "next-intl/server";
-import { useTranslationsWithHTML } from "@/hooks/useTranslationsWithHTML";
+import { useTranslationsWithHTML } from "@/lib/hooks/useTranslationsWithHTML";
 // import { FormArea } from "./FormArea";
 
 export async function generateMetadata({ params }: { params: Params }) {

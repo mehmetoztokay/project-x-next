@@ -4,7 +4,7 @@ import { Params } from "@/types/general";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/Atoms/Button";
 import { HomePageContainer } from "@/containers/ContainerHomePage";
-import { useTranslationsWithHTML } from "@/hooks/useTranslationsWithHTML";
+import { useTranslationsWithHTML } from "@/lib/hooks/useTranslationsWithHTML";
 
 export async function generateMetadata({ params }: { params: Params }) {
   const { locale } = await params;

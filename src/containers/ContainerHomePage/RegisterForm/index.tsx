@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { IFieldsOfRegisterForm } from "./FieldTypesOfRegisterForm";
 import { FormSchemeOfRegister } from "./FormSchemeOfRegister";
 import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
-import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/hooks/useCountryList";
+import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/lib/hooks/useCountryList";
 import { useSearchParams } from "next/navigation";
 import { FileUploadField } from "@/components/Atoms/FormFields/FileUploadField";
 import { parsePhoneNumber, isValidPhoneNumber } from "react-phone-number-input";

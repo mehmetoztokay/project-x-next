@@ -1,4 +1,4 @@
-import { ICountryCodeSelect } from "@/hooks/useCountryList";
+import { ICountryCodeSelect } from "@/lib/hooks/useCountryList";
 
 export interface IFieldsOfRegisterForm {
   firstName: string;
