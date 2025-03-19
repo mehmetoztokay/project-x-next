@@ -1,5 +1,5 @@
 import { apiServicesEndpoints, getApiServiceEndpoint } from "@/lib/apiEndpoints";
-import { useUtmParams } from "@/hooks/useUtmParams";
+import { useUtmParams } from "@/lib/hooks/useUtmParams";
 import { getFullPageUrl } from "@/helpers/getFullPageUrl";
 import { api } from "@/lib/axios";
 import { LocaleItem, useCurrentSiteInfo } from "@/i18n/routing";

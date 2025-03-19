@@ -5,7 +5,7 @@ import { Logo } from "@/components/Navbar/Navigation/Logo";
 import { NavbarItems } from "@/components/Navbar/Navigation/NavbarItems";
 import { NavbarItemsRight } from "@/components/Navbar/Navigation/NavbarItemsRight";
 import { usePathname } from "@/i18n/routing";
-import { useTranslationsWithHTML } from "@/hooks/useTranslationsWithHTML";
+import { useTranslationsWithHTML } from "@/lib/hooks/useTranslationsWithHTML";
 
 export const Navigation = () => {
   const pathname = usePathname();

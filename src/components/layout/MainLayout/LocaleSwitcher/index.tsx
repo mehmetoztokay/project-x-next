@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { CountryFlag } from "../CountryFlag";
 import { combineClass } from "@/helpers/development/combineClass";
-import { useChangeLocale } from "@/hooks/useChanheLocale";
-import { useTranslationsWithHTML } from "@/hooks/useTranslationsWithHTML";
+import { useChangeLocale } from "@/lib/hooks/useChanheLocale";
+import { useTranslationsWithHTML } from "@/lib/hooks/useTranslationsWithHTML";
 
 export const LocaleSwitcher = () => {
   const t = useTranslationsWithHTML("Layout");

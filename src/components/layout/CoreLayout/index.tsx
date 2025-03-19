@@ -2,10 +2,10 @@ import { Inter, Noto_Sans_Arabic } from "next/font/google";
 import { NextIntlClientProvider, useLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { ReactNode } from "react";
-import { ControlLayout } from "../ControlLayout";
 import "@/styles/globals.css";
 import { locales, useCurrentSiteInfo } from "@/i18n/routing";
 import { combineClass } from "@/helpers/development/combineClass";
+import { StoreProvider } from "./StoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 const natoSansArabic = Noto_Sans_Arabic({ subsets: ["arabic"] });
@@ -27,7 +27,7 @@ export default async function CoreLayout({ children, locale, isIframeLayout }: P
       <body className={combineClass(`${currentSite.direction == "ltr" ? inter.className : natoSansArabic.className} h-full w-full antialiased`, {})}>
         <NextIntlClientProvider messages={messages}>
           <main>
-            <ControlLayout children={children} isIframeLayout={isIframeLayout} />
+            <StoreProvider children={children} isIframeLayout={isIframeLayout} />
           </main>
         </NextIntlClientProvider>
       </body>
