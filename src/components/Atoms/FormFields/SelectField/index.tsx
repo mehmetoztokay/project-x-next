@@ -258,7 +258,7 @@ export const SelectField = ({
 
           // Normalize all values for comparison
           const normalizedLabel = normalizeText(label);
-          const normalizedShortLabel = normalizeText(shortLabel);
+          const normalizedShortLabel = shortLabel && normalizeText(shortLabel);
           const normalizedValue = normalizeText(value);
 
           // Search all values

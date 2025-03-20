@@ -278,10 +278,12 @@ export const RegisterForm = ({
               <a className="btn text-sm lg:text-base" target="_blank" href={scaUrl}>
                 {tForm("login")}
               </a>
-              <h4 className="mt-5 text-xl font-semibold">{successMessage}</h4>
-              <a href={successLink?.toString()} className="btn mt-4">
-                {successLinkTitle}
-              </a>
+              <div className="my-5">
+                {successMessage && <h4 className="text-xl font-semibold">{successMessage}</h4>}
+                <a href={successLink?.toString()} className="btn mt-2">
+                  {successLinkTitle}
+                </a>
+              </div>
             </div>
           </Alert>
         </div>
