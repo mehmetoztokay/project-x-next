@@ -31,7 +31,7 @@ export interface IRegistration_RegisterStep1 extends IRegistration_BaseService {
   utmMedium: string | null;
   utmCampaign: string | null;
   utmContent: string | null;
-  marketingDataId: string;
+  marketingDataId: string | null;
   affiliateCxdId: string;
   affiliateId: string;
   crRefCode: string;
