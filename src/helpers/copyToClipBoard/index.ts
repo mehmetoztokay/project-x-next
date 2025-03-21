@@ -2,9 +2,10 @@ export const copyToClipboard = (text: string, setCopied?: React.Dispatch<React.S
   navigator.clipboard
     .writeText(text)
     .then(() => {
+      setCopied && setCopied(true);
       setTimeout(() => {
-        setCopied && setCopied(true);
-      }, setCopiedTimeout);
+        setCopied && setCopied(false);
+      }, setCopiedTimeout || 500);
     })
     .catch((err) => {
       console.error("Copy error:", err);

@@ -5,7 +5,7 @@ import { SelectField } from "@/components/Atoms/FormFields/SelectField";
 import { copyToClipboard } from "@/helpers/copyToClipBoard";
 import { Params } from "@/types/general";
 import { FormikProvider, useFormik } from "formik";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // export async function generateMetadata({ params }: { params: Params }) {
 //   return {
@@ -14,6 +14,11 @@ import React from "react";
 // }
 
 const IframeCreator = () => {
+  const iframeDomain = new URL("https://frames.trive.com/");
+  const [iframeLink, setIframeLink] = useState<string>("");
+  const [copiedText, setCopiedText] = useState<boolean>(false);
+  const iframeLinkRef = useRef<HTMLInputElement>(null);
+
   const formik = useFormik({
     onSubmit: (values, { setSubmitting }) => {},
     initialValues: {
@@ -22,11 +27,27 @@ const IframeCreator = () => {
       formTitle: "",
       formDescription: "",
       formSuccessTitle: "",
-      formSuccessLinkTitle: "",
+      formSuccessMessage: "",
       formSuccessLink: "",
     },
-    // validationSchema: !isMultiStep ? getSingleRegisterFormScheme(tForm) : !isStep2 ? getStep1FormScheme(tForm) : getStep2FormScheme(tForm),
   });
+
+  useEffect(() => {
+    // Set form path
+    Object.entries(formik.values).forEach(([key, value]) => {
+      if (!value) return;
+
+      if (typeof value) iframeDomain.searchParams.set(key, value.toString());
+      formik.values.formType == "partner" && iframeDomain.searchParams.delete("isMultiStep");
+
+      if (key == "formType") {
+        iframeDomain.pathname = value as "";
+      }
+    });
+
+    setIframeLink(iframeDomain.href);
+  }, [formik.values]);
+
   return (
     <div className="fixed flex h-full w-full justify-center overflow-y-scroll py-10">
       <div className="relative my-auto w-[500px] max-w-[95%] rounded-md bg-gray-100 px-5 py-10 lg:max-w-[90%]">
@@ -34,12 +55,11 @@ const IframeCreator = () => {
         <p className="mb-4 text-sm">
           It's an iframe link creator for Trive. Fields without a <strong>*</strong> mark are optional.
         </p>
-        {JSON.stringify(formik.values, null, 2)}
-
         <FormikProvider value={formik}>
           <div className="flex flex-col gap-4">
             <SelectField
               name="formType"
+              isClearable={false}
               onChange={(e: any) => {
                 formik.setFieldValue("formType", e.value);
               }}
@@ -48,28 +68,31 @@ const IframeCreator = () => {
                 { value: "partner", label: "Partner" },
                 { value: "langdingpage", label: "Landing Page" },
               ]}
-              placeholderText="Form type"
+              placeholderText="Form Type *"
             />
             <InputField label="Form Title" name="formTitle" />
             <InputField label="Form Description" name="formDescription" />
             <InputField label="Form Success Title " name="formSuccessTitle" />
-            <InputField label="Success Link Label" name="formSuccessLinkTitle" />
+            <InputField label="Success Link Label" name="formSuccessMessage" />
             <InputField label="Success Link (as https://...)" name="formSuccessLink" />
             {formik.values.formType != "partner" && (
               <CheckboxField name="isMultiStep" label="Is form multi step?" className="text-base text-gray-700" />
             )}
-            <div className="rounded-md bg-green-200/60 p-4">
+            <div className="rounded-md bg-gray-200/60 p-4">
               <div className="relative">
                 <input
-                  type="text"
-                  className="w-full max-w-full rounded-md px-4 py-2 focus:outline-none"
+                  ref={iframeLinkRef}
                   readOnly
-                  value={"sa"}
-                  onClick={(e: React.MouseEvent<HTMLInputElement>) => copyToClipboard(e.currentTarget.value)}
-                  // TODO when clicked to buton, change Copy message to Copied
+                  value={iframeLink}
+                  type="text"
+                  className="w-full max-w-full select-none rounded-md px-4 py-2 focus:outline-none"
+                  onClick={() => copyToClipboard(iframeLink, setCopiedText)}
                 />
-                <button className="z-1 absolute right-2 top-1.5 !cursor-pointer rounded-md bg-blue-500 px-2 py-1 text-sm text-gray-200 hover:bg-blue-600">
-                  Copy
+                <button
+                  onClick={() => copyToClipboard(iframeLink, setCopiedText)}
+                  className="z-1 absolute right-2 top-1.5 rounded-md bg-blue-500 px-2 py-1 text-sm text-gray-200 hover:bg-blue-600"
+                >
+                  {!copiedText ? "Copy" : "Copied Link"}
                 </button>
               </div>
             </div>

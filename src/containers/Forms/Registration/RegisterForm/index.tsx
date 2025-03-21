@@ -27,14 +27,14 @@ import { controlRegex, regexAtLeastOneLowerCase, regexAtLeastOneNumber, regexAtL
 import { getCountryIsoCode } from "@/services/TriveApiServices/GeoIp";
 
 export const RegisterForm = ({
-  isMultiStep,
+  isMultiStepForm,
   formTitle,
   formDescription,
   formSuccessMessage,
   formSucccessLink,
   formSucccessLinkTitle,
 }: {
-  isMultiStep?: boolean;
+  isMultiStepForm?: boolean;
   formTitle?: string;
   formDescription?: string;
   formSucccessLink?: string;
@@ -57,6 +57,7 @@ export const RegisterForm = ({
   const currentSite = useCurrentSiteInfo({ locale });
   const searchParams = useSearchParams();
   const { utmCampaign, utmContent, utmMedium, utmSource } = useUtmParams({ searchParams }).utmParams;
+  const isMultiStep = isMultiStepForm || searchParams.get("isMultiStep");
   const title = formTitle || searchParams.get("formTitle");
   const description = formDescription || searchParams.get("formDescription");
   const successLink = formSucccessLink || searchParams.get("formSuccessLink");
