@@ -263,9 +263,9 @@ export const SelectField = ({
 
           // Search all values
           return (
-            normalizedLabel.includes(searchText) ||
-            normalizedShortLabel.includes(searchText) ||
-            normalizedValue.includes(searchText) ||
+            normalizedLabel?.includes(searchText) ||
+            normalizedShortLabel?.includes(searchText) ||
+            normalizedValue?.includes(searchText) ||
             // Excludes the "icon" property and checks if any other property in otherProps matches the search text.
             (!Object.keys(otherProps).includes("icon") &&
               Object.values(otherProps).some((prop: any) => normalizeText(prop?.toString()).includes(searchText)))
