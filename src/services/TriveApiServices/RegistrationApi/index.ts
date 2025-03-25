@@ -1,11 +1,6 @@
 import { apiServicesEndpoints, getApiServiceEndpoint } from "@/lib/apiEndpoints";
 
-import {
-  IRegistration_RegisterStep1,
-  IRegistration_RegisterStep2,
-  IRegistration_ClientCheck,
-  IRegistration_SingleRegister,
-} from "./RegistrationServiceTypes";
+import { IRegistration_RegisterStep1, IRegistration_RegisterStep2, IRegistration_SingleRegister } from "./RegistrationServiceTypes";
 
 import { api } from "@/lib/axios";
 import { LocaleItem } from "@/i18n/routing";
@@ -40,7 +35,7 @@ export const registerStep2 = async ({ data, locale }: { data: IRegistration_Regi
   }
 };
 
-export const clientCheck = async ({ data, locale }: { data: IRegistration_ClientCheck; locale: LocaleItem["locale"] }) => {
+export const registerClientCheck = async ({ data, locale }: { data: { email: string }; locale: LocaleItem["locale"] }) => {
   const url = getApiServiceEndpoint(apiServicesEndpoints.registration.clientCheck, locale);
   const response = await api.post(url, data);
   if (response.data?.hasError !== false) {

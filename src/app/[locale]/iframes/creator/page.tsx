@@ -26,7 +26,7 @@ const IframeCreator = () => {
       isMultiStep: false,
       formTitle: "",
       formDescription: "",
-      formSuccessTitle: "",
+      formSuccessLinkTitle: "",
       formSuccessMessage: "",
       formSuccessLink: "",
     },
@@ -72,8 +72,8 @@ const IframeCreator = () => {
             />
             <InputField label="Form Title" name="formTitle" />
             <InputField label="Form Description" name="formDescription" />
-            <InputField label="Form Success Title " name="formSuccessTitle" />
-            <InputField label="Success Link Label" name="formSuccessMessage" />
+            <InputField label="Success Message" name="formSuccessMessage" />
+            <InputField label="Form Success Link Label " name="formSuccessLinkTitle" />
             <InputField label="Success Link (as https://...)" name="formSuccessLink" />
             {formik.values.formType != "partner" && (
               <CheckboxField name="isMultiStep" label="Is form multi step?" className="text-base text-gray-700" />

@@ -29,6 +29,12 @@ export const apiServicesEndpoints = {
     registerStep2: `/registration/v${API_VERSION}/Registration/registerstep2`,
     clientCheck: `/registration/v${API_VERSION}/Registration/clientcheck`,
   },
+  landingPage: {
+    singleRegister: `/registration/v${API_VERSION}/LandingPage/singleregister`,
+    registerStep1: `/registration/v${API_VERSION}/LandingPage/registerstep1`,
+    registerStep2: `/registration/v${API_VERSION}/LandingPage/registerstep2`,
+    clientCheck: `/registration/v${API_VERSION}/LandingPage/clientcheck`,
+  },
   marketing: {
     createMarketingId: `/registration/v${API_VERSION}/Marketing/create-marketingId`,
   },

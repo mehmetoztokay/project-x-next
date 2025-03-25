@@ -1,6 +1,7 @@
 /* Varsayılan Buton */
 @layer components {
   .btn {
+    display: inline-block;
     --border-bottom-width: 0px;
     --border-color: rgba(0, 0, 0, 0);
     --border-left-width: 0px;
@@ -32,6 +33,14 @@
     outline: none;
     box-shadow: 0 0 10px rgb(0, 126, 245);
     background-position: 30% 20%;
+  }
+
+  .btn.btn-second {
+    background: linear-gradient(270deg, rgb(206, 206, 207) 0%, rgb(177, 178, 179) 41.0121%, rgb(174, 175, 176) 81.623%);
+  }
+
+  .btn.btn-second:focus {
+    box-shadow: 0 0 10px rgb(198, 200, 201);
   }
 
   /* Aktif Durum */

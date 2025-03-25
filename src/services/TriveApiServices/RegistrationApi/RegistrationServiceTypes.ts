@@ -43,7 +43,3 @@ export interface IRegistration_RegisterStep2 {
   password: string;
   isPartner: false;
 }
-
-export interface IRegistration_ClientCheck {
-  email: string;
-}

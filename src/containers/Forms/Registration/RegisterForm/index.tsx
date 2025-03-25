@@ -16,7 +16,6 @@ import { useCurrentSiteInfo } from "@/i18n/routing";
 import { getFullPageUrl } from "@/helpers/getFullPageUrl";
 import { getMarketingId } from "@/services/TriveApiServices/Marketing";
 import { useUtmParams } from "@/lib/hooks/useUtmParams";
-import { clientCheck, registerStep1, registerStep2, singleRegister } from "@/services/TriveApiServices/RegistrationApi";
 import { Alert } from "@/components/Atoms/Alert";
 import { checkRefCode } from "@/services/TriveApiServices/Partner";
 import { Spinner } from "@/components/Atoms/Spinner";
@@ -25,6 +24,7 @@ import { useTranslationsWithHTML } from "@/lib/hooks/useTranslationsWithHTML";
 import { IoClose } from "react-icons/io5";
 import { controlRegex, regexAtLeastOneLowerCase, regexAtLeastOneNumber, regexAtLeastOneUpperCase, regexNoSpecialChars } from "@/helpers/regexUtils";
 import { getCountryIsoCode } from "@/services/TriveApiServices/GeoIp";
+import { clientCheckApi, registerStep1Api, registerStep2Api, singleRegisterApi } from "@/services/TriveApiServices/TriveApiServicesHelper";
 
 export const RegisterForm = ({
   isMultiStepForm,
@@ -33,6 +33,8 @@ export const RegisterForm = ({
   formSuccessMessage,
   formSucccessLink,
   formSucccessLinkTitle,
+  formType = "registration",
+  formLandingPageName,
 }: {
   isMultiStepForm?: boolean;
   formTitle?: string;
@@ -40,6 +42,8 @@ export const RegisterForm = ({
   formSucccessLink?: string;
   formSucccessLinkTitle?: string;
   formSuccessMessage?: string;
+  formType?: "registration" | "partner" | "landingpage";
+  formLandingPageName?: string;
 }) => {
   const tForm = useTranslationsWithHTML("Forms");
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
@@ -57,6 +61,8 @@ export const RegisterForm = ({
   const currentSite = useCurrentSiteInfo({ locale });
   const searchParams = useSearchParams();
   const { utmCampaign, utmContent, utmMedium, utmSource } = useUtmParams({ searchParams }).utmParams;
+  const typeOfForm = formType || searchParams.get("formType");
+  const landingPageName = formLandingPageName || searchParams.get("formLandingPageName") || "";
   const isMultiStep = isMultiStepForm || searchParams.get("isMultiStep");
   const title = formTitle || searchParams.get("formTitle");
   const description = formDescription || searchParams.get("formDescription");
@@ -144,8 +150,10 @@ export const RegisterForm = ({
           setFormHadError(false);
           setSubmittingForm(true);
 
+          debugger;
+
           // Check isClient
-          const checkClient = await clientCheck({ data: { email: values.email }, locale });
+          const checkClient = await clientCheckApi({ email: formik.values.email, formType: typeOfForm, locale });
 
           if (checkClient) {
             formik.setErrors({ ...formik.errors, email: `${tForm("emailAlreadyTaken")} (${values.email})` });
@@ -165,17 +173,20 @@ export const RegisterForm = ({
           // Registration
           // If Single Register
           if (!isMultiStep) {
-            const singleRegisterResult = await singleRegister({ data: formData, locale });
-            if (singleRegisterResult.hasError) {
+            const singleRegisterResult = await singleRegisterApi({ formData, formType: typeOfForm, locale, landingPageName });
+
+            if (singleRegisterResult?.hasError) {
               console.error(singleRegisterResult);
               setFormHadError(true);
-            } else if (singleRegisterResult.result?.isSuccessful) {
+            } else if (singleRegisterResult?.result?.isSuccessful) {
               formik.setSubmitting(false);
               setFormSubmittedSuccessfull(true);
 
-              const scaToken = singleRegisterResult.result?.scaToken;
-              if (scaToken) {
+              const scaToken = singleRegisterResult?.result?.scaToken;
+              if (scaToken && typeOfForm != "partner") {
                 setScaUrl(`${scaUrl}accounts?token=${scaToken}`);
+              } else if (singleRegisterResult?.result?.loginUrl && typeOfForm == "partner") {
+                setScaUrl(singleRegisterResult?.result?.loginUrl);
               }
             }
           } else {
@@ -185,11 +196,12 @@ export const RegisterForm = ({
             delete (step1Data as any).isPartner;
             delete (step1Data as any).isSendScaPassword;
             if (!isStep2) {
-              const registerStep1Result = await registerStep1({ data: step1Data, locale });
-              if (registerStep1Result.hasError) {
+              const registerStep1Result = await registerStep1Api({ formType: typeOfForm, locale, step1Data, landingPageName });
+
+              if (registerStep1Result?.hasError) {
                 console.error(registerStep1Result);
                 setFormHadError(true);
-              } else if (registerStep1Result.result?.isSuccessful) {
+              } else if (registerStep1Result?.result?.isSuccessful) {
                 formik.setSubmitting(false);
                 setIsStep2(true);
               }
@@ -202,8 +214,8 @@ export const RegisterForm = ({
                 isPartner: formData.isPartner,
               };
 
-              const registerStep2Result = await registerStep2({ data: step2Data, locale });
-              if (registerStep2Result.hasError) {
+              const registerStep2Result = await registerStep2Api({ step2Data, formType: typeOfForm, locale });
+              if (registerStep2Result?.hasError) {
                 console.error(registerStep2Result);
                 setFormHadError(true);
               } else {
@@ -211,7 +223,7 @@ export const RegisterForm = ({
 
                 setFormSubmittedSuccessfull(true);
 
-                const scaToken = registerStep2Result.result?.scaToken;
+                const scaToken = registerStep2Result?.result?.scaToken;
                 if (scaToken) {
                   setScaUrl(`${scaUrl}accounts?token=${scaToken}`);
                 }
@@ -270,20 +282,25 @@ export const RegisterForm = ({
             onClickClose={() => {
               setFormSubmittedSuccessfull(false);
               setScaUrl(scaUrl);
+              setIsStep2(false);
             }}
           >
             <div className="px-6 py-10 text-center lg:px-12">
               <FaRegCircleCheck className="mx-auto text-4xl text-green-600 lg:text-6xl" />
               <p className="mt-4 text-2xl font-semibold leading-none lg:text-3xl">{tForm("registrationSuccessful")}</p>
-              <p className="mb-6 mt-2">{tForm("registrationSuccessfullStartTrading")}</p>
-              <a className="btn text-sm lg:text-base" target="_blank" href={scaUrl}>
-                {tForm("login")}
-              </a>
-              <div className="my-5">
-                {successMessage && <h4 className="text-xl font-semibold">{successMessage}</h4>}
-                <a href={successLink?.toString()} className="btn mt-2">
-                  {successLinkTitle}
+              <p className="mb-4 mt-1">{tForm("registrationSuccessfullStartTrading")}</p>
+              <div>
+                <a className="btn text-sm lg:text-base" target="_blank" href={scaUrl}>
+                  {tForm("login")}
                 </a>
+              </div>
+              <div className="my-5">
+                {successMessage && <h4 className="mt-10 text-xl">{successMessage}</h4>}
+                {successLink && (
+                  <a href={successLink?.toString()} className="btn btn-second mt-2">
+                    {successLinkTitle}
+                  </a>
+                )}
               </div>
             </div>
           </Alert>
