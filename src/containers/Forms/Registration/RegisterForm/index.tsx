@@ -273,9 +273,9 @@ export const RegisterForm = ({
   return (
     <div className="">
       {title && <h2 className="text-2xl font-semibold lg:text-3xl">{title}</h2>}
-      {description && <p className="mb-4 text-sm lg:text-base">{description}</p>}
+      {description && <p className="text-sm lg:text-base">{description}</p>}
       {formSubmittedSuccessfull && (
-        <div className="">
+        <div className="mt-4">
           <Alert
             canClose
             isOpenAlert={formSubmittedSuccessfull}
@@ -308,7 +308,7 @@ export const RegisterForm = ({
       )}
       {!formSubmittedSuccessfull && (
         <FormikProvider value={formik}>
-          <form className="grid w-full gap-3" onSubmit={formik.handleSubmit}>
+          <form className="mt-4 grid w-full gap-3" onSubmit={formik.handleSubmit}>
             {(!isMultiStep || (isMultiStep && !isStep2)) && (
               <>
                 <InputField name="firstName" label={tForm("formLabels.firstName") as ""} />
@@ -402,7 +402,7 @@ export const RegisterForm = ({
                   type="password"
                   label={tForm("formLabels.password") as ""}
                 />
-                {isFocusedPassword && (
+                {isFocusedPassword && formik.touched.scaPassword && (
                   <div
                     className={combineClass("flex flex-col gap-2 rounded-md border bg-[#FAFAFA] px-3 py-4", {
                       "border border-red-300 bg-red-300/5": !(

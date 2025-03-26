@@ -16,6 +16,8 @@ export const regexAtLeastOneNumber = /^(?=.*\d)[A-Za-z\d]*$/;
 
 export const regexHTML = /<\/?[a-z][\s\S]*>/i;
 
+export const regexURL = /^https?:\/\/([\w-]+(\.[\w-]+)+)(\/[\w-./?%&=]*)?$/i;
+
 // Control Regex
 export const controlRegex = (regex: RegExp, value: string): boolean => {
   return regex.test(value);
