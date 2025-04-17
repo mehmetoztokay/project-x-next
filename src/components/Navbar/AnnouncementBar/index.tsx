@@ -1,4 +1,4 @@
-import {combineClass} from "@/helpers/development/combineClass";
+import { combineClass } from "@/helpers/development/combineClass";
 import React from "react";
 
 export const AnnouncementBar = () => {

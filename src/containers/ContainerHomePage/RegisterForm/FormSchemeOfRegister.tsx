@@ -1,4 +1,4 @@
-import {isValidPhoneNumber} from "react-phone-number-input";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import * as Yup from "yup";
 
 export const FormSchemeOfRegister = Yup.object().shape({
@@ -18,13 +18,35 @@ export const FormSchemeOfRegister = Yup.object().shape({
     .required("zorunlu alan")
     .email("duzgun gir maili")
     .matches(/^[^A-Z]*$/, "sadece kucuk harf"),
-  selectCountryCode: Yup.object().required("Error"),
-  checkbox1: Yup.boolean().oneOf([true], "This field is required. Please tick the checkbox to continue."),
+  countryCodeSelect: Yup.object().required("Error"),
+  checkbox1: Yup.boolean().oneOf(
+    [true],
+    "This field is required. Please tick the checkbox to continue.",
+  ),
   checkbox2: Yup.boolean(),
-  phoneNumber: Yup.string().test("is-valid-phone", "It's not valid", (value) => {
-    if (value) {
-      return isValidPhoneNumber(value);
-    }
-    return true; // Allow empty phone numbers (optional)
-  }),
+  phoneNumber: Yup.string()
+    .required("zorunlu alan")
+    .test("is-valid-phone", "It's not valid", (value) => {
+      if (value) {
+        return isValidPhoneNumber(value);
+      }
+      return true; // Allow empty phone numbers (optional)
+    }),
+  cvFile: Yup.mixed<File>()
+    .required("Required")
+    .test("fileFormat", "Only PDF files are allowed", (value: File) => {
+      if (value instanceof File) {
+        const supportedFormats = ["pdf"];
+        return supportedFormats.includes(
+          value.name.split(".").pop()?.toLowerCase() || "",
+        );
+      }
+      return false;
+    })
+    .test("fileSize", "File size must be less than 3MB", (value) => {
+      if (value instanceof File) {
+        return value.size <= 3 * 1024 * 1024; // 3MB
+      }
+      return false;
+    }),
 });

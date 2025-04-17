@@ -1,23 +1,17 @@
-export interface FieldTypesOfRegisterForm {
+import { ICountryCodeSelect } from "@/lib/hooks/useCountryList";
+
+export interface IFieldsOfRegisterForm {
   firstName: string;
   lastName: string;
   email: string;
-  countryCode: string;
-  phone: string;
+  phoneNumber: string;
   phoneCode: string;
   password: string;
-  selectCountryCode: TypeSelectCountryCode | "";
+  countryCodeSelect: ICountryCodeSelect | "";
   refcode: string;
+  cvFile: File | null;
   checkbox1: boolean;
   checkbox2: boolean;
-}
-
-export interface TypeSelectCountryCode {
-  id: number;
-  value: string;
-  label: string;
-  shortLabel: string;
-  icon: string;
 }
 export interface RegisterUserData {  
   firstName: string;  

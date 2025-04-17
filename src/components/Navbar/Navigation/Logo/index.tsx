@@ -1,6 +1,6 @@
 import React from "react";
-import {combineClass} from "@/helpers/development/combineClass";
-import {Link} from "@/i18n/routing";
+import { combineClass } from "@/helpers/development/combineClass";
+import { Link } from "@/i18n/routing";
 
 export const Logo = () => {
   return (

@@ -1,11 +1,11 @@
 "use client";
-import React, {useRef, useState} from "react";
-import {combineClass} from "@/helpers/development/combineClass";
-import {Logo} from "@/components/Navbar/Navigation/Logo";
-import {NavbarItems} from "@/components/Navbar/Navigation/NavbarItems";
-import {NavbarItemsRight} from "@/components/Navbar/Navigation/NavbarItemsRight";
-import {useTranslations} from "next-intl";
-import {usePathname} from "@/i18n/routing";
+import React, { useRef, useState } from "react";
+import { combineClass } from "@/helpers/development/combineClass";
+import { Logo } from "@/components/Navbar/Navigation/Logo";
+import { NavbarItems } from "@/components/Navbar/Navigation/NavbarItems";
+import { NavbarItemsRight } from "@/components/Navbar/Navigation/NavbarItemsRight";
+import { usePathname } from "@/i18n/routing";
+import { useTranslationsWithHTML } from "@/lib/hooks/useTranslationsWithHTML";
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -13,7 +13,7 @@ export const Navigation = () => {
   const [openMobileMenu, setOpenMobileMenu] = useState<boolean>(false);
   const [openChildMenu, setOpenChildMenu] = useState<boolean>(false);
 
-  const t = useTranslations("Layout");
+  const t = useTranslationsWithHTML("Layout");
   const navigation = t.raw("navigation") || null;
 
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -38,7 +38,7 @@ export const Navigation = () => {
   }, [pathname]);
 
   return (
-    <nav ref={mobileMenuRef} className={combineClass("py-2 relative", {})}>
+    <nav ref={mobileMenuRef} className={combineClass("relative py-2", {})}>
       <div className={combineClass("container mx-auto", {})}>
         <div className={combineClass("flex justify-between", {})}>
           <div className={combineClass("flex items-center", {})}>

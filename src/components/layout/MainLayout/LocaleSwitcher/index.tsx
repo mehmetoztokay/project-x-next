@@ -1,30 +1,21 @@
-import React, {useEffect, useRef, useState, useTransition} from "react";
-import {useLocale, useTranslations} from "next-intl";
-import {CountryFlag} from "../CountryFlag";
-import {Locale, usePathname, useRouter} from "@/i18n/routing";
-import {getCurrentQueries} from "@/helpers/getCurrentQueries";
-import {combineClass} from "@/helpers/development/combineClass";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocale } from "next-intl";
+import { CountryFlag } from "../CountryFlag";
+import { combineClass } from "@/helpers/development/combineClass";
+import { useChangeLocale } from "@/lib/hooks/useChanheLocale";
+import { useTranslationsWithHTML } from "@/lib/hooks/useTranslationsWithHTML";
 
 export const LocaleSwitcher = () => {
-  const t = useTranslations("Layout");
+  const t = useTranslationsWithHTML("Layout");
   const localeItems = t.raw("locales");
 
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
-  const pathname = usePathname();
+  const { changeLocale, isPendingLocale } = useChangeLocale();
+
   const locale = useLocale();
-  const currentQueries = getCurrentQueries();
 
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const changeLocale = (newLocale: Locale) => {
-    if (newLocale === locale || isPending) return;
-
-    startTransition(() => {
-      router.replace({pathname, query: currentQueries}, {locale: newLocale});
-    });
-  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -62,18 +53,18 @@ export const LocaleSwitcher = () => {
                 {Object.keys(localeItems).map((localeItem: any) => (
                   <button
                     key={localeItem}
-                    disabled={isPending}
+                    disabled={isPendingLocale}
                     onClick={() => changeLocale(localeItem)}
                     className={combineClass(
-                      "flex items-center w-full gap-2 px-4 py-2 text-sm text-gray-200 hover:bg-gray-200 hover:text-gray-700 disabled:opacity-30 rounded-md my-1 text-nowrap",
+                      "my-1 flex w-full items-center gap-2 text-nowrap rounded-md px-4 py-2 text-sm text-gray-200 hover:bg-gray-200 hover:text-gray-700 disabled:opacity-30",
                       {
-                        "bg-gray-200 text-gray-700": locale === localeItem && !isPending,
-                      }
+                        "bg-gray-200 text-gray-700": locale === localeItem && !isPendingLocale,
+                      },
                     )}
                     role="menuitem"
                     tabIndex={-1}
                   >
-                    <CountryFlag isoCode={localeItems[localeItem].flag} className="rounded-sm w-5" />
+                    <CountryFlag isoCode={localeItems[localeItem].flag} className="w-5 rounded-sm" />
                     <span>{localeItems[localeItem].title}</span>
                   </button>
                 ))}

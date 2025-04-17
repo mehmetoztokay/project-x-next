@@ -3,24 +3,42 @@ import { CheckboxField } from "@/components/Atoms/FormFields/CheckboxField";
 import { InputField } from "@/components/Atoms/FormFields/InputField";
 import { SelectField } from "@/components/Atoms/FormFields/SelectField";
 import { combineClass } from "@/helpers/development/combineClass";
-import { Formik, Field, Form, FormikHelpers, useFormik } from "formik";
-import { useEffect, useRef, useState } from "react";
-
-import Input, { Value } from "react-phone-number-input/input";
-import { FieldTypesOfRegisterForm, RegisterUserData } from "./FieldTypesOfRegisterForm";
+import { Formik, Form, FormikHelpers } from "formik";
+import { useEffect, useState } from "react";
+import { IFieldsOfRegisterForm } from "./FieldTypesOfRegisterForm";
 import { FormSchemeOfRegister } from "./FormSchemeOfRegister";
-import { getAllCountries } from "@/helpers/getAllCountries";
-import PhoneInput from "react-phone-number-input";
-import ApiService from "./ApiService";
+import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField";
+import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/lib/hooks/useCountryList";
+import { useSearchParams } from "next/navigation";
+import { FileUploadField } from "@/components/Atoms/FormFields/FileUploadField";
+import { parsePhoneNumber, isValidPhoneNumber } from "react-phone-number-input";
+import { useLocale } from "next-intl";
+
 export const RegisterForm = () => {
-  const [countriesData, setCountriesData] = useState<any>(null);
+  const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
+  const [countrySelectValues, setCountryNames] = useState<ICountrySelect[]>([]);
+
+  const searchParams = useSearchParams();
+
+  const lang = searchParams.get("lang") || "";
+  const locale = useLocale();
 
   useEffect(() => {
-    setCountriesData(getAllCountries("en"));
+    const fetchCountryList = async () => {
+      const { getFormattedCountryCodeSelectValues, getFormattedCountrySelectValues } = useCountryList({ locale });
+
+      const formattedCountryCodeSelectValues = await getFormattedCountryCodeSelectValues();
+      const formattedCountrySelectValues = await getFormattedCountrySelectValues();
+
+      setCountryCodeSelectValues(formattedCountryCodeSelectValues);
+      setCountryNames(formattedCountrySelectValues);
+    };
+
+    fetchCountryList();
   }, []);
 
   return (
-    <div className="max-w-[350px] mx-auto p-5 py-4 rounded-md bg-white shadow-2xl">
+    <div className="mx-auto w-full max-w-[350px] rounded-md bg-white p-5 py-4 shadow-2xl">
       <h1 className="text-2xl font-bold">Register</h1>
       <p className="mb-8 font-light">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
       <Formik
@@ -29,112 +47,106 @@ export const RegisterForm = () => {
           firstName: "",
           lastName: "",
           email: "",
-          countryCode: "",
-          phone: "",
           phoneCode: "",
+          phoneNumber: "",
           password: "",
-          selectCountryCode: "",
-          refcode: "",
-          siteId: "",
+          countryCodeSelect: "",
+          cvFile: null,
           checkbox1: false,
           checkbox2: false,
         }}
-        onSubmit={async (values: RegisterUserData, { setSubmitting }) => {
-          try {
-            const response = await ApiService.registerUser(values);
-            alert("Registration successful: " + JSON.stringify(response, null, 2));
-          } catch (error) {
-            if (error instanceof Error) {
-              alert("There was a problem with the registration: " + error.message);
-            } else {
-              alert("There was a problem with the registration.");
-            }
-          } finally {
+        onSubmit={(values: IFieldsOfRegisterForm, { setSubmitting }: FormikHelpers<IFieldsOfRegisterForm>) => {
+          console.log(values);
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
           }
         }}
       >
-        {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors }) => {
+        {({ values, setFieldValue, errors, touched, handleBlur, setFieldTouched, setErrors, setValues, handleChange }) => {
           return (
             <>
               <Form className="grid gap-3">
-                <InputField label="Name" name="firstName" type="text" innerFloatLabel={true} />
-                <InputField label="Surname" name="lastName" type="text" innerFloatLabel={true} />
-                <InputField label="E mail" name="email" type="text" innerFloatLabel={true} />
+                <InputField label="Name" name="firstName" type="text" isClearable />
+                <InputField label="Surname" name="lastName" type="text" />
+                <InputField label="E mail" name="email" type="mail" />
 
-                <div className={combineClass("grid grid-cols-12 gap-1 relative", {})}>
-                  <div className="col-span-3">
+                <div className={combineClass("relative flex gap-1.5", {})}>
+                  <div className="w-[27%]">
                     <SelectField
                       isClearable={false}
-                      name="selectCountryCode"
-                      value={values.selectCountryCode}
+                      name="countryCodeSelect"
+                      value={values.countryCodeSelect}
                       onChange={(option: any) => {
-                        setFieldValue("selectCountryCode", option);
-                        setFieldValue("phoneCode", option.shortLabel);
+                        // Clear error message of countryCodeSelect
+                        setErrors({ ...errors, countryCodeSelect: undefined });
+                        setValues({
+                          ...values,
+                          countryCodeSelect: option,
+                          phoneNumber: "+" + option.phoneCode,
+                          phoneCode: option.shortLabel,
+                        });
                       }}
                       onBlur={() => {
-                        setFieldTouched("selectCountryCode");
+                        !touched.countryCodeSelect && setFieldTouched("countryCodeSelect", true);
+                        values.countryCodeSelect &&
+                          setErrors({
+                            ...errors,
+                            countryCodeSelect: undefined,
+                          });
                       }}
                       placeholderText="Code"
-                      options={countriesData}
-                      className="text-base !static h-100"
-                      // showIconOnControl
+                      options={countryCodeSelectValues}
+                      className="h-100 !static text-base"
                       showOnlyIconOnControl
                       showIconOnOptions
-                      // hiddenIconOnControlForMobile
-                      // showShortLabelOnControl 
-                      // removeDropdownIndicatorIsFocused
                     />
                   </div>
-                  <div className="col-span-9">
-                    <PhoneInput
-                      focusInputOnCountrySelection
-                      // withCountryCallingCode
-                      // international
-                      className={combineClass(
-                        "peer [&>input]:w-full [&>input]:border [&>input]:placeholder-transparent [&>input]:border-gray-200 [&>input]:rounded-md [&>input]:outline-none focus:text-gray-900 [&>input]:focus:border-red-500 [&>input]:py-3 [&>input]:px-2 p-0",
-                        {
-                          "!text-gray-900": values.phone?.length > 0, // Update class based on phone number presence
-                          "border-red-500": touched.phone && errors.phone, // Update class for error
+                  <div className="w-[73%]">
+                    <PhoneNumberField
+                      label="Phone Number"
+                      name="phoneNumber"
+                      // For autocomplete
+                      runOnChange={(value) => {
+                        if (values.countryCodeSelect == "") {
+                          const checkPhoneNumberIsValid = value ? isValidPhoneNumber(value) : false;
+                          const country = checkPhoneNumberIsValid ? parsePhoneNumber(value)?.country : false;
+
+                          const foundCountry = country && countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
+                          foundCountry && setFieldValue("countryCodeSelect", foundCountry || "");
                         }
-                      )}
-                      countrySelectComponent={() => null}
-                      // country={values?.selectCountryCode?.value as "TR" | undefined}
+                      }}
                       onCountryChange={(country: any) => {
-                        setFieldValue(
-                          "selectCountryCode",
-                          countriesData?.find((o: any) => o.value.toLowerCase() == country?.toLowerCase())
-                        );
-                      }}
-                      // FIXME should be show placeholder message
-                      placeholder="sea"
-                      value={values.phone}
-                      onChange={(value: Value) => {
-                        setFieldValue("phone", value);
-                      }}
-                      onBlur={() => {
-                        setFieldTouched("phone");
-                        // setErrors({...errors, phone: undefined}); // Clear error message on blur
+                        const foundCountry = countryCodeSelectValues?.find((c) => c.value.toLowerCase() == country?.toLowerCase());
+                        foundCountry && setFieldValue("phoneCode", "+" + foundCountry?.phoneCode || "");
+                        foundCountry && setFieldValue("countryCodeSelect", foundCountry || "");
                       }}
                     />
-                    {touched.phone && errors.phone && <div className="text-red-500 text-xs">{errors.phone}</div>}
                   </div>
                 </div>
 
-                <InputField label="Password" name="password" type="password" checked={values.checkbox1} innerFloatLabel={false} />
-                <InputField label="refcode" name="refcode" type="text" innerFloatLabel={true} />
+                <SelectField options={countrySelectValues} name="test" showIconOnControl showIconOnOptions isClearable={false} />
+
+                <InputField label="Password" name="password" type="password" checked={values.checkbox1} />
+                <FileUploadField
+                  uploadMessage={"Upload CV"}
+                  dropMessage="Drop CV"
+                  name="cvFile"
+                  acceptTypesMessage="The file must be PDF format and not exceed 500KB"
+                />
+
                 <CheckboxField name="checkbox1">
-                  You need to enable JavaScript to run this app. You need to enable JavaScript to run this app.
+                  You need to enable JavaScript to run this app. You need to enable JavaScript to run this app.{" "}
                   <a target="_blank" href="https://www.trive.com" className="text-blue-500 underline">
-                    You need to enable JavaScript{" "}
-                  </a>
+                    You need to enable JavaScript
+                  </a>{" "}
                   to run this app.
                 </CheckboxField>
 
-                <CheckboxField name="checkbox2">test</CheckboxField>
+                <CheckboxField name="checkbox2">Test field</CheckboxField>
 
                 <div className="text-left">
-                  <button type="submit" className="mt-1 bg-gray-300 transition hover:bg-gray-400 text-gray-900 px-4 py-2 rounded-full w-full">
+                  <button type="submit" className="mt-1 w-full rounded-full bg-gray-300 px-4 py-2 text-gray-900 transition hover:bg-gray-400">
                     Submit
                   </button>
                 </div>

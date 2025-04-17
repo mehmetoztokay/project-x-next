@@ -1,0 +1,200 @@
+{
+  "Layout": {
+    "locales": {
+      "eu-mt": {
+        "title": "English",
+        "flag": "gb"
+      },
+      "eu-de": {
+        "title": "Deutsch",
+        "flag": "de"
+      },
+      "eu-es": {
+        "title": "Español",
+        "flag": "es"
+      },
+      "eu-it": {
+        "title": "Italiano",
+        "flag": "it"
+      },
+      "tr-tr": {
+        "title": "Türkçe",
+        "flag": "tr"
+      },
+      "olmayan-dil": {
+        "title": "Olmayan Dil(deneme)",
+        "flag": "olmayan-dil"
+      }
+    },
+    "navigation": {
+      "isNull": false,
+      "navItems": [
+        {
+          "title": "Trading",
+          "hasChildren": true,
+          "link": "#",
+          "children": [
+            {
+              "title": "INSTRUMENTS",
+              "description": "Trade the world's largest stocks conveniently via app and browser.",
+              "links": [
+                {
+                  "title": "Stocks",
+                  "href": "/trading/instruments/stocks"
+                },
+                {
+                  "title": "ETFs",
+                  "href": "/trading/instruments/etfs"
+                },
+                {
+                  "title": "Forex CFD",
+                  "href": "/trading/instruments/forex-cfd"
+                },
+                {
+                  "title": "Cryptocurrencies",
+                  "href": "/trading/instruments/cryptocurrencies"
+                }
+              ]
+            },
+            {
+              "title": "Test Title",
+              "description": "test description test description test description test description",
+              "links": [
+                {
+                  "title": "Mehmet",
+                  "href": "/trading/instruments/stocks212"
+                },
+                {
+                  "title": "Ahmet",
+                  "href": "/trading/instruments/etfs"
+                },
+                {
+                  "title": "Ali",
+                  "href": "/trading/instruments/forex-cfd"
+                },
+                {
+                  "title": "Flaan",
+                  "href": "/trading/instruments/cryptocurrencies"
+                }
+              ]
+            },
+            {
+              "title": "INSTRUMENTS",
+              "description": "Trade the world's largest stocks conveniently via app and browser.",
+              "links": [
+                {
+                  "title": "Stocks",
+                  "href": "/trading/instruments/stocksasdsa"
+                },
+                {
+                  "title": "ETFs",
+                  "href": "/trading/instruments/etfs"
+                },
+                {
+                  "title": "Forex CFD",
+                  "href": "/trading/instruments/forex-cfd"
+                },
+                {
+                  "title": "Cryptocurrencies",
+                  "href": "/trading/instruments/cryptocurrencies"
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "Platforms",
+          "hasChildren": true,
+          "link": "",
+          "children": [
+            {
+              "title": "INSTRUMENTS",
+              "description": "Trade the world's largest stocks conveniently via app and browser.",
+              "links": [
+                {
+                  "title": "Stocks",
+                  "href": "/trading/instruments/stocks"
+                },
+                {
+                  "title": "ETFs",
+                  "href": "/trading/instruments/etfs"
+                },
+                {
+                  "title": "Forex CFD",
+                  "href": "/trading/instruments/forex-cfd"
+                },
+                {
+                  "title": "Cryptocurrencies",
+                  "href": "/trading/instruments/cryptocurrencies"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "About",
+          "hasChildren": false,
+          "link": "/about",
+          "children": []
+        }
+      ]
+    }
+  },
+
+  "HomePage": {
+    "title": "Home page eu en",
+    "description": "Home page Description eu en"
+  },
+  "AboutPage": {
+    "title": "About page title eu en",
+    "description": "About page Description eu en"
+  },
+  "Forms": {
+    "isNotValid": "Invalid input",
+    "useOnlyLetters": "Letters only",
+    "isRequired": "Required field",
+    "minChars": "At least {number} characters",
+    "maxChars": "Max {number} characters",
+    "noSpacesAtStartOrEnd": "No leading or trailing spaces",
+    "onlyLowercase": "Only lowercase letters allowed",
+    "invalidEmail": "Please enter a valid email",
+    "emailAlreadyTaken": "This email is already associated with an existing account",
+    "invalidPhone": "Please enter a valid phone",
+    "invalidPhoneCode": "Please enter a valid phone code (e.g. +1, +90)",
+    "checkboxRequired": "This checkbox must be checked to continue",
+    "noSpecialChars": "Special characters are not allowed.",
+    "atLeastOneUpperCase": "Must contain at least one uppercase letter.",
+    "atLeastOneLowerCase": "Must contain at least one lowercase letter.",
+    "atLeastOneNumber": "Must contain at least one number.",
+    "passwordCriteria": "Password must be between 8-15 characters and include at least one uppercase letter, one lowercase letter, and one number. No special characters allowed.",
+    "addRefCodeMessage": "Add Referral Code",
+    "invalidRefCodeMessage": "Invalid referral code. You can remove or update the referral code.",
+    "errorTitle": "Error!",
+    "anErrorOccuredTryAgain": "An error occurred, please try again.",
+    "registrationSuccessful": "Registration successful!",
+    "registrationSuccessfullStartTrading": "Your registration has been successfully completed, you can start trading!",
+    "startTrading": "Start Trading",
+    "login": "Login",
+    "useBetween8and15chars": "Between 8 and 15 characters",
+    "useLowerCaseAndUpperCase": "Uppercase and lowercase letters",
+    "useCombinationOfNumbersAndLetters": "Combination of numbers and English letters",
+    "test_isHTML": "<p class='text-3xl'>seaaaaa</p>",
+    "formLabels": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "phoneCode": "Code",
+      "password": "Password",
+      "countryOfResidence": "Country of Residence",
+      "refCode": "Ref Code",
+      "register": "Register"
+    }
+  },
+  "IframePages": {
+    "title": "Trive",
+    "description": "Trive",
+    "singleRegisterPage": {}
+  }
+}
