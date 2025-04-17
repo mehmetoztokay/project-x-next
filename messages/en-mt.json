@@ -144,7 +144,9 @@
 
   "HomePage": {
     "title": "Home page eu en",
-    "description": "Home page Description eu en"
+    "description": "Home page Description eu en",
+    "homeBannerTitle": "Home Banner Title",
+    "goAboutPageBtnText": "Go about Page!"
   },
   "AboutPage": {
     "title": "About page title eu en",

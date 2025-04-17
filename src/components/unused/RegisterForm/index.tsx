@@ -41,6 +41,9 @@ export const RegisterForm = () => {
     <div className="mx-auto w-full max-w-[350px] rounded-md bg-white p-5 py-4 shadow-2xl">
       <h1 className="text-2xl font-bold">Register</h1>
       <p className="mb-8 font-light">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+      {/* <div>
+          <Link href="/about">{t("description")}</Link>
+        </div> */}
       <Formik
         validationSchema={FormSchemeOfRegister}
         initialValues={{
