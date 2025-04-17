@@ -20,7 +20,7 @@ export default async function CoreLayout({ children, locale, isIframeLayout }: P
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages();
-  const currentSite = useCurrentSiteInfo({ locale });
+  const currentSite = useCurrentSiteInfo(locale);
 
   return (
     <html className={combineClass("h-full w-full", {})} lang={locale} dir={locales.find((l) => l.locale === locale)?.direction || "ltr"}>

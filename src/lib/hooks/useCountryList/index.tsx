@@ -32,8 +32,7 @@ const excludeCountries = ["AQ", "BV", "TF", "HM", "PN", "GS", "UM"];
 export const useCountryList = ({ locale, language }: { locale: LocaleItem["locale"]; language?: LocaleItem["shortLang"] }) => {
   if (language && !countries.getSupportedLanguages().includes(language)) language = "en";
   // If not supported lang return default en
-  else
-    language = countries.getSupportedLanguages().includes(useCurrentSiteInfo({ locale }).shortLang) ? useCurrentSiteInfo({ locale }).shortLang : "en";
+  else language = countries.getSupportedLanguages().includes(useCurrentSiteInfo(locale).shortLang) ? useCurrentSiteInfo(locale).shortLang : "en";
 
   const getCountryList = async (): Promise<ICountry[]> => {
     try {

@@ -58,7 +58,7 @@ export const RegisterForm = ({
 
   const pageUrl = getFullPageUrl();
   const locale = useLocale();
-  const currentSite = useCurrentSiteInfo({ locale });
+  const currentSite = useCurrentSiteInfo(locale);
   const searchParams = useSearchParams();
   const { utmCampaign, utmContent, utmMedium, utmSource } = useUtmParams({ searchParams }).utmParams;
   const typeOfForm = formType || searchParams.get("formType");

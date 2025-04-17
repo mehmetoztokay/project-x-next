@@ -2,8 +2,31 @@ import { useLocale } from "next-intl";
 import { createNavigation } from "next-intl/navigation";
 import { defineRouting } from "next-intl/routing";
 
+type locale =
+  | "tr-tr"
+  | "eu-mt"
+  | "eu-es"
+  | "eu-de"
+  | "eu-it"
+  | "eu-fr"
+  | "id-id"
+  | "id-en"
+  | "za-en"
+  | "int-my"
+  | "int-jp"
+  | "int-th"
+  | "int-kr"
+  | "int-tw"
+  | "int-ph"
+  | "int-pk"
+  | "int-es"
+  | "int-in"
+  | "int-cn"
+  | "int-vn"
+  | "olmayan-dil";
+
 export type LocaleItem = {
-  locale: string;
+  locale: locale;
   prefixLocale: string;
   region: "tr" | "eu" | "int" | "id" | "olmayan-region";
   lang: string;
@@ -211,7 +234,7 @@ export const locales: LocaleItem[] = [
   },
 ];
 
-export const useCurrentSiteInfo = ({ locale }: { locale: LocaleItem["locale"] }): LocaleItem => {
+export const useCurrentSiteInfo = (locale: LocaleItem["locale"] | string): LocaleItem => {
   const foundSiteId = locales.find((l) => l.locale.toLocaleLowerCase() == locale?.toLocaleLowerCase());
   if (foundSiteId) return foundSiteId;
   else return locales.find((l) => l.locale == "eu-mt")!;

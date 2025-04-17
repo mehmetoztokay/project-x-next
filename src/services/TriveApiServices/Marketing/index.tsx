@@ -18,7 +18,7 @@ const createMarketingId = async ({ data, locale }: { data: IMarketingIdData; loc
 export const getMarketingId = async ({ searchParams, locale }: { searchParams: URLSearchParams; locale: LocaleItem["locale"] }) => {
   const uri = getFullPageUrl();
   const utmParameters = useUtmParams({ searchParams });
-  const siteId = useCurrentSiteInfo({ locale })?.siteId;
+  const siteId = useCurrentSiteInfo(locale)?.siteId;
 
   const sixMonthsLater = new Date();
   sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);

@@ -5,7 +5,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   // This typically corresponds to the `[locale]` segment
   let locale = await requestLocale;
 
-  const currentSiteLang = locale ? useCurrentSiteInfo({ locale }).lang.toLocaleLowerCase() : useCurrentSiteInfo({ locale: "en-MT" });
+  const currentSiteLang = locale ? useCurrentSiteInfo(locale).lang.toLocaleLowerCase() : useCurrentSiteInfo("en-MT");
 
   // Ensure that a valid locale is used
   if (!locale || !routing.locales.includes(locale as Locale)) {

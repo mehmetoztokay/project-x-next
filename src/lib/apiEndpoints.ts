@@ -8,7 +8,7 @@ const API_GATEWAY_INVEST_BASE_URL = `https://api${isDevMode ? "-dev" : ""}-gatew
 const API_VERSION = "1";
 
 const getBaseURL = ({ locale }: { locale: LocaleItem["locale"] }) => {
-  const currentSite = useCurrentSiteInfo({ locale });
+  const currentSite = useCurrentSiteInfo(locale);
 
   switch (currentSite?.region) {
     case "id":
