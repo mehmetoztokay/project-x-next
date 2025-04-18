@@ -144,10 +144,17 @@
 
   "HomePage": {
     "title": "Home page eu en",
-    "description": "Home page Description eu en",
-    "homeBannerTitle": "Home Banner Title",
-    "goAboutPageBtnText": "Go about Page!"
+    "description": "Ultra-low spreads: 0.02 pips on XAGUSD and 0.1 pips on EURUSD.",
+    "homeBannerTitle": "Trade Forex CFDs with ever tighter spreads",
+    "goAboutPageBtnText": "Go about Page!",
+    "homeBannerDescription": "Ultra-low spreads: 0.02 pips on XAGUSD and 0.1 pips on EURUSD.",
+     "BtnRegister":"Register",
+    "FirstRegulated":"Regulated by MFSA",
+    "SecondRegulated":"Licensed in 15 Regions",
+    "ThirdRegulated":"Executions under 0.1 secs",
+    "FourthRegulated":"24/5 live support"
   },
+ 
   "AboutPage": {
     "title": "About page title eu en",
     "description": "About page Description eu en"

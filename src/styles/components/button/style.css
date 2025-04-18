@@ -54,4 +54,12 @@
     pointer-events: none; /* Butona tıklanmasını engeller */
     opacity: 0.8; /* Butonu soluk yapar */
   }
+  .text-color {
+     color: transparent;
+     background: linear-gradient(73deg, var(--token-37e7984d-7291-4e22-8591-4bd45b7f5648, rgb(0, 42, 92)) -15%, var(--token-1a3314b7-d856-4bbf-9555-cca65d3da8d1, rgb(0, 112, 231)) 46%, rgb(113, 203, 230) 97.63457207207207%);
+     background-clip: text;
+  }
+  .global-dark{
+    color:rgb(0, 42, 92)
+  }
 }

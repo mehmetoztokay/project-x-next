@@ -7,8 +7,8 @@ import { TranslationT } from "@/types/general";
 export const HomePageContainer = ({ t, locale }: { t: TranslationT; locale: LocaleItem["locale"] }) => {
   return (
     <>
+      <HomeBanner t={t} />
       <div className="container mx-auto">
-        <HomeBanner t={t} />
         <Button isPending text="selam" />
         <div className="mt-3 flex gap-3">
           <Link className="btn" href="/about">
