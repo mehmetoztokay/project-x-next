@@ -3,11 +3,13 @@ import { Link, LocaleItem } from "@/i18n/routing";
 import React from "react";
 import { HomeBanner } from "./sections/HomeBanner";
 import { TranslationT } from "@/types/general";
+import { HomeComoditiesMore } from "./sections/homeCommoditiesMore";
 
 export const HomePageContainer = ({ t, locale }: { t: TranslationT; locale: LocaleItem["locale"] }) => {
   return (
     <>
       <HomeBanner t={t} />
+      <HomeComoditiesMore t={t}/>
       <div className="container mx-auto">
         <Button isPending text="selam" />
         <div className="mt-3 flex gap-3">

@@ -152,7 +152,14 @@
     "FirstRegulated":"Regulated by MFSA",
     "SecondRegulated":"Licensed in 15 Regions",
     "ThirdRegulated":"Executions under 0.1 secs",
-    "FourthRegulated":"24/5 live support"
+    "FourthRegulated":"24/5 live support",
+    "HomeComoditiesMoreTite": "Trade CFDs, Forex, Indices, Commodities and more",
+    "commoditiesGraphText": "Trade over 300 instruments",
+    "commoditiesGraphDescription": "Join the millions of Forex traders worldwide.",
+    "seeDetailsForex": "See details",
+    "commoditiesMoneyText": "Instant withdrawal & deposit",
+    "commoditiesMoneyDescription": "Discover our premier payment solutions."
+    
   },
  
   "AboutPage": {
