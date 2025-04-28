@@ -10,14 +10,19 @@ export const TraderInvestorSection = ({ t }: { t: TranslationT }) => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           {/* Trader Card */}
-          <div className="relative flex flex-col items-center overflow-hidden rounded-3xl bg-gray-50 text-center md:flex-row md:text-left">
+          <div
+            className="relative flex flex-col items-center overflow-hidden rounded-[40px] p-14 text-center md:flex-row md:text-left"
+            style={{
+              background: 'conic-gradient(from 315deg at 26% 77.9%, rgb(250, 250, 250) 62.267483108108095deg, rgb(220, 222, 225) 260.8522804054054deg)',
+            }}
+          >
             {/* dark-green bar behind bottom half */}
-            <div className="absolute inset-x-0 bottom-0 h-[45%] bg-green-900" aria-hidden="true" />
+            <div className="absolute right-0 bottom-10 h-[25%] bg-green-900 m-4 rounded-lg w-[85%]" />
 
             {/* phone image, overlapping both the gray card and the green bar */}
-            <div className="relative z-10 -mt-24 flex w-full justify-center md:mt-0 md:w-1/2">
+            <div className="relative z-10 -mt-24 flex w-full justify-center md:mt-0 md:w-1/2 text-right">
               <img
-                src="/assets/home/trader-phone.webp"
+                src="/assets/img/home/trader-phone.webp"
                 alt={String(t("traderPhoneAlt") || "Trive Trader App screenshot")}
                 className="h-80 object-contain"
               />
@@ -31,8 +36,8 @@ export const TraderInvestorSection = ({ t }: { t: TranslationT }) => {
               <div className="flex flex-col justify-center space-y-4 md:flex-row md:justify-start md:space-x-4 md:space-y-0">
                 <a href="#" aria-label="Download on the App Store" className="inline-block h-12 w-auto">
                   <svg viewBox="0 0 145 44" xmlns="http://www.w3.org/2000/svg" width="145" height="44" fill="none" id="svg-1972056391_8219">
-                    <g clipPath="url(#svg-1972056391_8219_a)" fill="none">
-                      <g clipPath="url(#svg-1972056391_8219_b)" fill="none">
+                    <g clip-path="url(#svg-1972056391_8219_a)" fill="none">
+                      <g clip-path="url(#svg-1972056391_8219_b)" fill="none">
                         <path
                           d="M139.475 1.05H6.193C3.26 1.05.86 3.447.86 6.38v31.988c0 2.933 2.4 5.332 5.332 5.332h133.282c2.932 0 5.331-2.4 5.331-5.332V6.381c0-2.933-2.399-5.332-5.331-5.332Zm0 .852a4.484 4.484 0 0 1 4.478 4.479v31.987a4.484 4.484 0 0 1-4.478 4.48H6.193a4.484 4.484 0 0 1-4.479-4.48V6.381a4.484 4.484 0 0 1 4.479-4.479h133.282Z"
                           fill="#FFFFFF"
@@ -96,10 +101,10 @@ export const TraderInvestorSection = ({ t }: { t: TranslationT }) => {
                 </a>
                 <a href="#" aria-label="Get it on Google Play" className="inline-block h-12 w-auto">
                   <svg viewBox="0 0 129 44" xmlns="http://www.w3.org/2000/svg" width="129" height="44" fill="none" id="svg831071191_7671">
-                    <g clipPath="url(#svg831071191_7671_a)" fill="#FFFFFF">
+                    <g clip-path="url(#svg831071191_7671_a)" fill="#FFFFFF">
                       <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
                         d="M10.217.943H118.02a110.622 110.622 0 0 1 1.969.012l.181.004c.718.008 1.434.07 2.143.189.711.121 1.4.347 2.045.672a6.93 6.93 0 0 1 2.999 3 7.08 7.08 0 0 1 .663 2.04c.12.709.186 1.426.199 2.145.004.329.004.658.004.987.009.388.009.777.009 1.17v22.427c0 .395 0 .783-.009 1.172 0 .333 0 .655-.004.988a14.42 14.42 0 0 1-.199 2.145 7.089 7.089 0 0 1-.663 2.04 6.864 6.864 0 0 1-1.266 1.73 6.746 6.746 0 0 1-1.733 1.264 7.3 7.3 0 0 1-2.045.675 14.23 14.23 0 0 1-2.143.19c-.327.007-.662.011-.988.011-.385.003-.775.003-1.16.003H10.215c-.392 0-.78 0-1.17-.003-.329 0-.654-.004-.986-.011a14.43 14.43 0 0 1-2.147-.19 7.18 7.18 0 0 1-2.037-.675 6.726 6.726 0 0 1-1.734-1.264 6.654 6.654 0 0 1-1.263-1.73 7.06 7.06 0 0 1-.67-2.04 14.029 14.029 0 0 1-.192-2.145 37.2 37.2 0 0 1-.012-.674A80.704 80.704 0 0 0 0 34.76V9.99l.004-.315c.003-.224.005-.448.012-.67.009-.72.073-1.437.192-2.146.118-.71.344-1.398.67-2.04a6.899 6.899 0 0 1 2.997-3 7.142 7.142 0 0 1 2.037-.672A14.16 14.16 0 0 1 8.265.955c.26-.004.52-.008.78-.01.391-.002.78-.002 1.172-.002ZM8.08 42.857c.324.008.643.012.97.012l108.969.002 1.162-.002c.319 0 .648-.004.962-.012a13.32 13.32 0 0 0 2.003-.175 6.281 6.281 0 0 0 1.787-.589 5.817 5.817 0 0 0 1.5-1.095 5.9 5.9 0 0 0 1.088-1.485 6.167 6.167 0 0 0 .579-1.79c.109-.657.17-1.32.183-1.986.004-.329.004-.648.004-.996.008-.383.008-.763.008-1.152V11.162c0-.386 0-.769-.008-1.17v-.003c0-.323 0-.648-.003-.951a13.849 13.849 0 0 0-.187-2.022 6.15 6.15 0 0 0-.573-1.767 5.996 5.996 0 0 0-2.588-2.594 6.363 6.363 0 0 0-1.79-.587 13.288 13.288 0 0 0-1.992-.174l-.978-.014H9.05l-.967.014c-.673.008-1.345.067-2.01.175a6.24 6.24 0 0 0-1.771.583 5.964 5.964 0 0 0-3.173 4.375c-.11.663-.17 1.334-.178 2.006-.006.218-.015.959-.015.959v24.754s.008.752.015.978c.009.674.068 1.345.179 2.01a6.13 6.13 0 0 0 .582 1.776 5.7 5.7 0 0 0 1.093 1.496 5.79 5.79 0 0 0 1.497 1.09c.56.282 1.158.48 1.775.587.663.107 1.332.166 2.003.174Z"
                         fill="#FFFFFF"
                       ></path>
@@ -120,9 +125,12 @@ export const TraderInvestorSection = ({ t }: { t: TranslationT }) => {
           </div>
 
           {/* Investor Card */}
-          <div className="relative flex flex-col items-center overflow-hidden rounded-3xl bg-gray-50 text-center md:flex-row md:text-left">
+          <div  className="relative flex flex-col items-center overflow-hidden rounded-[40px] p-14 text-center md:flex-row md:text-left"
+            style={{
+              background: 'conic-gradient(from 315deg at 26% 77.9%, rgb(250, 250, 250) 62.267483108108095deg, rgb(220, 222, 225) 260.8522804054054deg)',
+            }}>
             {/* dark-green bar behind bottom half */}
-            <div className="absolute inset-x-0 bottom-0 h-[45%] bg-green-900" aria-hidden="true" />
+            <div className="absolute inset-x-0 bottom-10 h-[25%] bg-green-900 m-4 rounded-lg w-[85%]" aria-hidden="true" />
 
             {/* phone image, overlapping both the gray card and the green bar */}
 
@@ -134,10 +142,10 @@ export const TraderInvestorSection = ({ t }: { t: TranslationT }) => {
               <div className="flex flex-col justify-center space-y-4 md:flex-row md:justify-start md:space-x-4 md:space-y-0">
                 <a href="#" aria-label="Get it on Google Play" className="inline-block h-12 w-auto">
                   <svg viewBox="0 0 129 44" xmlns="http://www.w3.org/2000/svg" width="129" height="44" fill="none" id="svg831071191_7671">
-                    <g clipPath="url(#svg831071191_7671_a)" fill="#FFFFFF">
+                    <g clip-path="url(#svg831071191_7671_a)" fill="#FFFFFF">
                       <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
                         d="M10.217.943H118.02a110.622 110.622 0 0 1 1.969.012l.181.004c.718.008 1.434.07 2.143.189.711.121 1.4.347 2.045.672a6.93 6.93 0 0 1 2.999 3 7.08 7.08 0 0 1 .663 2.04c.12.709.186 1.426.199 2.145.004.329.004.658.004.987.009.388.009.777.009 1.17v22.427c0 .395 0 .783-.009 1.172 0 .333 0 .655-.004.988a14.42 14.42 0 0 1-.199 2.145 7.089 7.089 0 0 1-.663 2.04 6.864 6.864 0 0 1-1.266 1.73 6.746 6.746 0 0 1-1.733 1.264 7.3 7.3 0 0 1-2.045.675 14.23 14.23 0 0 1-2.143.19c-.327.007-.662.011-.988.011-.385.003-.775.003-1.16.003H10.215c-.392 0-.78 0-1.17-.003-.329 0-.654-.004-.986-.011a14.43 14.43 0 0 1-2.147-.19 7.18 7.18 0 0 1-2.037-.675 6.726 6.726 0 0 1-1.734-1.264 6.654 6.654 0 0 1-1.263-1.73 7.06 7.06 0 0 1-.67-2.04 14.029 14.029 0 0 1-.192-2.145 37.2 37.2 0 0 1-.012-.674A80.704 80.704 0 0 0 0 34.76V9.99l.004-.315c.003-.224.005-.448.012-.67.009-.72.073-1.437.192-2.146.118-.71.344-1.398.67-2.04a6.899 6.899 0 0 1 2.997-3 7.142 7.142 0 0 1 2.037-.672A14.16 14.16 0 0 1 8.265.955c.26-.004.52-.008.78-.01.391-.002.78-.002 1.172-.002ZM8.08 42.857c.324.008.643.012.97.012l108.969.002 1.162-.002c.319 0 .648-.004.962-.012a13.32 13.32 0 0 0 2.003-.175 6.281 6.281 0 0 0 1.787-.589 5.817 5.817 0 0 0 1.5-1.095 5.9 5.9 0 0 0 1.088-1.485 6.167 6.167 0 0 0 .579-1.79c.109-.657.17-1.32.183-1.986.004-.329.004-.648.004-.996.008-.383.008-.763.008-1.152V11.162c0-.386 0-.769-.008-1.17v-.003c0-.323 0-.648-.003-.951a13.849 13.849 0 0 0-.187-2.022 6.15 6.15 0 0 0-.573-1.767 5.996 5.996 0 0 0-2.588-2.594 6.363 6.363 0 0 0-1.79-.587 13.288 13.288 0 0 0-1.992-.174l-.978-.014H9.05l-.967.014c-.673.008-1.345.067-2.01.175a6.24 6.24 0 0 0-1.771.583 5.964 5.964 0 0 0-3.173 4.375c-.11.663-.17 1.334-.178 2.006-.006.218-.015.959-.015.959v24.754s.008.752.015.978c.009.674.068 1.345.179 2.01a6.13 6.13 0 0 0 .582 1.776 5.7 5.7 0 0 0 1.093 1.496 5.79 5.79 0 0 0 1.497 1.09c.56.282 1.158.48 1.775.587.663.107 1.332.166 2.003.174Z"
                         fill="#FFFFFF"
                       ></path>
@@ -155,8 +163,8 @@ export const TraderInvestorSection = ({ t }: { t: TranslationT }) => {
                 </a>
                 <a href="#" aria-label="Download on the App Store" className="inline-block h-12 w-auto">
                   <svg viewBox="0 0 145 44" xmlns="http://www.w3.org/2000/svg" width="145" height="44" fill="none" id="svg-1972056391_8219">
-                    <g clipPath="url(#svg-1972056391_8219_a)" fill="none">
-                      <g clipPath="url(#svg-1972056391_8219_b)" fill="none">
+                    <g clip-path="url(#svg-1972056391_8219_a)" fill="none">
+                      <g clip-path="url(#svg-1972056391_8219_b)" fill="none">
                         <path
                           d="M139.475 1.05H6.193C3.26 1.05.86 3.447.86 6.38v31.988c0 2.933 2.4 5.332 5.332 5.332h133.282c2.932 0 5.331-2.4 5.331-5.332V6.381c0-2.933-2.399-5.332-5.331-5.332Zm0 .852a4.484 4.484 0 0 1 4.478 4.479v31.987a4.484 4.484 0 0 1-4.478 4.48H6.193a4.484 4.484 0 0 1-4.479-4.48V6.381a4.484 4.484 0 0 1 4.479-4.479h133.282Z"
                           fill="#FFFFFF"
@@ -222,7 +230,7 @@ export const TraderInvestorSection = ({ t }: { t: TranslationT }) => {
             </div>
             <div className="relative z-10 -mt-24 flex w-full justify-center md:mt-0 md:w-1/2">
               <img
-                src="/assets/home/investor-phone.webp"
+                src="/assets/img/home/investor-phone.webp"
                 alt={String(t("investorPhoneAlt") || "Trive Investor App screenshot")}
                 className="h-80 object-contain"
               />
