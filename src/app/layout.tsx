@@ -8,9 +8,9 @@ type Props = {
 // Update Favicon
 export const metadata = {
   icons: {
-    icon: "/assets/icons/favicon.png",
-    apple: "/assets/icons/favicon.png",
-    android: "/assets/icons/favicon.png",
+    icon: "/assets/icons/layout/favicon.png",
+    apple: "/assets/icons/layout/favicon.png",
+    android: "/assets/icons/layout/favicon.png",
   },
 };
 

@@ -13,6 +13,7 @@ import { useSearchParams } from "next/navigation";
 import { FileUploadField } from "@/components/Atoms/FormFields/FileUploadField";
 import { parsePhoneNumber, isValidPhoneNumber } from "react-phone-number-input";
 import { useLocale } from "next-intl";
+import { LocaleItem } from "@/i18n/routing";
 
 export const RegisterForm = () => {
   const [countryCodeSelectValues, setCountryCodeSelectValues] = useState<ICountryCodeSelect[]>([]);
@@ -21,7 +22,7 @@ export const RegisterForm = () => {
   const searchParams = useSearchParams();
 
   const lang = searchParams.get("lang") || "";
-  const locale = useLocale();
+  const locale = useLocale() as LocaleItem["locale"];
 
   useEffect(() => {
     const fetchCountryList = async () => {

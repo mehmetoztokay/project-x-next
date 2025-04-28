@@ -12,7 +12,7 @@ import { PhoneNumberField } from "@/components/Atoms/FormFields/PhoneNumberField
 import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 import { IRegistration_SingleRegister } from "@/services/TriveApiServices/RegistrationApi/RegistrationServiceTypes";
 import { ICountryCodeSelect, ICountrySelect, useCountryList } from "@/lib/hooks/useCountryList";
-import { useCurrentSiteInfo } from "@/i18n/routing";
+import { LocaleItem, useCurrentSiteInfo } from "@/i18n/routing";
 import { getFullPageUrl } from "@/helpers/getFullPageUrl";
 import { getMarketingId } from "@/services/TriveApiServices/Marketing";
 import { useUtmParams } from "@/lib/hooks/useUtmParams";
@@ -57,7 +57,7 @@ export const RegisterForm = ({
   const [isStep2, setIsStep2] = useState<boolean>(false);
 
   const pageUrl = getFullPageUrl();
-  const locale = useLocale();
+  const locale = useLocale() as LocaleItem["locale"];
   const currentSite = useCurrentSiteInfo(locale);
   const searchParams = useSearchParams();
   const { utmCampaign, utmContent, utmMedium, utmSource } = useUtmParams({ searchParams }).utmParams;
