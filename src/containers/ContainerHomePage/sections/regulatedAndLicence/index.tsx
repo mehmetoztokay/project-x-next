@@ -21,9 +21,9 @@ export const RegulatedAndLicensed = ({ t }: { t: TranslationT }) => {
             <p className="text-base text-blue-900">{t("mfsaCompanyName") || "Trive Financial Services Europe Limited*"}</p>
             <p className="mt-1 text-sm text-gray-600">{t("licenseNumberLabel") || "License number:"} </p>
             <div className="mt-4 flex space-x-2">
-              <img src="/assets/icons/flags/germany.svg" alt={String(t("germanyAlt") || "Germany")} />
-              <img src="/assets/icons/flags/spain.svg" alt={String(t("spainAlt") || "Spain")} />
-              <img src="/assets/icons/flags/eu.svg" alt={String(t("euAlt") || "European Union")} />
+              <img src="/assets/icons/home/flags/germany.svg" alt={String(t("germanyAlt") || "Germany")} />
+              <img src="/assets/icons/home/flags/spain.svg" alt={String(t("spainAlt") || "Spain")} />
+              <img src="/assets/icons/home/flags/eu.svg" alt={String(t("euAlt") || "European Union")} />
             </div>
           </div>
 
@@ -33,7 +33,7 @@ export const RegulatedAndLicensed = ({ t }: { t: TranslationT }) => {
             <p className="text-base text-blue-900">{t("asicCompanyName") || "Trive Financial Services Australia Pty"}</p>
             <p className="mt-1 text-sm text-gray-600">{t("licenseNumberLabel") || "License number:"} </p>
             <div className="mt-4 flex space-x-2">
-              <img src="/assets/icons/flags/australia.svg" alt={String(t("australiaAlt") || "Australia")} />
+              <img src="/assets/icons/home/flags/australia.svg" alt={String(t("australiaAlt") || "Australia")} />
             </div>
 
             <button className="mt-6 text-blue-900 hover:underline">{t("seeAll") || "See all"}</button>
@@ -43,7 +43,7 @@ export const RegulatedAndLicensed = ({ t }: { t: TranslationT }) => {
             <p className="text-base text-blue-900">{t("finraCompanyName") || "Trive New York LLC"}</p>
             <p className="mt-1 text-sm text-gray-600">{t("licenseNumberLabel") || "License number:"} </p>
             <div className="mt-4 flex space-x-2">
-              <img src="/assets/icons/flags/usa.svg" alt={String(t("usAlt") || "United States")} />
+              <img src="/assets/icons/home/flags/usa.svg" alt={String(t("usAlt") || "United States")} />
             </div>
           </div>
         </div>

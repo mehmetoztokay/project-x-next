@@ -17,7 +17,7 @@ export const HomeComoditiesMore = ({ t }: { t: TranslationT }) => {
         <div className="flex flex-col items-center gap-20 lg:flex-row lg:items-start">
           <div className="w-full lg:w-1/2">
             <img
-              src={"/assets/home/commoditiesAndMore.webp"}
+              src={"/assets/img/home/commoditiesAndMore.webp"}
               alt="Trive CFD, Forex, Commodities, Stocks Trading"
               className="h-full w-full rounded-[16px] object-cover"
             />

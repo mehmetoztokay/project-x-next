@@ -30,7 +30,7 @@ export const HomeBanner = ({ t }: { t: TranslationT }) => {
             </div>
             <div>
               <img
-                src={"/assets/home/trivebanner.webp"}
+                src={"/assets/img/home/trivebanner.webp"}
                 alt="Trive CFD, Forex, Commodities, Stocks Trading"
                 className="h-full max-h-[399px] w-full max-w-[571px] object-cover"
               />
