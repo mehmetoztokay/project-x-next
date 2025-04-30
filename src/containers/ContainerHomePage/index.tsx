@@ -10,6 +10,7 @@ import { TableInstruments } from "./sections/tableInstruments";
 import { Awards } from "./sections/awards";
 import { RegulatedAndLicensed } from "./sections/regulatedAndLicence";
 import { TraderInvestorSection } from "./sections/traderInvestor";
+import { GlobalMarketAccess } from "./sections/GlobalMarketAccess";
 
 export const HomePageContainer = ({ t, locale }: { t: TranslationT; locale: LocaleItem["locale"] }) => {
   return (
@@ -22,6 +23,7 @@ export const HomePageContainer = ({ t, locale }: { t: TranslationT; locale: Loca
       <Awards t={t}/>
       <RegulatedAndLicensed t={t} />
       <TraderInvestorSection t={t} /> 
+      <GlobalMarketAccess t={t} />
       <div className="container mx-auto">
         <Button isPending text="selam" />
         <div className="mt-3 flex gap-3">
