@@ -25,7 +25,7 @@ export const Awards = ({ t }: { t: TranslationT }) => {
           </div>
           <div className="flex flex-col items-center text-center">
             <img
-              src="/assets/img/home/mostReliableTransparent.svg"
+              src="/assets/img/home/mostReliableAndTransparent.svg"
               alt={String(t("mostReliableTransparentBrokerAlt"))}
               className="h-20 w-auto md:h-24"
             />
