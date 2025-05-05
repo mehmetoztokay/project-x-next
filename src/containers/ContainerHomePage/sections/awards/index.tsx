@@ -13,7 +13,7 @@ export const Awards = ({ t }: { t: TranslationT }) => {
     <div className="bg-white">
       <div className="container mx-auto py-20">
         {/* Assuming awardsTitle exists in your translation files */}
-        <h2 className="mb-12 text-center text-3xl font-bold text-gray-900 lg:text-5xl">{t("awardsTitle" as any) || "Awards & Recognition"}</h2>
+        <h2 className="mb-12 text-center text-3xl font-bold text-[#002a5c] lg:text-5xl">{t("awardsTitle" as any) || "Awards & Recognition"}</h2>
         <div className="flex flex-wrap items-start justify-center gap-6 sm:gap-8 md:gap-10 lg:gap-12">
           <div className="flex flex-col items-center text-center">
             <img src="/assets/img/home/mostTrustedBroker.svg" alt={String(t("mostTrustedBrokerAlt"))} className="h-20 w-auto md:h-24" />
@@ -35,8 +35,8 @@ export const Awards = ({ t }: { t: TranslationT }) => {
             <img src="/assets/img/home/European.svg" alt={String(t("europeanAlt"))} className="h-20 w-auto md:h-24" />
             <p className="mt-2 max-w-[150px] text-sm text-gray-600">{t("europeanDescription")}</p>
           </div>
+          <button className="text-center text-base text-[#002a5c] hover:underline lg:text-lg w-full">{t("seeAll") || "See all"}</button>
         </div>
-        <p className="mt-6 text-center">{t("seeAll")}</p>
       </div>
     </div>
   );

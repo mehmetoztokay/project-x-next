@@ -9,7 +9,7 @@ export const RegulatedAndLicensed = ({ t }: { t: TranslationT }) => {
     <div className="bg-gray-50">
       <div className="container mx-auto px-4 py-20">
         {/* Bölüm Başlığı */}
-        <h2 className="mb-12 text-center text-3xl font-bold text-blue-900 lg:text-5xl">
+        <h2 className="mb-12 text-center text-3xl font-bold text-[#002a5c] lg:text-5xl">
           {t("regulatedAndLicensedTitle") || "Regulated and Licensed"}
         </h2>
 
@@ -17,8 +17,8 @@ export const RegulatedAndLicensed = ({ t }: { t: TranslationT }) => {
         <div className="flex flex-wrap justify-center gap-8 lg:justify-evenly">
           {/* MFSA */}
           <div className="flex w-full max-w-xs flex-col items-center text-center">
-            <h3 className="mb-2 text-xl font-semibold text-blue-900">MFSA</h3>
-            <p className="text-base text-blue-900">{t("mfsaCompanyName") || "Trive Financial Services Europe Limited*"}</p>
+            <h3 className="mb-2 lg:text-[32px] text-2xl font-semibold text-blue-900">MFSA</h3>
+            <p className="text-xl font-semibold text-blue-900">{t("mfsaCompanyName") || "Trive Financial Services Europe Limited*"}</p>
             <p className="mt-1 text-sm text-gray-600">{t("licenseNumberLabel") || "License number:"} </p>
             <div className="mt-4 flex space-x-2">
               <img src="/assets/icons/home/flags/germany.svg" alt={String(t("germanyAlt") || "Germany")} />
@@ -29,18 +29,18 @@ export const RegulatedAndLicensed = ({ t }: { t: TranslationT }) => {
 
           {/* ASIC */}
           <div className="flex w-full max-w-xs flex-col items-center text-center">
-            <h3 className="mb-2 text-xl font-semibold text-blue-900">ASIC</h3>
-            <p className="text-base text-blue-900">{t("asicCompanyName") || "Trive Financial Services Australia Pty"}</p>
+            <h3 className="mb-2 lg:text-[32px] text-2xl font-semibold text-blue-900">ASIC</h3>
+            <p className="text-xl font-semibold text-blue-900">{t("asicCompanyName") || "Trive Financial Services Australia Pty"}</p>
             <p className="mt-1 text-sm text-gray-600">{t("licenseNumberLabel") || "License number:"} </p>
             <div className="mt-4 flex space-x-2">
               <img src="/assets/icons/home/flags/australia.svg" alt={String(t("australiaAlt") || "Australia")} />
             </div>
 
-            <button className="mt-6 text-blue-900 hover:underline">{t("seeAll") || "See all"}</button>
+            <button className="mt-6 text-[#002a5c] hover:underline lg:text-lg text-base">{t("seeAll") || "See all"}</button>
           </div>
           <div className="flex w-full max-w-xs flex-col items-center text-center">
-            <h3 className="mb-2 text-xl font-semibold text-blue-900">FINRA</h3>
-            <p className="text-base text-blue-900">{t("finraCompanyName") || "Trive New York LLC"}</p>
+            <h3 className="mb-2 lg:text-[32px] text-2xl font-semibold text-blue-900">FINRA</h3>
+            <p className="text-xl font-semibold text-blue-900">{t("finraCompanyName") || "Trive New York LLC"}</p>
             <p className="mt-1 text-sm text-gray-600">{t("licenseNumberLabel") || "License number:"} </p>
             <div className="mt-4 flex space-x-2">
               <img src="/assets/icons/home/flags/usa.svg" alt={String(t("usAlt") || "United States")} />

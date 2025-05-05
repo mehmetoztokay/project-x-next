@@ -26,10 +26,10 @@ export const HomeComoditiesMore = ({ t }: { t: TranslationT }) => {
             <div className="flex justify-start gap-4">
               <BsGraphUp size={35} className="mb-6" />
               <div>
-                <p className="mb-2 text-xl text-gray-600 lg:text-2xl">{t("commoditiesGraphText")}</p>
-                <p className="mb-2 text-lg text-gray-600 lg:text-xl">{t("commoditiesGraphDescription")}</p>
+                <p className="mb-2 text-lg text-gray-600 lg:text-xl font-bold">{t("commoditiesGraphText")}</p>
+                <p className="mb-2 text-base text-gray-600 lg:text-lg">{t("commoditiesGraphDescription")}</p>
                 <div className="mb-2">
-                  <Link href={`/${locale}/trading/instruments`} className="text-lg text-blue-600 hover:text-blue-800 lg:text-xl">
+                  <Link href={`/${locale}/trading/instruments`} className="text-base text-blue-600 hover:text-blue-800 lg:text-lg">
                     {t("seeDetailsForex")}
                   </Link>
                 </div>
@@ -39,10 +39,10 @@ export const HomeComoditiesMore = ({ t }: { t: TranslationT }) => {
             <div className="flex justify-start gap-4">
               <FaMoneyBills size={35} className="mb-6" />
               <div>
-                <p className="mb-2 text-xl text-gray-600 lg:text-2xl">{t("commoditiesMoneyText")}</p>
-                <p className="mb-2 text-lg text-gray-600 lg:text-xl">{t("commoditiesMoneyDescription")}</p>
+                <p className="mb-2 text-lg text-gray-600 lg:text-xl font-bold">{t("commoditiesMoneyText")}</p>
+                <p className="mb-2 text-base text-gray-600 lg:text-lg">{t("commoditiesMoneyDescription")}</p>
                 <div className="mb-2">
-                  <Link href={`/${locale}/trading/instruments`} className="text-lg text-blue-600 hover:text-blue-800 lg:text-xl">
+                  <Link href={`/${locale}/trading/instruments`} className="text-base text-blue-600 hover:text-blue-800 lg:text-lg">
                     {t("seeDetailsForex")}
                   </Link>
                 </div>
@@ -51,10 +51,10 @@ export const HomeComoditiesMore = ({ t }: { t: TranslationT }) => {
             <div className="flex justify-start gap-4">
               <IoMdSearch size={35} className="mb-6" />
               <div>
-                <p className="mb-2 text-xl text-gray-600 lg:text-2xl">{t("commoditiesMoneyText")}</p>
-                <p className="mb-2 text-lg text-gray-600 lg:text-xl">{t("commoditiesMoneyDescription")}</p>
+                <p className="mb-2 text-lg text-gray-600 lg:text-xl font-bold">{t("commoditiesMoneyText")}</p>
+                <p className="mb-2 text-base text-gray-600 lg:text-lg">{t("commoditiesMoneyDescription")}</p>
                 <div className="mb-2">
-                  <Link href={`/${locale}/trading/instruments`} className="text-lg text-blue-600 hover:text-blue-800 lg:text-xl">
+                  <Link href={`/${locale}/trading/instruments`} className="text-base text-blue-600 hover:text-blue-800 lg:text-lg">
                     {t("seeDetailsForex")}
                   </Link>
                 </div>

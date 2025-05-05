@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    argocd.argoproj.io/managed-by: gitops-product
+    env: test
+    framework: none
+  name: trive-iframe-test
+  annotations:
+    trive.com/cc-name=none
+    trive.com/department=none
+    trive.com/division=none
+    trive.com/it-owner=mehmet.oztokay@trive.com
+    trive.com/mail=mehmet.oztokay@trive.com

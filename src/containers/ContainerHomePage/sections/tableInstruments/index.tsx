@@ -29,65 +29,52 @@ export const TableInstruments = ({ t }: { t: TranslationT }) => {
   ];
 
   return (
-    <div className="bg-white">
-      <div className="container mx-auto py-20">
-        <h2 className="mb-8 text-center text-3xl font-bold text-gray-900 lg:text-5xl">
-          {t("HomeComoditiesInstrumentsTitle")}
-        </h2>
-
+    <div className="bg-white overflow-x-auto">
+      <div className="lg:max-w-[900px] max-w-[90%] min-w-[900px] mx-auto px-4 lg:px-0 py-20">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
+          <table className="min-w-full divide-y">
+            <thead>
+              <tr className="border-[#96b5d6] border-b">
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-lg font-semibold text-[#002a5c]  tracking-wider"
                 >
-                  Commodity
+                  Instruments 
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                  className="px-6 py-3 text-right text-lg font-semibold text-[#002a5c]  tracking-wider"
                 >
-                  Trading Currency
+                  Min. Spread(Pips)
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                  className="px-6 py-3 text-right text-lg font-semibold text-[#002a5c]  tracking-wider"
                 >
                   Swap Rates Long
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                  className="px-6 py-3 text-right text-lg font-semibold text-[#002a5c]  tracking-wider"
                 >
                   Swap Rates Short
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                >
-                  Details
-                </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 bg-white">
+            <tbody className="divide-y divide-[#96b5d6] bg-white">
               {tableData.map((row, idx) => (
                 <tr key={idx} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                  <td className="px-6 py-4 whitespace-nowrap text-lg text-[#002a5c] font-bold">
                     {row.commodity}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-right">
+                  <td className="px-6 py-4 whitespace-nowrap text-lg text-[#002a5c] text-right">
                     {row.tradingCurrency}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-right">
+                  <td className="px-6 py-4 whitespace-nowrap text-lg text-[#002a5c] text-right">
                     {row.swapLong}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-right">
+                  <td className="px-6 py-4 whitespace-nowrap text-lg text-[#002a5c] text-right">
                     {row.swapShort}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-center">
-             
                   </td>
                 </tr>
               ))}

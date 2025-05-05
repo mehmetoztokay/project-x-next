@@ -12,7 +12,7 @@ export const PaymentsMethod = ({ t }: { t: TranslationT }) => {
   return (
     <div className="bg-white">
       <div className="container mx-auto py-20">
-        <h2 className="mb-12 text-center text-3xl font-bold text-gray-900 lg:text-5xl">{t("paymentMethodsTitle")}</h2>
+        <h2 className="mb-12 text-center text-2xl font-bold text-gray-900 lg:text-[32px]">{t("paymentMethodsTitle")}</h2>
         <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 md:gap-10 lg:gap-12">
           <img src="/assets/icons/home/PayPal.svg" alt="PayPal" className="h-28 w-28 object-contain" />
           <img src="/assets/icons/home/Visa.svg" alt="Visa" className="h-20 w-20 object-contain" />

@@ -17,7 +17,7 @@ export const HomeBanner = ({ t }: { t: TranslationT }) => {
         }}
       >
         <div className="container mx-auto h-full">
-          <div className="relative mx-auto flex h-full flex-col-reverse items-center justify-center px-4 text-white lg:flex-row">
+          <div className="relative mx-auto flex h-full flex-col-reverse items-center  px-4 text-white lg:flex-row">
             <div>
               <h1 className="text-color mb-6 max-w-[711px] text-center text-3xl font-bold leading-[1.2] lg:text-start lg:text-5xl">
                 {t("homeBannerTitle")}
@@ -44,10 +44,6 @@ export const HomeBanner = ({ t }: { t: TranslationT }) => {
           />
         </div>
       </div>
-
-      {/* Ornegin alttaki oge sadece cn'de gorunsun istiyoruz */}
-      {currentSite.locale == "int-cn" && <div>Bu sadece CN'de gorunur</div>}
-      {currentSite.region == "int" && <div>Bu sadece INT region'da gorunur</div>}
     </div>
   );
 };

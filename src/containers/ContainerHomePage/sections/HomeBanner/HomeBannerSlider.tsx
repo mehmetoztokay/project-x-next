@@ -38,7 +38,7 @@ export const HomeBannerSlider = ({
           className="transition-all duration-1000 ease-in-out" // Changed duration from 500ms to 1000ms and added transition-all
           style={carouselStyle}
         >
-          <div className="h-[100px] flex justify-center items-center gap-3">
+          <div className="h-[100px] flex justify-start items-center gap-3">
             <BsShield size={35} />
             <p>{slideMessage1}</p>
           </div>

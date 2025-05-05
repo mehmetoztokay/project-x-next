@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:597088014173:certificate/d181e65a-ba86-46b4-a125-8a7ba36bcabb
+    alb.ingress.kubernetes.io/group.name: eks-ingress-alb-internal-01
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/load-balancer-name: eks-ingress-alb-internal-01
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/subnets: subnet-033c21acdcc7105f6,subnet-08018e5558d1a0ee2,subnet-0c281381de3769ce2
+    alb.ingress.kubernetes.io/success-codes: 200,301,302,404
+    alb.ingress.kubernetes.io/tags: Environment=Test,owner=devopsadmin
+    alb.ingress.kubernetes.io/target-type: ip
+    kubernetes.io/ingress.class: alb
+  labels:
+    app: trive-iframe
+  name: trive-iframe-ingress
+  namespace: trive-iframe-test
+spec:
+  ingressClassName: alb
+  rules:
+  - host: trive-iframe-triveiframe-test-eksmerkurtest.trive.internal
+    http:
+      paths:
+      - backend:
+          service:
+            name: trive-iframe-service
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix

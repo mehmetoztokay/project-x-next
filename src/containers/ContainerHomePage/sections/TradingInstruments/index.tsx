@@ -17,13 +17,13 @@ export const TradingInstruments = ({ t }: { t: TranslationT }) => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white overflow-x-auto">
       <div className="container mx-auto py-20">
-        <h2 className="mb-12 text-center text-3xl font-bold text-gray-900 lg:text-5xl">{t("HomeComoditiesInstrumentsTitle")}</h2>
-        <div className="flex flex-wrap justify-center gap-4">
+        <h2 className="mb-12 text-center  font-bold text-[#002a5c] text-3xl lg:text-5xl">{t("HomeComoditiesInstrumentsTitle")}</h2>
+        <div className="flex overflow-x-responsive justify-center gap-4">
           {tradingInstruments.map((instrument, index) => (
-            <div key={index} className="flex w-full flex-col items-center justify-start p-2 sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1rem)]">
-              <img src={instrument.src} alt={instrument.alt} className="h-auto w-full max-w-xs object-contain sm:max-w-none" loading="lazy" />
+            <div key={index} className="flex w-full flex-col items-center justify-start p-2 ">
+              <img src={instrument.src} alt={instrument.alt} loading="lazy" />
               <p className="mt-3 text-center text-base font-bold text-gray-700 lg:text-3xl">
                 {t(instrument.textKey) || fallbackTexts[instrument.textKey]}
               </p>

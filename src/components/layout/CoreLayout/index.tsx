@@ -1,4 +1,4 @@
-import { Inter, Noto_Sans_Arabic } from "next/font/google";
+import { Inter_Tight, Noto_Sans_Arabic } from "next/font/google";
 import { NextIntlClientProvider, useLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { ReactNode } from "react";
@@ -7,7 +7,7 @@ import "@/styles/globals.css";
 import { locales, useCurrentSiteInfo } from "@/i18n/routing";
 import { combineClass } from "@/helpers/development/combineClass";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter_Tight({ subsets: ["latin"] });
 const natoSansArabic = Noto_Sans_Arabic({ subsets: ["arabic"] });
 
 type Props = {
