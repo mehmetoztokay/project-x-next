@@ -174,21 +174,21 @@
     "mostReliableTransparentBrokerDescription": "Most Reliable and Transparent Broker Global - 2023",
     "europeanAlt": "Best Retail CFD Broker 2021",
     "europeanDescription": "Best Retail CFD Broker 2021",
-    "seeAll" : "See all",
-    "mfsaCompanyName":"Trive Financial Services Europe Limited*",
+    "seeAll": "See all",
+    "mfsaCompanyName": "Trive Financial Services Europe Limited*",
     "regulatedAndLicensedTitle": "Regulated and Licensed",
-    "licenseNumberLabel":"License number: CRES IF 5048",
+    "licenseNumberLabel": "License number: CRES IF 5048",
     "asicCompanyName": "Trive Financial Services Australia Pty",
     "asicLicenseNumber": "License number: 424122 ACN 159166739",
     "finraCompanyName": "Trive New York LLC",
-    "LicencedNumberFinra":"License number: CRD 21946",
+    "LicencedNumberFinra": "License number: CRD 21946",
     "traderPhoneAlt": "Trive Trader",
     "triveTraderTitle": "Trive Trader",
     "triveTraderDesc": "One app to meet all your trading needs.",
     "triveInvestorTitle": "Trive Investor",
-    "triveInvestorDesc" : "Unlock the market with Trive Investor",
-    "globalMarketAccessCFDsDesc":"Diversify your investments by exploring our wide range of instruments that contains commodities, indices, currency pairs, and more.",
-    "globalMarketAccessStocksDesc":"Want to invest in disruptive tech companies, mobility, and more? Extend your investments to the world's biggest stock markets in minutes.",
+    "triveInvestorDesc": "Unlock the market with Trive Investor",
+    "globalMarketAccessCFDsDesc": "Diversify your investments by exploring our wide range of instruments that contains commodities, indices, currency pairs, and more.",
+    "globalMarketAccessStocksDesc": "Want to invest in disruptive tech companies, mobility, and more? Extend your investments to the world's biggest stock markets in minutes.",
     "accountTypesTitle": "Account types",
     "classicTitle": "Classic",
     "primeTitle": "Prime",
@@ -213,8 +213,13 @@
     "seeDetails": "See details"
   },
 
-  "ContactUs": {
-    "title": "Contact Us"
+  "ContactUsPage": {
+    "title": "Contact Us",
+    "description": "Contact Us description",
+    "Address" : "Address",
+    "E-mail": "E-mail",
+    "AddressDescription":"Floor 5, The Penthouse, Lifestar, Testaferrata Street,Ta’ Xbiex XBX1403, Malta",
+     "EmailDescription":"hello@trive.com"
   },
   "AboutPage": {
     "title": "About page title eu en",

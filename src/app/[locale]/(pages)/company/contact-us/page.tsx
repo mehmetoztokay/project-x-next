@@ -8,7 +8,7 @@ import { ContainerContactUs } from "@/containers/ContainerContactUs";
 export async function generateMetadata({ params }: { params: Params }) {
   const { locale } = await params;
 
-  const t: TranslationT = await getTranslations({ locale, namespace: "HomePage" });
+  const t: TranslationT = await getTranslations({ locale, namespace: "ContactUsPage" });
 
   return {
     title: t("title") as string,
@@ -16,10 +16,10 @@ export async function generateMetadata({ params }: { params: Params }) {
   };
 }
 
-export default function ContactUs() {
+export default function ContactUsPage() {
   const locale = useLocale() as LocaleItem['locale'];
   
-  const t: TranslationT = useTranslationsWithHTML("Contact Us");
+  const t: TranslationT = useTranslationsWithHTML("ContactUsPage");
 
   return <ContainerContactUs locale={locale} t={t} />;
 }
