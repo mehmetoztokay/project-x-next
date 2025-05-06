@@ -3,8 +3,13 @@
     "title": "Home page int th",
     "description": "Home page Description int th"
   },
+  "ContactUs": {
+    "title": "Contact Us",
+    "description": "Contact Us Description eu de"
+  },
   "AboutPage": {
     "title": "About page title int th",
     "description": "About page Description int th"
   }
+  
 }
