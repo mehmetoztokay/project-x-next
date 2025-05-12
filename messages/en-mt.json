@@ -221,6 +221,30 @@
     "AddressDescription":"Floor 5, The Penthouse, Lifestar, Testaferrata Street,Ta’ Xbiex XBX1403, Malta",
      "EmailDescription":"hello@trive.com"
   },
+  "SafetyOfFundsPage": {
+    "title": "Safety of Funds",
+    "description": "Safety of Funds description",
+    "title1": "Investor Compensation Scheme",
+    "additionalInfo0_isHTML": "Trive Financial Services Europe Limited is a member of the <span class=\"font-bold\">Malta Investor Compensation Scheme</span> (<a class=\"text-[#0088ff]\" href=\"https://www.compensationschemes.org.mt\">www.compensationschemes.org.mt</a>), designed to provide protection to clients in cases of financial distress or insolvency. This scheme is established under EU Directive 97/9/EC on investor compensation and transposed into Maltese law through the <span class=\"font-bold\">Investor Compensation Scheme Regulations (S.L. 370.09)</span>. It serves as a safeguard for retail investors, small businesses, charities, and trusts.",
+    "additionalInfo1": "The scheme compensates eligible investors who have entrusted funds or financial instruments to a licensed firm as part of its regulated activities. Compensation is provided only if the Firm ceases operations due to financial failure or insolvency.",
+    "additionalInfo2_isHTML": "The maximum compensation amount is <span class=\"font-bold\">90% of eligible claims, up to a limit of €20,000</span>, whichever is lower. Payments are made in the same currency as the original investment. Each investor may submit only one claim, covering all investments held with Trive Financial Services Europe Limited.",
+    "title2": "Segregation of Client Funds",
+    "additionalInfo3_isHTML": "Trive Financial Services Europe Limited segregates all retail client funds from its own money in accordance with the <span class=\"font-bold\">Control of Assets Regulations (Malta S.L. 370.05)</span> and the <span class=\"font-bold\">Malta Financial Services Authority (MFSA) Client Money Rules.</span>",
+    "additionalInfo4": "Client funds that are not used as margin for open positions are maintained in segregated accounts with appropriate banking institutions. These funds remain separate from the Firm’s own assets, even when pooled with other client funds. In the unlikely event of the Firm’s insolvency, client deposits remain protected and are not accessible to company creditors.",
+    "title3": "Negative Balance Protection",
+    "additionalInfo5_isHTML": "In accordance with <span class=\"font-bold\">ESMA (European Securities and Markets Authority)</span> regulations and <span class=\"font-bold\">MFSA Conduct of Business Rulebook</span>, Trive Financial Services Europe Limited provides Negative Balance Protection on its CFD offering to safeguard retail clients from excessive losses.",
+    "additionalInfo6": "If extreme market conditions or price gaps result in a negative balance on a retail client’s account, Trive Financial Services Europe Limited will cover the deficit. This ensures that clients can never lose more than their deposited funds."
+  },
+  "WhoWeArePage": {
+    "title": "Trive Financial Holding",
+    "description": "Based in the Netherlands, Trive Financial Holding is a group of financial companies providing investment, credit, banking, wealth management, and insurance services on a global scale."
+  },
+  "RegulationsPage":{
+    "title": "Globally regulated",
+    "description": "Upholding industry standards across the globe",
+    "MapDescription":"Committed to maintaining the trust of tens of thousands of investors, we adhere to the highest industry standards and regulatory requirements. The licenses granted to Trive subsidiaries spanning the globe are not just credentials; every aspect of our operations is designed to comply with the regulations set forth by the financial authorities in each jurisdiction we operate.",
+    "FlagsInformation":"*Trive Financial Services Europe Limited is approved by MFSA and has authorized branches in Germany and Spain."
+  },
   "AboutPage": {
     "title": "About page title eu en",
     "description": "About page Description eu en"
