@@ -237,7 +237,8 @@
   },
   "WhoWeArePage": {
     "title": "Trive Financial Holding",
-    "description": "Based in the Netherlands, Trive Financial Holding is a group of financial companies providing investment, credit, banking, wealth management, and insurance services on a global scale."
+    "description":"Who We Are",
+    "titleInformation_isHTML": "<div class=\"max-w-[1000px] mx-auto\">Based in the Netherlands, Trive Financial Holding is a group of financial companies providing investment, credit, banking, wealth management, and insurance services on a global scale.</div>"
   },
   "RegulationsPage":{
     "title": "Globally regulated",

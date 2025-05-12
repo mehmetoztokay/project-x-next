@@ -8,7 +8,7 @@ export const WhoWeAre = ({ t }: { t: TranslationT }) => {
 
   return (
     <section>
-      <BannerLandingPageWhoWeAre title={t("title") as string} />
+      <BannerLandingPageWhoWeAre description={t("titleInformation_isHTML") as string} title={t("title") as string} />
       <div className="bg-white">
         <div className="container mx-auto pt-10">
           <div className="flex flex-col gap-3">

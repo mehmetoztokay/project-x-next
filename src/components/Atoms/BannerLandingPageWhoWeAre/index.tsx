@@ -1,19 +1,25 @@
-import React from 'react';
+import React from "react";
 
 interface BannerLandingPageWhoWeAreProps {
-    title: string;
+  title: string;
+  description: string;
 }
 
-const BannerLandingPageWhoWeAre: React.FC<BannerLandingPageWhoWeAreProps> = ({ title }) => {
-    return (
-        <div className="bg-[conic-gradient(from_45deg_at_75%_78.10000000000001%,rgba(78,92,107,0.15)_30.56300675675674deg,var(--token-5e850461-2bc8-4236-b2e7-96fb01c7ae79,rgb(250,250,250))_303.96511824324324deg)] min-h-[204px] ">
-            <h1  style={{
-        background: `linear-gradient(73deg, var(--token-37e7984d-7291-4e22-8591-4bd45b7f5648, rgb(0, 42, 92)) -15%, var(--token-1a3314b7-d856-4bbf-9555-cca65d3da8d1, rgb(0, 112, 231)) 46%, rgb(113, 203, 230) 73%)`,
-        backgroundClip: "text",
-      }} className="lg:text-[56px] md:text-[48px] text-[40px] font-bold text-blue-600 text-center h-[204px] flex justify-center items-center text-transparent">{title}</h1>
-        </div>
-    );
+const BannerLandingPageWhoWeAre: React.FC<BannerLandingPageWhoWeAreProps> = ({ title, description }: {title: string, description: string}) => {
+  return (
+    <div className="min-h-[204px] pt-14 pb-28 bg-[conic-gradient(from_40deg_at_80.4%_88.2%,rgb(202,214,227)_54.7231deg,rgb(255,255,255)_360deg)]">
+      <h1
+        style={{
+          background: `linear-gradient(73deg, var(--token-37e7984d-7291-4e22-8591-4bd45b7f5648, rgb(0, 42, 92)) -15%, var(--token-1a3314b7-d856-4bbf-9555-cca65d3da8d1, rgb(0, 112, 231)) 46%, rgb(113, 203, 230) 73%)`,
+          backgroundClip: "text",
+        }}
+        className="flex items-center justify-center text-center text-[40px] font-bold text-blue-600 text-transparent md:text-[48px] lg:text-[56px] "
+      >
+        {title}
+      </h1>
+      <p className="text-center text-[#68798c] lg:text-2xl text-xl">{description}</p>
+    </div>
+  );
 };
 
 export default BannerLandingPageWhoWeAre;
-

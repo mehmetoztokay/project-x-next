@@ -20,7 +20,7 @@ spec:
         app: trive-iframe
     spec:
       containers:
-      - image: 869935072236.dkr.ecr.eu-west-1.amazonaws.com/frontend/trive-iframe-project/trive-iframe-test:69450601
+      - image: 869935072236.dkr.ecr.eu-west-1.amazonaws.com/frontend/trive-iframe-project/trive-iframe-test:0ae6ac5f
         imagePullPolicy: IfNotPresent
         name: trive-iframe
         ports:
